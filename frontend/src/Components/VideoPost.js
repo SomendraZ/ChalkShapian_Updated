@@ -13,10 +13,10 @@ const VideoPost = () => {
   const [toolsUsed, setVideoToolsUsed] = useState("");
   const [artist, setVideoArtist] = useState("");
   const [description, setVideoDescription] = useState("");
-  const [filters, setVideoFilters] = useState([]);
+  // const [filters, setVideoFilters] = useState([]);
   const [selectedCoverImage, setSelectedCoverImage] = useState(null);
   const [selectedCoverImageFile, setSelectedCoverImageFile] = useState(null);
-  const type = "video";
+  // const type = "video";
   const navigate = useNavigate();
 
   const handleCoverImageChange = (e) => {
@@ -74,16 +74,16 @@ const VideoPost = () => {
     }
   };
 
-  const handleFilterChange = (e) => {
-    const { value, checked } = e.target;
-    if (checked) {
-      setVideoFilters((prevFilters) => [...prevFilters, value]);
-    } else {
-      setVideoFilters((prevFilters) =>
-        prevFilters.filter((filter) => filter !== value)
-      );
-    }
-  };
+  // const handleFilterChange = (e) => {
+  //   const { value, checked } = e.target;
+  //   if (checked) {
+  //     setVideoFilters((prevFilters) => [...prevFilters, value]);
+  //   } else {
+  //     setVideoFilters((prevFilters) =>
+  //       prevFilters.filter((filter) => filter !== value)
+  //     );
+  //   }
+  // };
 
   return (
     <>
@@ -147,7 +147,7 @@ const VideoPost = () => {
               type="checkbox"
               className="checkbox"
               value="Simple Design"
-              onChange={handleFilterChange}
+              // onChange={handleFilterChange}
             />
             Simple Design
           </label>
@@ -156,7 +156,7 @@ const VideoPost = () => {
               type="checkbox"
               className="checkbox"
               value="Creative Design"
-              onChange={handleFilterChange}
+              // onChange={handleFilterChange}
             />
             Creative Design
           </label>
@@ -165,7 +165,7 @@ const VideoPost = () => {
               type="checkbox"
               className="checkbox"
               value="Faces"
-              onChange={handleFilterChange}
+              // onChange={handleFilterChange}
             />
             Faces
           </label>
@@ -174,7 +174,7 @@ const VideoPost = () => {
               type="checkbox"
               className="checkbox"
               value="Architectures"
-              onChange={handleFilterChange}
+              // onChange={handleFilterChange}
             />
             Architectures
           </label>
@@ -183,7 +183,7 @@ const VideoPost = () => {
               type="checkbox"
               className="checkbox"
               value="Weapons"
-              onChange={handleFilterChange}
+              // onChange={handleFilterChange}
             />
             Weapons
           </label>
@@ -192,7 +192,7 @@ const VideoPost = () => {
               type="checkbox"
               className="checkbox"
               value="Others"
-              onChange={handleFilterChange}
+              // onChange={handleFilterChange}
             />
             Others
           </label>

@@ -12,10 +12,10 @@ const ImagePost = () => {
   const [toolsUsed, setImageToolsUsed] = useState("");
   const [artist, setImageArtist] = useState("");
   const [description, setImageDescription] = useState("");
-  const [filters, setImageFilters] = useState([]);
+  // const [filters, setImageFilters] = useState([]);
   const [selectedImage, setSelectedImage] = useState(null);
   const [selectedImageFile, setSelectedImageFile] = useState(null);
-  const type = "image";
+  // const type = "image";
   const navigate = useNavigate();
 
   function handleImageChange(e) {
@@ -72,16 +72,16 @@ const ImagePost = () => {
     }
   };
 
-  const handleFilterChange = (e) => {
-    const { value, checked } = e.target;
-    if (checked) {
-      setImageFilters((prevFilters) => [...prevFilters, value]);
-    } else {
-      setImageFilters((prevFilters) =>
-        prevFilters.filter((filter) => filter !== value)
-      );
-    }
-  };
+  // const handleFilterChange = (e) => {
+  //   const { value, checked } = e.target;
+  //   if (checked) {
+  //     setImageFilters((prevFilters) => [...prevFilters, value]);
+  //   } else {
+  //     setImageFilters((prevFilters) =>
+  //       prevFilters.filter((filter) => filter !== value)
+  //     );
+  //   }
+  // };
 
   return (
     <>
@@ -139,7 +139,7 @@ const ImagePost = () => {
               type="checkbox"
               className="checkbox"
               value="Simple Design"
-              onChange={handleFilterChange}
+              // onChange={handleFilterChange}
             />
             Simple Design
           </label>
@@ -148,7 +148,7 @@ const ImagePost = () => {
               type="checkbox"
               className="checkbox"
               value="Creative Design"
-              onChange={handleFilterChange}
+              // onChange={handleFilterChange}
             />
             Creative Design
           </label>
@@ -157,7 +157,7 @@ const ImagePost = () => {
               type="checkbox"
               className="checkbox"
               value="Faces"
-              onChange={handleFilterChange}
+              // onChange={handleFilterChange}
             />
             Faces
           </label>
@@ -166,7 +166,7 @@ const ImagePost = () => {
               type="checkbox"
               className="checkbox"
               value="Architectures"
-              onChange={handleFilterChange}
+              // onChange={handleFilterChange}
             />
             Architectures
           </label>
@@ -175,7 +175,7 @@ const ImagePost = () => {
               type="checkbox"
               className="checkbox"
               value="Weapons"
-              onChange={handleFilterChange}
+              // onChange={handleFilterChange}
             />
             Weapons
           </label>
@@ -184,7 +184,7 @@ const ImagePost = () => {
               type="checkbox"
               className="checkbox"
               value="Others"
-              onChange={handleFilterChange}
+              // onChange={handleFilterChange}
             />
             Others
           </label>

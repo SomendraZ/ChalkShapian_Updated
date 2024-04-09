@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
 import "../CSS/Discover.css";
 
 const Discover = () => {
-  const [posts, setPosts] = useState([]);
+  const [posts, ] = useState([]);
 
   const [openModal, setOpenModal] = useState(false);
   const [selectedPost, setSelectedPost] = useState(null);
