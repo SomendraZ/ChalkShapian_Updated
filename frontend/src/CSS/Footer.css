@@ -1,0 +1,118 @@
+hr {
+  color: #ffffff;
+  height: 0.1vw;
+  border-top: 1vh solid rgb(255, 255, 255);
+  border: 0;
+  background-color: #ffffff;
+}
+.footer {
+  background-color: #000000;
+  height: 11.5vw;
+}
+#footer {
+  background-color: #1e1e1e;
+  height: 10vw;
+  margin: 0.7vw;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.vLine {
+  border-left: 0.2vw solid rgb(255, 255, 255);
+  height: 8.5vw;
+}
+.hFooterLine {
+  border-top: 0.2vw solid rgb(255, 255, 255);
+  width: 29vw;
+  margin: 0 1vw;
+}
+.inc {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+  height: 8vw;
+  padding: 0 1vw;
+}
+#incLogo {
+  width: 8vw;
+}
+#incName {
+  font-family: "Aldrich", sans-serif;
+  display: flex;
+  flex-direction: row;
+  font-size: 1.3vw;
+}
+.green {
+  color: #14ff00;
+}
+.yellow {
+  color: #fff500;
+}
+.white {
+  color: white;
+}
+.follow {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 8vw;
+  justify-content: space-evenly;
+}
+#follow {
+  display: flex;
+  flex-direction: row;
+  font-family: "Aldrich", sans-serif;
+  font-size: 1.3vw;
+  align-items: center;
+}
+#insta {
+  width: 2vw;
+  cursor: pointer;
+} 
+#youtube {
+  width: 2.5vw;
+  cursor: pointer;
+}
+#twitter {
+  width: 2.2vw;
+  cursor: pointer;
+}
+#contact {
+  display: flex;
+  flex-direction: row;
+  font-family: "Aldrich", sans-serif;
+  font-size: 1.3vw;
+  align-items: center;
+  padding: 0 2vw;
+}
+.contact {
+  display: flex;
+  flex-direction: row;
+}
+.terms {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  justify-content: space-evenly;
+  color: white;
+  font-family: "Aldrich", sans-serif;
+  font-size: 1.2vw;
+  padding: 0 4.5vw;
+  height: 8vw;
+}
+#terms,
+#privacy,
+#about {
+  cursor: pointer;
+}
+#ads {
+  height: 8vw;
+  width: 15.5vw;
+  background-color: #fff;
+  display: flex;
+  flex-direction: row; 
+  align-items: center;
+  justify-content: center;
+  margin: 0 1.5vw;
+}

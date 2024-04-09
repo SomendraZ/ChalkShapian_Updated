@@ -1,0 +1,466 @@
+@media only screen and (min-width: 550px) {
+  .imgDes {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-left: 2.5vw;
+  }
+
+  #titleSection,
+  #artistSection,
+  #descSection {
+    width: 20vw;
+    margin-bottom: 2vw;
+    padding: 1vw;
+    border-radius: 1vw;
+    box-shadow: 0.15vw 0.2vw 0.2vw #ffffff;
+  }
+
+  #titleSection,
+  #artistSection,
+  #descSection {
+    background-color: #484848;
+  }
+
+  .label {
+    font-family: "Chakra Petch", sans-serif;
+    font-weight: bold;
+    font-size: 1.5vw;
+    text-align: center;
+    margin-bottom: 1vw;
+    color: #ff9100;
+  }
+
+  .titleModal,
+  .artistModal,
+  .descModal {
+    font-family: "Chakra Petch", sans-serif;
+    font-size: 1vw;
+    color: #ffffff;
+    text-align: center;
+    text-shadow: 0.1vw 0.15vw 0.2vw rgba(255, 255, 255, 0.2);
+  }
+
+  .contAll {
+    color: #000000;
+    font-family: "Chakra Petch", sans-serif;
+    font-size: 1.7vw;
+    font-weight: 500;
+    text-shadow: 0.1vw 0.2vw 0.2vw rgba(0, 0, 0, 0.5);
+    background: #fcfcfc;
+    height: 2vw;
+    box-shadow: 0.15vw 0.2vw 0.2vw #14ff00;
+    border-radius: 1.1vw;
+    padding: 0.2vw 1.3vw;
+    cursor: pointer;
+  }
+  .contVideo {
+    color: #ffffff;
+    font-family: "Chakra Petch", sans-serif;
+    font-size: 1.7vw;
+    font-weight: 500;
+    text-shadow: 0.1vw 0.15vw 0.2vw rgba(255, 255, 255, 0.2);
+    background: #000000;
+    height: 2vw;
+    border-radius: 1.1vw;
+    padding: 0.2vw 1.3vw;
+    cursor: pointer;
+    margin-left: 0.5vw;
+  }
+  .discover {
+    background: #000000;
+    border-radius: 1.5vw 1.5vw 0px 0px;
+    width: 96vw;
+    min-height: 56.75vh;
+    margin: 0 2vw;
+    padding-top: 5.5vw;
+    padding-bottom: 4vw;
+  }
+  .discoverBar {
+    width: 75vw;
+    display: flex;
+    flex-direction: row;
+    color: #ffffff;
+    font-family: "Chakra Petch", sans-serif;
+    font-size: 1.7vw;
+    font-weight: 500;
+    text-shadow: 0.1vw 0.15vw 0.2vw rgba(255, 255, 255, 0.2);
+    height: 2.5vw;
+    padding: 1vw 1.3vw;
+    padding-bottom: 0.7vw;
+    margin-left: 10vw;
+    margin-right: 10vw;
+    justify-content: space-around;
+    align-self: start;
+    background: #1e1e1e;
+    box-shadow: 0vw 0.2vw 0.2vw #fff500;
+    border-radius: 0px 0px 1.2vw 1.2vw;
+    position: fixed;
+    margin-top: -0.65vh;
+  }
+  #filter {
+    color: #000000;
+    font-family: "Chakra Petch", sans-serif;
+    font-size: 1.5vw;
+    font-weight: 500;
+    text-shadow: 0.1vw 0.1vw 0.2vw rgba(0, 0, 0, 0.5);
+    background: #fcfcfc;
+    height: 2.5vw;
+    width: 17.5vw;
+    box-shadow: 0.15vw 0.2vw 0.2vw #ffffff;
+    border: 0;
+    border-radius: 0.7vw;
+    padding-left: 1.3vw;
+    padding-right: 2vw;
+    cursor: pointer;
+    border: unset;
+    appearance: none;
+    background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23131313%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E");
+    background-repeat: no-repeat;
+    background-position: right 1vw top 50%;
+    background-size: 0.7vw;
+  }
+  .lola {
+    display: flex;
+    flex-direction: row;
+    height: 2.5vw;
+    background-color: #000000;
+    border: 0;
+    border-radius: 1.2vw;
+    padding: 0.1vw;
+  }
+  .searchBar {
+    display: flex;
+    flex-direction: row;
+  }
+  #searchBox {
+    width: 13vw;
+    height: 2.5vw;
+    background: rgba(255, 245, 0, 0.75);
+    border: 0;
+    border-radius: 1vw 0vw 0vw 1vw;
+    font-family: "Chakra Petch", sans-serif;
+    font-weight: 600;
+    color: #000000;
+    font-size: inherit;
+    padding-left: 1vw;
+    outline: none;
+    caret-color: rgb(255, 0, 0);
+  }
+  #searchBtn {
+    width: 4vw;
+    height: 2.5vw;
+    cursor: pointer;
+    background: rgba(20, 255, 0, 0.75);
+    border: 0;
+    border-radius: 0px 1vw 1vw 0px;
+    color: #ffffff;
+    font-size: 1.5vw;
+  }
+  #searchLogo {
+    width: 2.5vw;
+  }
+  #imgChalk,
+  #vidChalk {
+    width: 13vw;
+    border-radius: 1vw 1vw 0px 0px;
+    max-height: 15.75vw;
+  }
+  .craftName {
+    font-family: "Chakra Petch", sans-serif;
+    text-align: center;
+    font-weight: 500;
+    font-size: 1.5vw;
+    color: #ffffff;
+    padding: 0 1vw;
+    margin-top: 0.1vw;
+    margin-bottom: 0.075vw;
+  }
+  .artistName {
+    font-family: "Chakra Petch", sans-serif;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 1.1vw;
+    color: #a5a5a5;
+  }
+  .imgContent {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 14.5vw;
+    height: 20vw;
+    background: #232323;
+    box-shadow: 0 0.1vw 0.1vw #ffffff;
+    border-radius: 1vw;
+    padding-top: 0.3vw;
+    margin-bottom: 1.5vw;
+  }
+  .content {
+    display: grid;
+    grid-template-columns: auto auto auto auto auto;
+    padding-top: 1.5vw;
+    margin-top: 3.5vw;
+    justify-content: space-evenly;
+  }
+  .float {
+    position: fixed;
+    width: 5vw;
+    height: 5vw;
+    bottom: 3vw;
+    right: 3vw;
+    background-color: rgba(20, 255, 0);
+    font-size: 3vw;
+    color: #fff500;
+    border-radius: 5vw;
+    text-align: center;
+    padding: 0.5vw 0.5vw;
+    border: 0.15vw solid black;
+    box-shadow: 0.15vw 0.2vw 0.3vw #fff500;
+    -webkit-text-stroke-width: 0.125vw;
+    -webkit-text-stroke-color: #000000;
+  }
+  .float:hover {
+    background-color: rgb(16, 189, 0);
+  }
+  .float:active {
+    background-color: rgba(20, 255, 0);
+    box-shadow: 0.4vw 0.4vw 0.4vw rgba(0, 0, 0, 0);
+    transform: translateY(1vh);
+  }
+  .my-float {
+    margin-top: 1.25vw;
+  }
+  #myModal {
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 2;
+    background-color: #232323;
+    box-shadow: 0 0.1vw 0.1vw #ffffff;
+    max-width: 80vw;
+    padding: 1.75vw;
+    border-radius: 2vw;
+  }
+  #imgModal {
+    border-radius: 2vw;
+    max-height: 50vh;
+    max-width: 50vw;
+    box-shadow: 0.1vw 0.2vw 0.2vw #ffffff;
+  }
+  .close {
+    color: #fff500;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    font-size: 5vw;
+    font-weight: bold;
+    margin-left: 85%;
+    margin-right: 15%;
+    padding-left: 0.5vw;
+    padding-right: 0.5vw;
+    background-color: rgba(20, 255, 0);
+    height: 3.5vw;
+    width: 2.75vw;
+    margin-bottom: 1vw;
+    border-radius: 2vw;
+    -webkit-text-stroke-width: 0.125vw;
+    -webkit-text-stroke-color: #000000;
+    border: 0.25vw solid black;
+  }
+  #info {
+    display: flex;
+    flex-direction: row;
+  }
+}
+@media only screen and (max-width: 550px) {
+  .discover {
+    background: #000000;
+    border-radius: 1.5vw 1.5vw 0px 0px;
+    width: 94vw;
+    height: 66vh;
+    padding-top: 1vw;
+    margin-left: 3vw;
+  }
+  .discoverBar {
+    width: 80vw;
+    display: flex;
+    flex-direction: row;
+    color: #ffffff;
+    font-family: "Chakra Petch", sans-serif;
+    font-size: 2.5vw;
+    font-weight: 500;
+    text-shadow: 0.1vw 0.15vw 0.2vw rgba(255, 255, 255, 0.2);
+    height: 4vw;
+    border-radius: 1.1vw;
+    padding: 0vw 1.3vw;
+    padding-bottom: 0.7vw;
+    margin-left: 5.75vw;
+    margin-right: 6vw;
+    justify-content: space-around;
+    background: #1e1e1e;
+    box-shadow: 0vw 0.2vw 0.2vw #fff500;
+    border-radius: 0px 0px 1.2vw 1.2vw;
+    position: fixed;
+    margin-top: 5vh;
+  }
+  #filter {
+    color: #000000;
+    font-family: "Chakra Petch", sans-serif;
+    font-size: 2vw;
+    font-weight: 500;
+    text-shadow: 0.1vw 0.1vw 0.2vw rgba(0, 0, 0, 0.5);
+    background: #fcfcfc;
+    height: 3.5vw;
+    width: 20vw;
+    box-shadow: 0.15vw 0.2vw 0.2vw #ffffff;
+    border: 0;
+    border-radius: 0.7vw;
+    padding-left: 1.3vw;
+    padding-right: 2vw;
+    cursor: pointer;
+    border: unset;
+    appearance: none;
+    background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23131313%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E");
+    background-repeat: no-repeat;
+    background-position: right 1vw top 50%;
+    background-size: 1.1vw;
+  }
+  .searchBar {
+    display: flex;
+    flex-direction: row;
+  }
+  #searchBox {
+    width: 17vw;
+    height: 3.5vw;
+    background: rgba(255, 245, 0, 0.75);
+    border: 0;
+    border-radius: 1vw 0vw 0vw 1vw;
+    font-family: "Chakra Petch", sans-serif;
+    font-weight: 600;
+    color: #000000;
+    font-size: inherit;
+    padding-left: 1vw;
+    caret-color: rgb(255, 0, 0);
+    outline: none;
+  }
+  #searchBtn {
+    width: 5vw;
+    height: 3.5vw;
+    cursor: pointer;
+    background: rgba(20, 255, 0, 0.75);
+    border: 0;
+    border-radius: 0px 1vw 1vw 0px;
+    color: #ffffff;
+    font-size: 1.7vw;
+  }
+  .contAll {
+    color: #000000;
+    font-family: "Chakra Petch", sans-serif;
+    font-size: 2vw;
+    font-weight: 500;
+    text-shadow: 0.1vw 0.2vw 0.2vw rgba(0, 0, 0, 0.5);
+    background: #fcfcfc;
+    height: 2.5vw;
+    box-shadow: 0.2vw 0.4vw 0.3vw #14ff00;
+    border-radius: 1.1vw;
+    padding: 0.2vw 1.3vw;
+    cursor: pointer;
+  }
+  .contVideo {
+    color: #ffffff;
+    font-family: "Chakra Petch", sans-serif;
+    font-size: 2vw;
+    font-weight: 500;
+    text-shadow: 0.1vw 0.15vw 0.2vw rgba(255, 255, 255, 0.2);
+    background: #000000;
+    height: 2.5vw;
+    border-radius: 1.1vw;
+    padding: 0.2vw 1.3vw;
+    margin-left: 0.5vw;
+    cursor: pointer;
+  }
+  .lola {
+    display: flex;
+    flex-direction: row;
+    height: 3.3vw;
+    background-color: #000000;
+    border: 0;
+    border-radius: 1.2vw;
+    padding: 0.1vw;
+  }
+  #imgChalk,
+  #vidChalk {
+    width: 21vw;
+    border-radius: 2vw 2vw 0px 0px;
+    max-height: 12.5vh;
+  }
+  .craftName {
+    font-family: "Chakra Petch", sans-serif;
+    text-align: center;
+    font-weight: 500;
+    margin-top: 0.7vw;
+    font-size: 3vw;
+    color: #ffffff;
+    margin-top: 0.1vh;
+    margin-bottom: 0.075vh;
+  }
+  .artistName {
+    font-family: "Chakra Petch", sans-serif;
+    font-weight: 600;
+    font-size: 1.7vw;
+    color: #a5a5a5;
+  }
+  .imgContent {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 25vw;
+    height: 35vw;
+    background: #232323;
+    box-shadow: 0 0.1vw 0.1vw #ffffff;
+    border-radius: 3vw;
+    padding-top: 0.8vw;
+    margin-bottom: 2.5vw;
+  }
+  .content {
+    display: grid;
+    grid-template-columns: auto auto auto;
+    padding-top: 2vw;
+    margin-top: 7.5vh;
+    justify-content: space-evenly;
+  }
+  .float {
+    position: fixed;
+    width: 5vh;
+    height: 5vh;
+    bottom: 5vh;
+    right: 5vh;
+    background-color: rgba(20, 255, 0);
+    font-size: 7.5vw;
+    color: #fff500;
+    border-radius: 7.5vw;
+    text-align: center;
+    padding: 0.5vw 0.5vw;
+    border: 0.3vw solid black;
+    box-shadow: 0.4vw 0.2vh 0.3vw #fff500;
+    -webkit-text-stroke-width: 0.25vw;
+    -webkit-text-stroke-color: #000000;
+  }
+  .float:hover {
+    background-color: rgb(16, 189, 0);
+  }
+  .float:active {
+    background-color: rgba(20, 255, 0);
+    box-shadow: 0.4vw 0.4vw 0.4vw rgba(0, 0, 0, 0);
+    transform: translateY(0.5vh);
+  }
+  .my-float {
+    margin-top: 1.75vw;
+  }
+}
