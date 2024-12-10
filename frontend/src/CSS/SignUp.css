@@ -1,0 +1,328 @@
+@media only screen and (min-width: 550px) {
+  .bg {
+    background-color: black;
+    margin-top: 10vw;
+    height: 47.5vw;
+    width: 95vw;
+    margin: 0 2.5vw;
+    margin-top: 2.5vw;
+    border: 0;
+    box-shadow: 0px 0.3vw 0.2vw #ffffff;
+    border-radius: 2vw 2vw 0 0;
+  }
+  .gif {
+    background: #1e1e1e;
+    box-shadow: 0.1vw 0.3vw 0.2vw #fff500;
+    height: 45vw;
+    width: 90vw;
+    margin: 0 2.5vw;
+    border-radius: 0 0 2vw 2vw;
+    display: flex;
+    flex-direction: row;
+  }
+  #Gif {
+    height: 45vw;
+    margin: 0 4.5vw;
+  }
+  .SignUpPage {
+    width: 38vw;
+    height: 41vw;
+    background: conic-gradient(
+      from 221.94deg at 50% 50%,
+      #14ff00 -98.91deg,
+      #fff500 84.7deg,
+      #14ff00 261.09deg,
+      #fff500 444.7deg
+    );
+    border-radius: 0 0 2vw 0;
+    padding: 2vw 1vw;
+    display: flex;
+    flex-direction: column;
+    padding-left: 6vw;
+  }
+  .SignUpToAccount {
+    font-family: "Chakra Petch", sans-serif;
+    font-weight: 500;
+    text-shadow: 0px 0.2vw 0.3vw rgba(0, 0, 0, 0.4);
+    font-size: 2.5vw;
+    margin: 0;
+    margin-bottom: 0.5vw;
+    padding: 0;
+    text-align: center;
+    width: 33vw;
+    text-decoration-line: underline;
+  }
+  .flexRow {
+    display: flex;
+    flex-direction: row;
+  }
+  .red {
+    color: red;
+    font-size: 2vw;
+    font-weight: bold;
+  }
+  .chalkNameSignUp,
+  .nameSignUp,
+  .emailSignUp,
+  .passwordSignUp,
+  .confirmPasswordSignUp {
+    font-family: "Marvel", sans-serif;
+    font-weight: 700;
+    font-size: 1.5vw;
+    color: #000000;
+    text-shadow: 0 0.2vw 0.3vw rgba(0, 0, 0, 0.4);
+    margin-bottom: 0.3vw;
+  }
+  #chalkNameSignUp,
+  #nameSignUp,
+  #emailSignUp,
+  #passwordSignUp,
+  #confirmPasswordSignUp {
+    background: #d9d9d9;
+    width: 32vw;
+    height: 2.5vw;
+    border: 0;
+    border-radius: 0.3vw;
+    font-family: "Marvel", sans-serif;
+    color: #2b2b2b;
+    font-size: 1.5vw;
+    font-weight: 700;
+    padding-left: 1vw;
+    box-shadow: 0px 0.4vw 0.4vw rgba(0, 0, 0, 0.25);
+    margin-bottom: 0.3vw;
+    outline: none;
+  }
+  .SignUpBtn {
+    background: #1877f2;
+    box-shadow: 0.4vw 0.4vw 0.4vw rgba(0, 0, 0, 0.25);
+    border: none;
+    border-radius: 0.4vw;
+    width: 7vw;
+    height: 2.5vw;
+    font-family: "Chakra Petch", sans-serif;
+    font-weight: 500;
+    font-size: 1.7vw;
+    color: #ffffff;
+    text-shadow: 0px 0.4vw 0.4vw rgba(0, 0, 0, 0.25);
+    text-align: center;
+    cursor: pointer;
+    margin-top: 1.5vw;
+    margin-bottom: 1.5vw;
+    margin-left: 13vw;
+  }
+  .SignUpBtn:hover {
+    background-color: #0048a7;
+  }
+  .SignUpBtn:active {
+    background-color: #1877f2;
+    box-shadow: 0.4vw 0.4vw 0.4vw rgba(0, 0, 0, 0);
+    transform: translateY(1vh);
+  }
+  .hLine {
+    border-top: 0.2vw solid #1e1e1e;
+    width: 10vw;
+    margin: 0 1vw;
+  }
+  .or {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    color: #000000;
+    text-shadow: 0px 0.4vw 0.4vw rgba(0, 0, 0, 0.25);
+    font-family: "Chakra Petch", sans-serif;
+    font-weight: 500;
+    font-size: 1.3vw;
+    margin-bottom: 1.5vw;
+    margin-left: 3.5vw;
+  }
+  .already {
+    font-family: "Marvel", sans-serif;
+    font-weight: 700;
+    font-size: 1.5vw;
+    color: #000000;
+  }
+  .login {
+    font-family: "Marvel", sans-serif;
+    font-weight: 700;
+    font-size: 1.5vw;
+    color: #1877f2;
+    cursor: pointer;
+    margin-left: 0.2vw;
+  }
+  .login:hover {
+    color: #0048a7;
+  }
+  .login:active {
+    text-shadow: 0.1vw 0.2vw 0.7vw rgba(0, 0, 0, 0.7);
+    transform: translateY(0.5vh);
+  }
+  .alreadyAccount {
+    display: flex;
+    flex-direction: row;
+    margin-left: 8vw;
+  }
+}
+@media only screen and (max-width: 550px) {
+  .bg {
+    background-color: black;
+    height: 91vh;
+    width: 93vw;
+    margin: 0 3.5vw;
+    margin-top: 1.5vh;
+    border: 0;
+    box-shadow: 0px 0.3vw 0.2vw #ffffff;
+    border-radius: 2vw 2vw 0 0;
+  }
+  .gif {
+    background: #1e1e1e;
+    box-shadow: 0.1vw 0.3vw 0.2vw #fff500;
+    height: 89vh;
+    width: 85.5vw;
+    margin: 0 3.5vw;
+    border-radius: 0 0 2vw 2vw;
+    display: flex;
+    flex-direction: column;
+  }
+  #Gif {
+    height: 40vh;
+    margin: 0 8.5vw;
+  }
+  .SignUpPage {
+    width: 78.5vw;
+    height: 49vh;
+    background: conic-gradient(
+      from 221.94deg at 50% 50%,
+      #14ff00 -98.91deg,
+      #fff500 84.7deg,
+      #14ff00 261.09deg,
+      #fff500 444.7deg
+    );
+    border-radius: 0 0 2vw 2vw;
+    padding: 2vw 1vw;
+    display: flex;
+    flex-direction: column;
+    padding-left: 6vw;
+  }
+  .SignUpToAccount {
+    font-family: "Chakra Petch", sans-serif;
+    font-weight: 500;
+    text-shadow: 0px 0.2vw 0.3vw rgba(0, 0, 0, 0.4);
+    font-size: 4.5vw;
+    margin: 0;
+    margin-bottom: 1vh;
+    padding: 0;
+    text-align: center;
+    width: 75vw;
+    text-decoration-line: underline;
+  }
+  .flexRow {
+    display: flex;
+    flex-direction: row;
+  }
+  .red {
+    font-family: "Marvel", sans-serif;
+    color: red;
+    font-size: 3.5vw;
+  }
+  .chalkNameSignUp,
+  .nameSignUp,
+  .emailSignUp,
+  .passwordSignUp,
+  .confirmPasswordSignUp {
+    font-family: "Marvel", sans-serif;
+    font-weight: 700;
+    font-size: 3.5vw;
+    color: #000000;
+    text-shadow: 0 0.2vw 0.3vw rgba(0, 0, 0, 0.4);
+    margin-bottom: 0.3vw;
+    margin-top: 0.4vh;
+  }
+  #chalkNameSignUp,
+  #nameSignUp,
+  #emailSignUp,
+  #passwordSignUp,
+  #confirmPasswordSignUp {
+    background: #d9d9d9;
+    width: 70vw;
+    height: 6vw;
+    border: 0;
+    border-radius: 0.3vw;
+    font-family: "Marvel", sans-serif;
+    color: #2b2b2b;
+    font-size: 3vw;
+    font-weight: 700;
+    padding-left: 1vw;
+    box-shadow: 0px 0.4vw 0.4vw rgba(0, 0, 0, 0.25);
+    margin-bottom: 1vw;
+    outline: none;
+  }
+  .SignUpBtn {
+    background: #1877f2;
+    box-shadow: 0.4vw 0.4vw 0.4vw rgba(0, 0, 0, 0.25);
+    border: none;
+    border-radius: 0.7vw;
+    width: 17vw;
+    height: 2.7vh;
+    font-family: "Chakra Petch", sans-serif;
+    font-weight: 500;
+    font-size: 4vw;
+    color: #ffffff;
+    text-shadow: 0px 0.4vw 0.4vw rgba(0, 0, 0, 0.25);
+    text-align: center;
+    cursor: pointer;
+    margin-bottom: 1.3vh;
+    margin-top: 1vh;
+    margin-left: 27.5vw;
+  }
+  .SignUpBtn:hover {
+    background-color: #0048a7;
+  }
+  .SignUpBtn:active {
+    background-color: #1877f2;
+    box-shadow: 0.4vw 0.4vw 0.4vw rgba(0, 0, 0, 0.7);
+    transform: translateY(0.5vw);
+  }
+  .hLine {
+    border-top: 0.5vw solid #1e1e1e;
+    width: 20vw;
+    margin: 0 1vw;
+  }
+  .or {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    color: #000000;
+    text-shadow: 0px 0.4vw 0.4vw rgba(0, 0, 0, 0.25);
+    font-family: "Chakra Petch", sans-serif;
+    font-weight: 500;
+    font-size: 3.5vw;
+    margin-bottom: 1.3vh;
+    margin-left: 12.5vw;
+  }
+  .already {
+    font-family: "Marvel", sans-serif;
+    font-weight: 700;
+    font-size: 3.5vw;
+    color: #000000;
+  }
+  .login {
+    font-family: "Marvel", sans-serif;
+    font-weight: 700;
+    font-size: 3.5vw;
+    color: #1877f2;
+    cursor: pointer;
+    margin-left: 0.5vw;
+  }
+  .login:hover {
+    color: #0048a7;
+  }
+  .login:active {
+    text-shadow: 0.1vw 0.2vw 0.7vw rgba(0, 0, 0, 0.7);
+    transform: translateY(0.5vh);
+  }
+  .alreadyAccount {
+    display: flex;
+    flex-direction: row;
+    margin-left: 17.5vw;
+  }
+}

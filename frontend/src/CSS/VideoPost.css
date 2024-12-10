@@ -1,0 +1,278 @@
+@media only screen and (min-width: 550px) {
+  .video {
+    padding-top: 3vw;
+  }
+  .videoDetails {
+    margin-top: 3vw;
+    display: flex;
+    flex-direction: row;
+    height: 22.5vw;
+    justify-content: space-evenly;
+  }
+  .videoImage {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.75vw;
+    font-family: "Marvel", sans-serif;
+    font-weight: 700;
+    background-color: aliceblue;
+    border-radius: 1.3vw;
+    height: 22.5vw;
+    width: 17.5vw;
+  }
+  .videoRight {
+    display: flex;
+    height: 22.5vw;
+    flex-direction: column;
+  }
+  #videoImage {
+    height: 15vw;
+  }
+  .videoTitle,
+  .videoToolsUsed,
+  .videoArtist,
+  .videoLink {
+    color: aliceblue;
+    font-family: "Marvel", sans-serif;
+    font-weight: 700;
+    font-size: 1.75vw;
+    text-shadow: 0 0.2vw 0.2vw rgba(255, 255, 255, 0.5);
+    margin-bottom: 0.5vw;
+    line-height: 1;
+  }
+  #videoTitle,
+  #videoToolsUsed,
+  #videoArtist,
+  #videoLink {
+    background: #d9d9d9;
+    width: 40vw;
+    height: 3vw;
+    border: 0;
+    border-radius: 0.3vw;
+    font-family: "Marvel", sans-serif;
+    color: #2b2b2b;
+    font-size: 1.5vw;
+    font-weight: 700;
+    padding-left: 1vw;
+    box-shadow: 0.3vw 0.4vw 0.4vw rgba(255, 255, 255, 0.25);
+    margin-bottom: 0.7vw;
+    outline: none;
+  }
+  .filters {
+    color: white;
+    font-family: "Marvel", sans-serif;
+    font-size: 1.5vw;
+    font-weight: 700;
+    display: grid;
+    grid-template-columns: auto auto auto;
+    gap: 0.5vw;
+    margin-left: 20vw;
+    margin-top: 0.5vw;
+    width: 70vw;
+  }
+  #filters,
+  .videoDescription {
+    color: white;
+    font-family: "Marvel", sans-serif;
+    font-size: 2vw;
+    font-weight: 700;
+    margin-top: 0.75vw;
+    margin-left: 16vw;
+    text-shadow: 0 0.2vw 0.2vw rgba(255, 255, 255, 0.5);
+  }
+  .checkmark {
+    margin-right: 0.5vw;
+  }
+  #checkbox {
+    height: 1.4vw;
+    width: 1.4vw;
+    margin-right: 0.5vw;
+  }
+  #videoDescription {
+    background: #d9d9d9;
+    width: 60vw;
+    max-width: 60vw;
+    min-width: 60vw;
+    height: 9vw;
+    max-height: 9vw;
+    min-height: 9vw;
+    border: 0;
+    border-radius: 0.3vw;
+    font-family: "Marvel", sans-serif;
+    color: #2b2b2b;
+    font-size: 1.75vw;
+    font-weight: 700;
+    padding-top: 0.4vw;
+    padding-left: 1vw;
+    box-shadow: 0.3vw 0.4vw 0.4vw rgba(255, 255, 255, 0.25);
+    margin-top: 0.75vw;
+    margin-left: 17.5vw;
+    outline: none;
+  }
+  .post {
+    background: #1877f2;
+    box-shadow: 0.3vw 0.3vw 0.3vw rgba(255, 255, 255, 0.25);
+    border-radius: 0.5vw;
+    width: 6.5vw;
+    height: 2.5vw;
+    font-family: "Chakra Petch", sans-serif;
+    font-weight: 500;
+    font-size: 1.7vw;
+    color: #ffffff;
+    text-shadow: 0px 0.4vw 0.4vw rgba(0, 0, 0, 0.25);
+    text-align: center;
+    cursor: pointer;
+    margin-bottom: 2vw;
+    margin-left: 13vw;
+    margin: 0 45vw;
+    margin-top: 2vw;
+    margin-bottom: 2vw;
+  }
+  .post:hover {
+    background-color: #0048a7;
+  }
+  .post:active {
+    background-color: #1877f2;
+    box-shadow: 0.4vw 0.4vw 0.4vw rgba(0, 0, 0, 0);
+    transform: translateY(1vw);
+  }
+}
+@media only screen and (max-width: 550px) {
+  .video {
+    padding-top: 7.5vh;
+  }
+  .videoDetails {
+    margin-top: 2vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .videoImage {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: 4vw;
+    font-family: "Marvel", sans-serif;
+    font-weight: 700;
+    background-color: aliceblue;
+    border-radius: 1.3vw;
+    height: 20vh;
+    width: 35vw;
+  }
+  .videoRight {
+    display: flex;
+    flex-direction: column;
+    margin-top: 1vh;
+  }
+  #videoImage {
+    height: 25vw;
+  }
+  .videoTitle,
+  .videoToolsUsed,
+  .videoArtist,
+  .videoLink {
+    color: aliceblue;
+    font-family: "Marvel", sans-serif;
+    font-weight: 700;
+    font-size: 5vw;
+    text-shadow: 0 0.2vw 0.2vw rgba(255, 255, 255, 0.5);
+    margin-bottom: 0.5vh;
+    margin-top: 1.5vh;
+    line-height: 1;
+  }
+  #videoTitle,
+  #videoToolsUsed,
+  #videoArtist,
+  #videoLink {
+    background: #ffffff;
+    width: 75vw;
+    height: 3.5vh;
+    border: 0;
+    border-radius: 1vw;
+    font-family: "Marvel", sans-serif;
+    color: #2b2b2b;
+    font-size: 3.5vw;
+    font-weight: 700;
+    padding-left: 3vw;
+    box-shadow: 0.3vw 0.4vw 0.4vw rgba(255, 255, 255, 0.25);
+    margin-bottom: 1vh;
+    outline: none;
+  }
+  .filters {
+    color: white;
+    font-family: "Marvel", sans-serif;
+    font-size: 3.5vw;
+    font-weight: 500;
+    display: grid;
+    grid-template-columns: auto auto;
+    gap: 1vh;
+    margin-left: 10vw;
+    margin-top: 1vh;
+    width: 90vw;
+  }
+  #filters,
+  .videoDescription {
+    color: rgb(255, 255, 255);
+    font-family: "Marvel", sans-serif;
+    font-size: 5vw;
+    font-weight: 700;
+    margin-top: 1.75vh;
+    margin-bottom: 1vh;
+    margin-left: 9vw;
+    text-shadow: 0 0.2vw 0.2vw rgba(255, 255, 255, 0.5);
+  }
+  #checkbox {
+    height: 1.5vh;
+    width: 1.5vh;
+    margin-right: 0.5vh;
+  }
+  #videoDescription {
+    background: #ffffff;
+    width: 75vw;
+    max-width: 75vw;
+    min-width: 75vw;
+    height: 10vh;
+    max-height: 10vh;
+    min-height: 10vh;
+    border: 0;
+    border-radius: 1vw;
+    font-family: "Marvel", sans-serif;
+    color: #2b2b2b;
+    font-size: 3.5vw;
+    font-weight: 700;
+    padding-top: 0.7vh;
+    padding-left: 3vw;
+    box-shadow: 0.3vw 0.4vw 0.4vw rgba(255, 255, 255, 0.25);
+    margin-top: 0.5vh;
+    margin-left: 9.5vw;
+    outline: none;
+  }
+  .post {
+    background: #1877f2;
+    box-shadow: 0.3vw 0.3vw 0.3vw rgba(255, 255, 255, 0.25);
+    border-radius: 0.5vw;
+    width: 20vw;
+    height: 2.75vh;
+    font-family: "Chakra Petch", sans-serif;
+    font-weight: 500;
+    font-size: 4.25vw;
+    color: #ffffff;
+    text-shadow: 0px 0.4vw 0.4vw rgba(0, 0, 0, 0.25);
+    text-align: center;
+    cursor: pointer;
+    margin-bottom: 2vh;
+    margin: 0 38.5vw;
+    margin-top: 1.25vh;
+  }
+  .post:hover {
+    background-color: #0048a7;
+  }
+  .post:active {
+    background-color: #1877f2;
+    box-shadow: 0.4vw 0.4vw 0.4vw rgba(0, 0, 0, 0);
+    transform: translateY(1vw);
+  }
+}
