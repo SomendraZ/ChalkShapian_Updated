@@ -18,7 +18,7 @@ const getMessages = async (req, res) => {
 const sendMessage = async (req, res) => {
   const { sender, text, datetime } = req.body;
 
-  console.log(`Received a request to send a message from: ${ sender }.`);
+  console.log(`Received a request to send a message from: ${sender}.`);
 
   const message = new Forum({ sender, text, datetime });
 

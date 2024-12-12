@@ -99,12 +99,12 @@
     flex-direction: column;
   }
   .meSend {
-    background-color: #14ff00;
+    background-color: #15ff008a;
     color: #000;
     width: max-content;
     max-width: 70.5vw;
     padding: 0.25vw 1.25vw;
-    font-size: 1.5vw;
+    font-size: 1.25vw;
     border-radius: 1vw;
     margin-left: auto;
     margin-bottom: 0.5vw;
@@ -116,12 +116,12 @@
 }
 
   .notMeSend{
-    background-color: #fff500;
+    background-color: #fff70089;
     color: #000;
     width:max-content;
     max-width: 70.5vw;
     padding: 0.25vw 1.25vw;
-    font-size: 1.5vw;
+    font-size: 1.25vw;
     border-radius: 1vw;
     margin-right: auto;
     margin-bottom: 0.5vw;

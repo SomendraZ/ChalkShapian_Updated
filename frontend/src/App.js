@@ -13,6 +13,7 @@ import Discover from "./Pages/Discover";
 import Forum from "./Pages/Forum";
 import PostChalk from "./Pages/PostChalk";
 import ChalkName from "./Pages/ChalkName";
+import YourPost from "./Pages/YourPost";
 
 const App = () => {
   const { loggedIn } = useAuth();
@@ -26,18 +27,15 @@ const App = () => {
       "/post/image",
       "/post/video",
       "/chalkName",
+      "/yourPost",
     ];
     const authRoutes = ["/login", "/signup"];
 
     if (!loggedIn) {
-      // Redirect non-logged-in users from protected routes
       if (protectedRoutes.includes(location.pathname)) {
-        if (location.pathname !== "/login" && location.pathname !== "/signup") {
-          navigate("/login", { replace: true });
-        }
+        navigate("/login", { replace: true });
       }
     } else {
-      // Redirect logged-in users from auth routes
       if (authRoutes.includes(location.pathname)) {
         navigate("/discover", { replace: true });
       }
@@ -46,13 +44,10 @@ const App = () => {
 
   return (
     <Routes>
-      {/* Default route */}
       <Route
         path="*"
         element={<Navigate to={loggedIn ? "/discover" : "/login"} replace />}
       />
-
-      {/* Auth routes */}
       <Route
         path="/login"
         element={loggedIn ? <Navigate to="/discover" replace /> : <Login />}
@@ -61,10 +56,12 @@ const App = () => {
         path="/signup"
         element={loggedIn ? <Navigate to="/discover" replace /> : <SignUp />}
       />
-
-      {/* Protected routes */}
       <Route
         path="/discover"
+        element={loggedIn ? <Discover /> : <Navigate to="/login" replace />}
+      />
+      <Route
+        path="/discover/post/:postId"
         element={loggedIn ? <Discover /> : <Navigate to="/login" replace />}
       />
       <Route
@@ -82,6 +79,10 @@ const App = () => {
       <Route
         path="/chalkName"
         element={loggedIn ? <ChalkName /> : <Navigate to="/login" replace />}
+      />
+      <Route
+        path="/yourPost"
+        element={loggedIn ? <YourPost /> : <Navigate to="/login" replace />}
       />
     </Routes>
   );

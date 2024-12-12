@@ -13,6 +13,16 @@ const Navbar = () => {
   const [activeLink, setActiveLink] = useState("");
   const [open, setOpen] = useState(false);
 
+  const handleYourPost = () => {
+    setOpen(false);
+    navigate("/yourPost");
+  };
+
+  const handlePostYourChalk = () => {
+    setOpen(false);
+    navigate("/post/image");
+  };
+
   const handleLogout = () => {
     authLogout();
     setOpen(false);
@@ -84,8 +94,12 @@ const Navbar = () => {
             X
           </div>
           <div className="pfl">
-            <div className="yourPosts">Your Posts</div>
-            <div className="yourLiked">Your Liked Posts</div>
+            <div className="yourPosts" onClick={handleYourPost}>
+              Your Posts
+            </div>
+            <div className="postYourChalkLink" onClick={handlePostYourChalk}>
+              Post Your “CHALK”
+            </div>
             <div className="logout" onClick={handleLogout}>
               Logout
             </div>

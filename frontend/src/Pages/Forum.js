@@ -13,6 +13,7 @@ const Forum = () => {
 
   const REACT_APP_FORUM_GET_API = process.env.REACT_APP_FORUM_GET_API;
   const REACT_APP_FORUM_SEND_API = process.env.REACT_APP_FORUM_SEND_API;
+  const REACT_APP_SOCKET_SERVER = process.env.REACT_APP_SOCKET_SERVER;
   const socket = useRef(null);
 
   // Fetch messages on component mount
@@ -31,11 +32,11 @@ const Forum = () => {
     };
 
     fetchMessages();
-  }, [REACT_APP_FORUM_GET_API, chalkName]);
+  }, [REACT_APP_FORUM_GET_API]);
 
   // Connect to Socket.IO server on component mount
   useEffect(() => {
-    socket.current = io(process.env.REACT_APP_SOCKET_SERVER);
+    socket.current = io(REACT_APP_SOCKET_SERVER);
     socket.current.on("newMessage", (message) => {
       setMessages((prevMessages) => [...prevMessages, message]);
     });
@@ -43,7 +44,7 @@ const Forum = () => {
     return () => {
       socket.current.disconnect();
     };
-  }, []);
+  }, [REACT_APP_SOCKET_SERVER]);
 
   // Scroll to the bottom whenever messages are updated
   useEffect(() => {

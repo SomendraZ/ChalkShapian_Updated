@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
 import Navbar from "../Components/Navbar";
 import Footer from "../Components/Footer";
 import "../CSS/Discover.css";
@@ -18,13 +17,13 @@ const Discover = () => {
   const [filterType, setFilterType] = useState("all");
   const [selectedCategory, setSelectedCategory] = useState("all");
 
-  const API_URL = process.env.REACT_APP_POST_ALL_API;
+  const REACT_APP_POST_ALL_API = process.env.REACT_APP_POST_ALL_API;
 
   // Fetching posts on component mount
   useEffect(() => {
     const fetchPosts = async () => {
       try {
-        const response = await fetch(API_URL);
+        const response = await fetch(REACT_APP_POST_ALL_API);
         if (!response.ok) {
           throw new Error("Failed to fetch posts");
         }
@@ -36,7 +35,7 @@ const Discover = () => {
     };
 
     fetchPosts();
-  }, [API_URL]);
+  }, [REACT_APP_POST_ALL_API]);
 
   // Modal Toggle
   const popUp = (post) => {
@@ -83,7 +82,6 @@ const Discover = () => {
     const matchesCategory =
       selectedCategory === "all" || post.filters.includes(selectedCategory);
 
-    console.log(matchesCategory);
     return matchesSearch && matchesType && matchesCategory;
   });
 
@@ -145,9 +143,6 @@ const Discover = () => {
               </div>
             </div>
           </div>
-          <Link className="float" to="/post/image">
-            <i className="fa fa-plus my-float"></i>
-          </Link>
           <div className="content">
             {/* Mapping filtered posts */}
             {filteredPosts.map((post) => (

@@ -3,6 +3,8 @@ const {
   createImagePost,
   createVideoPost,
   getAllPosts,
+  getPostById,
+  getUserPosts,
 } = require("../controllers/postController");
 
 const router = express.Router();
@@ -15,5 +17,11 @@ router.post("/video", createVideoPost);
 
 // GET: Get all posts
 router.get("/all", getAllPosts);
+
+// GET: Get post by ID
+router.get("/:id", getPostById);
+
+// GET: Get user posts
+router.get("/user/:email", getUserPosts);
 
 module.exports = router;

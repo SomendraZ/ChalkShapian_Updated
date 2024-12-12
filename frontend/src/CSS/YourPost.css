@@ -1,0 +1,48 @@
+@media only screen and (min-width: 550px) {
+  #yourPostDiscoverBar {
+    width: 85vw;
+    margin-left: 4vw;
+    margin-right: 4vw;
+  }
+  .yourPostFilters {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 35vw;
+  }
+  .searchBarLola {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 42vw;
+  }
+}
+@media only screen and (max-width: 550px) {
+  #yourPostDiscoverBar {
+    width: 60vw;
+    height: 10vw;
+    margin-left: 15vw;
+    margin-right: 15vw;
+    display: flex;
+    flex-direction: column;
+  }
+  .yourPostFilters {
+    margin-left: 5vw;
+    margin-right: 5vw;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 50vw;
+  }
+  .searchBarLola {
+    margin-left: 5vw;
+    margin-right: 5vw;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 50vw;
+  }
+  #yourPostContent {
+    margin-top: 10vh;
+  }
+}

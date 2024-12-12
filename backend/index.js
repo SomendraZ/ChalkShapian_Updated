@@ -28,8 +28,8 @@ app.use(cors());
 app.use(express.json());
 
 // User routes
-app.use("/api/users", userRoutes);
-app.use("/api/posts", postRoutes);
+app.use("/api/user", userRoutes);
+app.use("/api/post", postRoutes);
 app.use(
   "/api/forum",
   (req, res, next) => {
