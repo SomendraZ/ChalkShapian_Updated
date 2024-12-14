@@ -168,6 +168,11 @@
     padding: 0 1vw;
     margin-top: 0.1vw;
     margin-bottom: 0.075vw;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
   }
   .artistName {
     font-family: "Chakra Petch", sans-serif;
@@ -343,11 +348,30 @@
   .titleModal,
   .artistModal,
   .toolsModal,
-  .videoLinkModal {
+  .videoLinkModal,
+  .filtersModal {
     font-size: 1.25vw;
     color: #ffffff;
     text-shadow: 0.1vw 0.15vw 0.1vw rgba(0, 0, 0, 0.5);
     width: 20vw;
+    max-height: 1.62vw;
+    overflow-y: auto;
+    overflow-x: hidden;
+    white-space: normal;
+
+    /* Custom Scrollbar for these modals */
+    &::-webkit-scrollbar {
+      width: 0.3vw;
+    }
+
+    &::-webkit-scrollbar-track {
+      background-color: #fff70028;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background-color: #15ff00;
+      border-radius: 1vw;
+    }
   }
 
   .videoLinkModal a {
@@ -385,30 +409,6 @@
     white-space: normal;
   }
 
-  .filtersModal {
-    font-size: 1.25vw;
-    color: #ffffff;
-    text-shadow: 0.1vw 0.15vw 0.1vw rgba(0, 0, 0, 0.5);
-    width: 20vw;
-    max-height: 1.62vw;
-    overflow-y: auto;
-    overflow-x: hidden;
-    white-space: normal;
-  }
-
-  .filtersModal::-webkit-scrollbar {
-    width: 0.3vw;
-  }
-
-  .filtersModal::-webkit-scrollbar-track {
-    background-color: #fff70028;
-  }
-
-  .filtersModal::-webkit-scrollbar-thumb {
-    background-color: #15ff00;
-    border-radius: 1vw;
-  }
-
   .descModal::-webkit-scrollbar {
     width: 0.3vw;
   }
@@ -420,6 +420,94 @@
   .descModal::-webkit-scrollbar-thumb {
     background-color: #15ff00;
     border-radius: 1vw;
+  }
+  .likeShareComment {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 15vw;
+    background-color: #484848;
+    border-radius: 0.5vw;
+    box-shadow: 0 0.25vw 0.5vw #00000050;
+    padding: 0.5vw 1vw;
+  }
+
+  .actionItem {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 1vw;
+    cursor: pointer;
+  }
+
+  .likeLogo,
+  .shareLogo,
+  .commentLogo {
+    font-size: 3vw;
+  }
+
+  .likeLogo {
+    color: rgb(255, 0, 0);
+  }
+
+  .likeLogo:hover {
+    color: rgba(255, 0, 0, 1);
+    text-shadow: 0.1vw 0.15vw 0.1vw rgba(255, 0, 0, 0.5);
+    margin-top: -0.5vw;
+  }
+  
+  .shareLogo {
+    color: rgba(255, 255, 0, 0.5);
+  }
+
+  .shareLogo:hover {
+    color: rgba(255, 255, 0, 1);
+    text-shadow: 0.1vw 0.15vw 0.1vw rgba(255, 255, 0, 0.5);
+    margin-top: -0.5vw;
+  }
+
+  .commentLogo {
+    font-size: 3vw;
+    color: rgba(0, 255, 0, 0.5);
+    margin-top: -0.5vw;
+  }
+
+  .commentLogo:hover {
+    color: rgba(0, 255, 0, 1);
+    text-shadow: 0.1vw 0.15vw 0.1vw rgba(0, 255, 0, 0.5);
+    margin-top: -1vw;
+  }
+
+  .buttonLabel {
+    display: none;
+    position: absolute;
+    bottom: -2.75vw;
+    font-size: 1.5vw;
+    color: #fff;
+    background-color: #333;
+    padding: 0.3vw 0.5vw;
+    border-radius: 0.5vw;
+    text-align: center;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+  }
+
+  .actionItem:hover .buttonLabel {
+    display: block;
+    opacity: 1;
+  }
+
+  .actionItem .buttonLabel {
+    font-size: 1.5vw;
+    transition: opacity 0.2s ease;
+  }
+  .likeCount {
+    font-size: 1.25vw;
+    margin-top: -0.25vw;
+    margin-left: -1.85vw;
+    width: 1.5vw;
   }
 }
 @media only screen and (max-width: 550px) {
@@ -754,11 +842,34 @@
   .titleModal,
   .artistModal,
   .toolsModal,
-  .videoLinkModal {
+  .videoLinkModal,
+  .filtersModal {
     font-size: 1.25vh;
     color: #ffffff;
     text-shadow: 0.1vh 0.15vh 0.1vh rgba(0, 0, 0, 0.5);
     width: 20vh;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    overflow-y: auto;
+    padding: right 0.5vh;
+
+    /* Custom Scrollbar for these modals */
+    &::-webkit-scrollbar {
+      width: 0.3vh;
+    }
+
+    &::-webkit-scrollbar-track {
+      background-color: #fff70028;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background-color: #15ff00;
+      border-radius: 1vh;
+    }
   }
 
   .videoLinkModal a {
@@ -800,34 +911,6 @@
     max-height: 10vh;
   }
 
-  .filtersModal {
-    font-size: 1.25vh;
-    color: #ffffff;
-    text-shadow: 0.1vh 0.15vh 0.1vh rgba(0, 0, 0, 0.5);
-    width: 20vh;
-    display: -webkit-box;
-    -webkit-line-clamp: 1;
-    line-clamp: 1;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    overflow-y: auto;
-    padding: right 0.5vh;
-  }
-
-  .filtersModal::-webkit-scrollbar {
-    width: 0.3vh;
-  }
-
-  .filtersModal::-webkit-scrollbar-track {
-    background-color: #fff70028;
-  }
-
-  .filtersModal::-webkit-scrollbar-thumb {
-    background-color: #15ff00;
-    border-radius: 1vh;
-  }
-
   .descModal::-webkit-scrollbar {
     width: 0.3vh;
   }
@@ -839,5 +922,93 @@
   .descModal::-webkit-scrollbar-thumb {
     background-color: #15ff00;
     border-radius: 1vh;
+  }
+  .likeShareComment {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 25vw;
+    background-color: #484848;
+    border-radius: 0.5vh;
+    box-shadow: 0 0.25vh 0.5vh #00000050;
+    padding: 0.5vh 1vh;
+  }
+
+  .actionItem {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 1vh;
+    cursor: pointer;
+  }
+
+  .likeLogo,
+  .shareLogo,
+  .commentLogo {
+    font-size: 4.5vw;
+  }
+
+  .likeLogo {
+    color: rgba(255, 0, 0, 0.5);
+  }
+
+  .likeLogo:hover {
+    color: rgba(255, 0, 0, 1);
+    text-shadow: 0.1vh 0.15vh 0.1vh rgba(255, 0, 0, 0.5);
+    margin-top: -0.5vh;
+  }
+
+  .likedLogo {
+    font-size: 3vh;
+    color: rgba(255, 0, 0, 1);
+    text-shadow: 0.1vh 0.15vh 0.1vh rgba(255, 0, 0, 0.5);
+  }
+
+  .shareLogo {
+    color: rgba(255, 255, 0, 0.5);
+  }
+
+  .shareLogo:hover {
+    color: rgba(255, 255, 0, 1);
+    text-shadow: 0.1vh 0.15vh 0.1vh rgba(255, 255, 0, 0.5);
+    margin-top: -0.5vh;
+  }
+
+  .commentLogo {
+    font-size: 4.5vw;
+    color: rgba(0, 255, 0, 0.5);
+    margin-top: -0.5vh;
+  }
+
+  .commentLogo:hover {
+    color: rgba(0, 255, 0, 1);
+    text-shadow: 0.1vh 0.15vh 0.1vh rgba(0, 255, 0, 0.5);
+    margin-top: -1vh;
+  }
+
+  .buttonLabel {
+    display: none;
+    position: absolute;
+    bottom: -2.75vh;
+    font-size: 1.5vh;
+    color: #fff;
+    background-color: #333;
+    padding: 0.3vh 0.5vh;
+    border-radius: 0.5vh;
+    text-align: center;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+  }
+
+  .actionItem:hover .buttonLabel {
+    display: block;
+    opacity: 1;
+  }
+
+  .actionItem .buttonLabel {
+    font-size: 1.5vh;
+    transition: opacity 0.2s ease;
   }
 }

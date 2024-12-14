@@ -1,11 +1,5 @@
-import React, { useEffect } from "react";
-import {
-  Routes,
-  Route,
-  Navigate,
-  useLocation,
-  useNavigate,
-} from "react-router-dom";
+import React from "react";
+import { Routes, Route, Navigate } from "react-router-dom";
 import { useAuth } from "./AuthContext";
 import Login from "./Pages/Login";
 import SignUp from "./Pages/SignUp";
@@ -17,37 +11,17 @@ import YourPost from "./Pages/YourPost";
 
 const App = () => {
   const { loggedIn } = useAuth();
-  const navigate = useNavigate();
-  const location = useLocation();
-
-  useEffect(() => {
-    const protectedRoutes = [
-      "/discover",
-      "/forum",
-      "/post/image",
-      "/post/video",
-      "/chalkName",
-      "/yourPost",
-    ];
-    const authRoutes = ["/login", "/signup"];
-
-    if (!loggedIn) {
-      if (protectedRoutes.includes(location.pathname)) {
-        navigate("/login", { replace: true });
-      }
-    } else {
-      if (authRoutes.includes(location.pathname)) {
-        navigate("/discover", { replace: true });
-      }
-    }
-  }, [loggedIn, navigate, location.pathname]);
+  const chalkName = localStorage.getItem("chalkName");
 
   return (
     <Routes>
+      {/* Redirects for any route not matched */}
       <Route
         path="*"
         element={<Navigate to={loggedIn ? "/discover" : "/login"} replace />}
       />
+
+      {/* Auth routes */}
       <Route
         path="/login"
         element={loggedIn ? <Navigate to="/discover" replace /> : <Login />}
@@ -56,17 +30,22 @@ const App = () => {
         path="/signup"
         element={loggedIn ? <Navigate to="/discover" replace /> : <SignUp />}
       />
+
+      {/* Protected Routes */}
       <Route
         path="/discover"
         element={loggedIn ? <Discover /> : <Navigate to="/login" replace />}
       />
-      <Route
-        path="/discover/post/:postId"
-        element={loggedIn ? <Discover /> : <Navigate to="/login" replace />}
-      />
+      <Route path="/discover/:postId" Component={Discover}/>
       <Route
         path="/forum"
-        element={loggedIn ? <Forum /> : <Navigate to="/login" replace />}
+        element={
+          loggedIn ? (
+            <Forum chalkName={chalkName} />
+          ) : (
+            <Navigate to="/login" replace />
+          )
+        }
       />
       <Route
         path="/post/image"

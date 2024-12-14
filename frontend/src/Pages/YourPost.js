@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Navbar from "../Components/Navbar";
 import Footer from "../Components/Footer";
-import { Link } from "react-router-dom";
 import "../CSS/YourPost.css";
 
 let x = require("../Resources/x.png");
@@ -10,6 +9,9 @@ let notFound = require("../Resources/notfound.png");
 const YourPost = () => {
   const email = localStorage.getItem("email");
   const REACT_APP_USER_POST_API = process.env.REACT_APP_USER_POST_API + email;
+
+  // Retrieve JWT token from localStorage
+  const token = localStorage.getItem("jwtToken");
 
   const [userPosts, setUserPosts] = useState([]);
   const [openUserModal, setOpenUserModal] = useState(false);
@@ -21,23 +23,28 @@ const YourPost = () => {
   const [filterType, setFilterType] = useState("all");
   const [selectedCategory, setSelectedCategory] = useState("all");
 
-    // Fetching posts on component mount
-    useEffect(() => {
-      const fetchPosts = async () => {
-        try {
-          const response = await fetch(REACT_APP_USER_POST_API);
-          if (!response.ok) {
-            throw new Error("Failed to fetch posts");
-          }
-          const data = await response.json();
-          setUserPosts(data.posts);
-        } catch (error) {
-          console.error("Error fetching posts:", error.message);
+  // Fetching posts on component mount
+  useEffect(() => {
+    const fetchPosts = async () => {
+      try {
+        const response = await fetch(REACT_APP_USER_POST_API, {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        if (!response.ok) {
+          throw new Error("Failed to fetch posts");
         }
-      };
+        const data = await response.json();
+        setUserPosts(data.posts);
+      } catch (error) {
+        console.error("Error fetching posts:", error.message);
+      }
+    };
 
-      fetchPosts();
-    }, [REACT_APP_USER_POST_API]);
+    fetchPosts();
+  }, [REACT_APP_USER_POST_API, token]);
 
   // Modal Toggle
   const userPopUp = (post) => {
@@ -149,9 +156,6 @@ const YourPost = () => {
               </div>
             </div>
           </div>
-          <Link className="float" to="/post/image">
-            <i className="fa fa-plus my-float"></i>
-          </Link>
           <div className="content" id="yourPostContent">
             {/* Mapping filtered posts */}
             {filteredUserPosts.map((post) => (

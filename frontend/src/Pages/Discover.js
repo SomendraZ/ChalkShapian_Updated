@@ -1,9 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
+import { useParams, useNavigate } from "react-router-dom";
 import Navbar from "../Components/Navbar";
 import Footer from "../Components/Footer";
+import PostComponent from "../Components/PostComponent.js";
 import "../CSS/Discover.css";
+import { toast, ToastContainer } from "react-toastify";
 
-let x = require("../Resources/x.png");
 let notFound = require("../Resources/notfound.png");
 
 const Discover = () => {
@@ -17,13 +19,31 @@ const Discover = () => {
   const [filterType, setFilterType] = useState("all");
   const [selectedCategory, setSelectedCategory] = useState("all");
 
+  const { postId } = useParams();
+  const navigate = useNavigate();
+  const email = localStorage.getItem("email");
+  const token = localStorage.getItem("jwtToken");
+
   const REACT_APP_POST_ALL_API = process.env.REACT_APP_POST_ALL_API;
+  const REACT_APP_POST_BY_ID_API = process.env.REACT_APP_POST_BY_ID_API;
+
+  useEffect(() => {
+    if (!token) {
+      //redirect to login
+      navigate("/login");
+    }
+  }, [token, navigate]);
 
   // Fetching posts on component mount
   useEffect(() => {
     const fetchPosts = async () => {
       try {
-        const response = await fetch(REACT_APP_POST_ALL_API);
+        const response = await fetch(REACT_APP_POST_ALL_API, {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
         if (!response.ok) {
           throw new Error("Failed to fetch posts");
         }
@@ -31,16 +51,20 @@ const Discover = () => {
         setPosts(data.posts);
       } catch (error) {
         console.error("Error fetching posts:", error.message);
+        toast.error("Please try again after Login.", {
+          position: "top-left",
+          autoClose: 2000,
+        });
       }
     };
 
     fetchPosts();
-  }, [REACT_APP_POST_ALL_API]);
+  }, [REACT_APP_POST_ALL_API, token]);
 
   // Modal Toggle
   const popUp = (post) => {
     setOpenModal(!openModal);
-    setSelectedPost(post);
+    setSelectedPost(post); // Make sure this is setting the selected post properly
   };
 
   // Filters Styling
@@ -85,8 +109,43 @@ const Discover = () => {
     return matchesSearch && matchesType && matchesCategory;
   });
 
+  // Fetch post by ID function wrapped with useCallback
+  const fetchPostById = useCallback(
+    async (postId) => {
+      try {
+        const response = await fetch(`${REACT_APP_POST_BY_ID_API}/${postId}`, {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        if (!response.ok) {
+          throw new Error("Failed to fetch post");
+        }
+        const postIdPost = await response.json();
+        setSelectedPost(postIdPost.post);
+        setOpenModal(true);
+      } catch (error) {
+        console.error("Error fetching post by ID:", error.message);
+        toast.error("Please try again after Login.", {
+          position: "top-left",
+          autoClose: 2000,
+        });
+      }
+    },
+    [REACT_APP_POST_BY_ID_API, token]
+  );
+
+  // If postId exists in the URL, fetch post details by ID
+  useEffect(() => {
+    if (postId) {
+      fetchPostById(postId);
+    }
+  }, [postId, fetchPostById]);
+
   return (
     <>
+      <ToastContainer />
       {/* Overlay for modal */}
       <div className={`overlay ${openModal ? "active" : ""}`} />
       <div className={`wrapper ${openModal ? "blurred" : ""}`}>
@@ -108,14 +167,13 @@ const Discover = () => {
               <option value="Architectures">Architectures</option>
               <option value="Weapons">Weapons</option>
               <option value="Others">Others</option>
-              {/* <option value="shapianSpecial">Shapian's Special</option> */}
             </select>
 
             <div className="searchBar">
               <input
                 id="searchBox"
                 type="search"
-                placeholder="   Search..."
+                placeholder="Search..."
                 value={searchQuery} // Bind input to search query
                 onChange={(e) => setSearchQuery(e.target.value)} // Update search query state
               />
@@ -145,111 +203,46 @@ const Discover = () => {
           </div>
           <div className="content">
             {/* Mapping filtered posts */}
-            {filteredPosts.map((post) => (
-              <div
-                className={
-                  post.postType === "image" ? "imgContent" : "vidContent"
-                }
-                key={post._id}
-                onClick={() => popUp(post)}
-              >
-                <img
-                  src={post.imageUrl || post.coverImageUrl}
-                  alt={`${post.title} by ${post.artist}`}
-                  id={post.postType === "image" ? "imgChalk" : "vidChalk"}
-                  onError={(e) => {
-                    e.target.onerror = null;
-                    e.target.src = notFound;
-                  }}
-                />
-                <div className="craftName">{post.title}</div>
-                <div className="artistName">{post.artist}</div>
-              </div>
-            ))}
-          </div>
-        </div>
-        <Footer />
-      </div>
-
-      {/* Modal */}
-      {openModal && selectedPost ? (
-        <div id="myModal">
-          <div className="right">
-            <div className="type">
-              <div className="postType">Post Type:</div>
-              <div className="postTypeModal">{selectedPost.postType}</div>
-            </div>
-            <img
-              className="close"
-              src={x}
-              alt="close"
-              onClick={() => setOpenModal(false)}
-            />
-          </div>
-
-          <div id="info">
-            {(selectedPost.imageUrl || selectedPost.coverImageUrl) && (
-              <div className="imageAndDetails">
-                <a
-                  href={selectedPost.imageUrl || selectedPost.coverImageUrl}
-                  target="_blank"
-                  rel="noreferrer"
+            {filteredPosts.length === 0 ? (
+              <div>No posts found matching your criteria</div>
+            ) : (
+              filteredPosts.map((post) => (
+                <div
+                  className={
+                    post.postType === "image" ? "imgContent" : "vidContent"
+                  }
+                  key={post._id}
+                  onClick={() => popUp(post)}
                 >
                   <img
-                    src={selectedPost.imageUrl || selectedPost.coverImageUrl}
-                    alt={`${selectedPost.title} by ${selectedPost.artist}`}
-                    className="imageContainer"
+                    src={post.imageUrl || post.coverImageUrl}
+                    alt={`${post.title} by ${post.artist}`}
+                    id={post.postType === "image" ? "imgChalk" : "vidChalk"}
                     onError={(e) => {
                       e.target.onerror = null;
                       e.target.src = notFound;
                     }}
                   />
-                </a>
-                <div className="detailsContainer">
-                  <div className="details">
-                    <div className="detailRow">
-                      <div className="label">Title:</div>
-                      <div className="titleModal">{selectedPost.title}</div>
-                    </div>
-                    <div className="detailRow">
-                      <div className="label">Artist:</div>
-                      <div className="artistModal">{selectedPost.artist}</div>
-                    </div>
-                    <div className="detailRow">
-                      <div className="label">Tools Used:</div>
-                      <div className="toolsModal">{selectedPost.toolsUsed}</div>
-                    </div>
-                    <div className="detailRow">
-                      <div className="label">Filters:</div>
-                      <div className="filtersModal">
-                        {selectedPost.filters.join(", ")}
-                      </div>
-                    </div>
-                    {selectedPost.videoLink && (
-                      <div className="detailRow">
-                        <div className="label">Video Link:</div>
-                        <div className="videoLinkModal">
-                          <a
-                            href={selectedPost.videoLink}
-                            target="_blank"
-                            rel="noreferrer"
-                          >
-                            Watch Video
-                          </a>
-                        </div>
-                      </div>
-                    )}
-                  </div>
+                  <div className="craftName">{post.title}</div>
+                  <div className="artistName">{post.artist}</div>
                 </div>
-              </div>
+              ))
             )}
-            <div className="descriptionModal">
-              <div className="label">Description:</div>
-              <div className="descModal">{selectedPost.description}</div>
-            </div>
           </div>
         </div>
-      ) : null}
+        <Footer />
+      </div>
+
+      {/* Conditionally render PostComponent when openModal is true and selectedPost is set */}
+      {openModal && selectedPost && (
+        <PostComponent
+          post={selectedPost} // Pass selectedPost correctly here
+          email={email}
+          token={token}
+          openModal={openModal}
+          setOpenModal={setOpenModal}
+        />
+      )}
     </>
   );
 };

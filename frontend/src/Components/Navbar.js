@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 
 import Chalk from "../Resources/chalk_shapian.PNG";
 import Profile from "../Resources/profile.png";
@@ -8,20 +8,20 @@ import { useAuth } from "../AuthContext";
 
 const Navbar = () => {
   const navigate = useNavigate();
-  const { loggedIn, chalkName, logout: authLogout } = useAuth();
+  const location = useLocation();
+  const { chalkName, logout: authLogout } = useAuth();
 
   const [activeLink, setActiveLink] = useState("");
   const [open, setOpen] = useState(false);
 
-  const handleYourPost = () => {
-    setOpen(false);
-    navigate("/yourPost");
-  };
-
-  const handlePostYourChalk = () => {
-    setOpen(false);
-    navigate("/post/image");
-  };
+  useEffect(() => {
+    // Update activeLink state based on the current route
+    if (location.pathname === "/discover") {
+      setActiveLink("Discover");
+    } else if (location.pathname === "/forum") {
+      setActiveLink("Forum");
+    }
+  }, [location]);
 
   const handleLogout = () => {
     authLogout();
@@ -29,32 +29,11 @@ const Navbar = () => {
     navigate("/login", { replace: true });
   };
 
-  useEffect(() => {
-    const currentPathname = window.location.pathname;
-    if (currentPathname === "/discover") {
-      setActiveLink("Discover");
-    } else if (currentPathname === "/forum") {
-      setActiveLink("Forum");
-    }
-  }, [loggedIn]);
-
-  const handleLinkClick = (linkName) => {
-    if (linkName === "Forum") {
-      navigate("/forum");
-    } else if (linkName === "Discover") {
-      navigate("/discover");
-    }
-  };
-
-  const profileOpen = () => {
-    setOpen(!open);
-  };
-
   return (
     <>
       <div className="navbar">
         <Link to="/discover">
-          <img id="chalk" src={Chalk} alt="" />
+          <img id="chalk" src={Chalk} alt="Chalk Logo" />
         </Link>
         <div className="bar">
           <div className="disfor">
@@ -63,9 +42,7 @@ const Navbar = () => {
               className={
                 activeLink === "Discover" ? "contToggle" : "contNotToggle"
               }
-              onClick={() => handleLinkClick("Discover")}
               to="/discover"
-              exact="true"
             >
               Discover
             </Link>
@@ -74,30 +51,32 @@ const Navbar = () => {
               className={
                 activeLink === "Forum" ? "contToggle" : "contNotToggle"
               }
-              onClick={() => handleLinkClick("Forum")}
               to="/forum"
             >
               Forum
             </Link>
           </div>
-          <div id="profile" onClick={profileOpen}>
+          <div id="profile" onClick={() => setOpen(!open)}>
             <>
               Hi,&nbsp;<u>{chalkName}</u>&nbsp;&nbsp;
-              <img className="profile" src={Profile} alt="" />
+              <img className="profile" src={Profile} alt="Profile" />
             </>
           </div>
         </div>
       </div>
-      {open ? (
+      {open && (
         <div className="profileDrop">
-          <div className="closeProfile" onClick={profileOpen}>
+          <div className="closeProfile" onClick={() => setOpen(false)}>
             X
           </div>
           <div className="pfl">
-            <div className="yourPosts" onClick={handleYourPost}>
+            <div className="yourPosts" onClick={() => navigate("/yourPost")}>
               Your Posts
             </div>
-            <div className="postYourChalkLink" onClick={handlePostYourChalk}>
+            <div
+              className="postYourChalkLink"
+              onClick={() => navigate("/post/image")}
+            >
               Post Your “CHALK”
             </div>
             <div className="logout" onClick={handleLogout}>
@@ -105,7 +84,7 @@ const Navbar = () => {
             </div>
           </div>
         </div>
-      ) : null}
+      )}
     </>
   );
 };

@@ -36,7 +36,7 @@ const SignUp = () => {
     if (!username || !fullName || !email || !password || !confirmPassword) {
       toast.error("Please fill out all the fields before submitting.", {
         position: "top-left",
-        autoClose: 1000,
+        autoClose: 2000,
       });
       return;
     }
@@ -44,7 +44,7 @@ const SignUp = () => {
     if (password !== confirmPassword) {
       toast.warning("Passwords do not match", {
         position: "top-left",
-        autoClose: 1000,
+        autoClose: 2000,
       });
       return;
     }
@@ -56,7 +56,7 @@ const SignUp = () => {
         "Password must be at least 8 characters long and contain at least 1 uppercase letter, 1 number, and 1 special character",
         {
           position: "top-left",
-          autoClose: 1000,
+          autoClose: 2000,
         }
       );
       return;
@@ -65,7 +65,7 @@ const SignUp = () => {
     if (!validateEmail(email)) {
       toast.warning("Please enter a valid email address.", {
         position: "top-left",
-        autoClose: 1000,
+        autoClose: 2000,
       });
       return;
     }
@@ -91,22 +91,23 @@ const SignUp = () => {
         // Handle successful signup
         toast.success("Signup successful!", {
           position: "top-left",
-          autoClose: 1000,
+          autoClose: 2000,
         });
 
-        login(username, email);
+        // Update auth context with user info and jwt token
+        login(username, email, data.token);
         navigate("/discover");
       } else {
         // Handle errors
         toast.error(data.message || "Signup failed.", {
           position: "top-left",
-          autoClose: 1000,
+          autoClose: 2000,
         });
       }
     } catch (error) {
       toast.error("An error occurred. Please try again.", {
         position: "top-left",
-        autoClose: 1000,
+        autoClose: 2000,
       });
     }
   };

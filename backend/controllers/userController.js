@@ -1,5 +1,6 @@
 const bcrypt = require("bcryptjs");
 const User = require("../models/User");
+const jwt = require("jsonwebtoken");
 
 const registerUser = async (req, res) => {
   const { fullName, chalkName, email, password } = req.body;
@@ -11,23 +12,25 @@ const registerUser = async (req, res) => {
     });
 
     if (existingUser) {
-      const conflictField = existingUser.email === email ? "email" : "chalkName";
+      const conflictField =
+        existingUser.email === email ? "email" : "chalkName";
       return res.status(400).json({
         message: `User already exists with the same ${conflictField}.`,
       });
     }
 
-    // Validate password complexity (example rule: minimum 8 characters)
+    // Validate password complexity
     if (password.length < 8) {
       return res.status(400).json({
         message: "Password must be at least 8 characters long.",
       });
     }
 
-    // Create new user
+    // Hash the password
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
 
+    // Create new user
     const user = new User({
       fullName,
       chalkName,
@@ -36,7 +39,25 @@ const registerUser = async (req, res) => {
     });
 
     await user.save();
-    res.status(201).json({ message: "User registered successfully." });
+
+    // Generate JWT Token
+    const payload = {
+      id: user._id,
+      chalkName: user.chalkName,
+      isAdmin: user.isAdmin || false,
+      email: user.email,
+    };
+
+    const token = jwt.sign(payload, process.env.JWT_SECRET, {
+      expiresIn: "1h",
+    });
+
+    // Send the token and user info to the client
+    res.status(201).json({
+      message: "User registered successfully.",
+      token,
+      chalkName: user.chalkName,
+    });
   } catch (err) {
     console.error("Error in registration:", err.message);
     res.status(500).send("Server error");
@@ -61,10 +82,26 @@ const loginUser = async (req, res) => {
       return res.status(400).json({ message: "Invalid credentials." });
     }
 
-    // Send success response with chalkName
-    res.json({ message: "Login successful.", chalkName: user.chalkName });
+    // Generate JWT Token
+    const payload = {
+      id: user._id,
+      chalkName: user.chalkName,
+      isAdmin: user.isAdmin,
+      email: user.email,
+    };
+
+    const token = jwt.sign(payload, process.env.JWT_SECRET, {
+      expiresIn: "1h", // Token expires in 1 hour
+    });
+
+    // Send token to the client
+    res.json({
+      message: "Login successful.",
+      token,
+      chalkName: user.chalkName,
+    });
   } catch (err) {
-    console.error(`Error in login: ${err.message}.`);
+    console.error(`Error in login: ${err.message}`);
     res.status(500).send("Server error");
   }
 };

@@ -43,6 +43,10 @@ const basePostSchema = new mongoose.Schema(
       type: Date,
       default: Date.now,
     },
+    likes: {
+      type: [String],
+      default: [],
+    },
   },
   { discriminatorKey: "postType", timestamps: true }
 );

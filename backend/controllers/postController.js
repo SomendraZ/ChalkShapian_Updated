@@ -205,10 +205,68 @@ const getUserPosts = async (req, res) => {
   }
 };
 
+const toggleLikePost = async (req, res) => {
+  const { postId } = req.params;
+  const email = req.user.email;
+
+  console.log(`Toggling like for post: ${postId} by user: ${email}`);
+
+  try {
+    // Find the post by ID
+    const post = await BasePost.findById(postId);
+    if (!post) {
+      console.log(`Post with ID ${postId} not found.`);
+      return res.status(404).json({ message: "Post not found." });
+    }
+
+    // Find the user by email
+    const user = await User.findOne({ email });
+    if (!user) {
+      console.log(`User with email ${email} not found.`);
+      return res.status(404).json({ message: "User not found." });
+    }
+
+    // Check if the user has already liked the post
+    if (post.likes.includes(email)) {
+      // If already liked, unlike the post
+      console.log(`User ${email} has already liked the post, unliking...`);
+      user.likedPosts = user.likedPosts.filter(
+        (id) => id.toString() !== postId.toString()
+      );
+      await user.save();
+
+      post.likes = post.likes.filter((like) => like !== email);
+      await post.save();
+
+      console.log(`Post ${postId} unliked successfully by user: ${email}`);
+      return res
+        .status(200)
+        .json({ message: "Post unliked successfully.", post });
+    } else {
+      // If not liked, like the post
+      console.log(`User ${email} has not liked the post, liking...`);
+      user.likedPosts.push(postId);
+      await user.save();
+
+      post.likes.push(email);
+      await post.save();
+
+      console.log(`Post ${postId} liked successfully by user: ${email}`);
+      return res
+        .status(200)
+        .json({ message: "Post liked successfully.", post });
+    }
+  } catch (err) {
+    console.error("Error toggling like for post:", err.stack);
+    res.status(500).json({ message: "Server error", error: err.message });
+  }
+};
+
 module.exports = {
   createImagePost,
   createVideoPost,
   getAllPosts,
   getPostById,
   getUserPosts,
+  toggleLikePost,
 };

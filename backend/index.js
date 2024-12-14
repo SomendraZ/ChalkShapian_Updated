@@ -1,5 +1,5 @@
 const express = require("express");
-const http = require("http"); // For creating a server
+const http = require("http");
 const { Server } = require("socket.io");
 const dotenv = require("dotenv");
 const cors = require("cors");
@@ -7,8 +7,8 @@ const connectDB = require("./config/db");
 const userRoutes = require("./routes/userRoutes");
 const postRoutes = require("./routes/postRoutes");
 const forumRoutes = require("./routes/forumRoutes");
+const verifySocketToken = require("./middleware/verifySocketToken");
 
-// Load env variables
 dotenv.config();
 
 // Connect to MongoDB
@@ -23,6 +23,9 @@ const io = new Server(server, {
     methods: ["GET", "POST"],
   },
 });
+
+// Apply the socket verification middleware
+io.use(verifySocketToken);
 
 app.use(cors());
 app.use(express.json());
@@ -39,19 +42,23 @@ app.use(
   forumRoutes
 );
 
-// Simple route
 app.get("/", (req, res) => {
   res.send("Chalk Shapian API is running...");
 });
 
-// Socket.IO logic
 io.on("connection", (socket) => {
-  console.log("A user connected");
+  console.log("A user connected with chalkName:", socket.user.chalkName);
+
   socket.on("disconnect", () => {
     console.log("A user disconnected");
   });
+
+  // Example: Handle new messages
+  socket.on("newMessage", (message) => {
+    console.log("Received message:", message);
+    socket.broadcast.emit("newMessage", message); // Broadcast message to other users
+  });
 });
 
-// Start server
 const PORT = process.env.PORT || 5000;
 server.listen(PORT, () => console.log(`Server running on port ${PORT}`));

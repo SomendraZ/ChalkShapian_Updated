@@ -95,6 +95,9 @@ const ImagePost = () => {
     return isValid;
   };
 
+  // Retrieve JWT token from localStorage
+  const token = localStorage.getItem("jwtToken");
+
   const postImage = async (e) => {
     e.preventDefault();
 
@@ -147,6 +150,7 @@ const ImagePost = () => {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify(postData),
       });

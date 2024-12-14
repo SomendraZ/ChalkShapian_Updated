@@ -24,6 +24,7 @@ export const AuthProvider = ({ children }) => {
     localStorage.removeItem("chalkName");
     localStorage.removeItem("LoggedIn");
     localStorage.removeItem("email");
+    localStorage.removeItem("jwtToken");
 
     if (activityTimeoutRef.current) {
       clearTimeout(activityTimeoutRef.current);
@@ -34,12 +35,13 @@ export const AuthProvider = ({ children }) => {
   }, [navigate]);
 
   // Login the user
-  const login = (name, email) => {
+  const login = (name, email, jwtToken) => {
     setChalkName(name);
     setLoggedIn(true);
     localStorage.setItem("chalkName", name);
     localStorage.setItem("LoggedIn", "true");
     localStorage.setItem("email", email);
+    localStorage.setItem("jwtToken", jwtToken);
     resetInactivityTimeout();
   };
 
@@ -62,25 +64,31 @@ export const AuthProvider = ({ children }) => {
     const storedLoggedIn = localStorage.getItem("LoggedIn") === "true";
 
     if (storedLoggedIn && storedChalkName) {
-      if (!loggedIn) {
-        // Avoid unnecessary state updates if already logged in
-        setChalkName(storedChalkName);
-        setLoggedIn(true);
-        resetInactivityTimeout();
-      }
+      setChalkName(storedChalkName);
+      setLoggedIn(true);
+      resetInactivityTimeout(); // Reset inactivity timeout when logged in
     } else {
-      // Logout only if the user is logged in
-      if (loggedIn) {
-        logout();
-      }
+      setLoggedIn(false); // Ensure loggedIn state is false if no stored session
     }
 
+    // Clear inactivity timeout on component unmount or reset
     return () => {
       if (activityTimeoutRef.current) {
         clearTimeout(activityTimeoutRef.current);
       }
     };
-  }, [loggedIn, resetInactivityTimeout, logout]);
+  }, [resetInactivityTimeout]);
+
+  useEffect(() => {
+    // Reset inactivity timeout every time loggedIn changes
+    if (loggedIn) {
+      resetInactivityTimeout();
+    } else {
+      if (activityTimeoutRef.current) {
+        clearTimeout(activityTimeoutRef.current);
+      }
+    }
+  }, [loggedIn, resetInactivityTimeout]);
 
   return (
     <AuthContext.Provider value={{ chalkName, loggedIn, login, logout }}>

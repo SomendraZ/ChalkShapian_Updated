@@ -57,12 +57,15 @@ const Login = () => {
           autoClose: 1000,
         });
       } else {
-        login(data.chalkName, email);
+        // Update auth context with user info and jwt token
+        login(data.chalkName, email, data.token);
+
+        // Navigate to the discover page
         navigate("/discover");
       }
     } catch (error) {
       console.error("Error during login:", error);
-      toast.error(error, {
+      toast.error("An error occurred. Please try again later.", {
         position: "top-left",
         autoClose: 1000,
       });

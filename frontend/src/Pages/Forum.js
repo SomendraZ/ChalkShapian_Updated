@@ -4,9 +4,7 @@ import Navbar from "../Components/Navbar";
 import Profile from "../Resources/profile.png";
 import "../CSS/Forum.css";
 
-const chalkName = localStorage.getItem("chalkName");
-
-const Forum = () => {
+const Forum = ({ chalkName }) => {
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState("");
   const chatEndRef = useRef(null);
@@ -16,11 +14,19 @@ const Forum = () => {
   const REACT_APP_SOCKET_SERVER = process.env.REACT_APP_SOCKET_SERVER;
   const socket = useRef(null);
 
+  // Retrieve JWT token from localStorage
+  const token = localStorage.getItem("jwtToken");
+
   // Fetch messages on component mount
   useEffect(() => {
     const fetchMessages = async () => {
       try {
-        const response = await fetch(`${REACT_APP_FORUM_GET_API}`);
+        const response = await fetch(REACT_APP_FORUM_GET_API, {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
         if (!response.ok) {
           throw new Error("Failed to fetch messages");
         }
@@ -32,11 +38,14 @@ const Forum = () => {
     };
 
     fetchMessages();
-  }, [REACT_APP_FORUM_GET_API]);
+  }, [REACT_APP_FORUM_GET_API, chalkName, token]);
 
   // Connect to Socket.IO server on component mount
   useEffect(() => {
-    socket.current = io(REACT_APP_SOCKET_SERVER);
+    socket.current = io(REACT_APP_SOCKET_SERVER, {
+      query: { token }, // Send the token as query param
+    });
+
     socket.current.on("newMessage", (message) => {
       setMessages((prevMessages) => [...prevMessages, message]);
     });
@@ -44,7 +53,7 @@ const Forum = () => {
     return () => {
       socket.current.disconnect();
     };
-  }, [REACT_APP_SOCKET_SERVER]);
+  }, [REACT_APP_SOCKET_SERVER, token]);
 
   // Scroll to the bottom whenever messages are updated
   useEffect(() => {
@@ -66,6 +75,7 @@ const Forum = () => {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`, // Add token to the request header
         },
         body: JSON.stringify(messageData),
       });
