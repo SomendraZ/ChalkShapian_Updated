@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { useAuth } from "../AuthContext";
 
 let x = require("../Resources/x.png");
 let notFound = require("../Resources/notfound.png");
@@ -9,6 +10,8 @@ const PostComponent = ({ post, email, token, openModal, setOpenModal }) => {
   const [selectedPostLikes, setSelectedPostLikes] = useState([]);
   const [selectedPostLikedByUser, setSelectedPostLikedByUser] = useState(false);
   const [loading, setLoading] = useState(false);
+
+  const { logout: authLogout } = useAuth();
 
   const REACT_APP_POST_TOGGLE_LIKE_API =
     process.env.REACT_APP_POST_TOGGLE_LIKE_API;
@@ -92,10 +95,14 @@ const PostComponent = ({ post, email, token, openModal, setOpenModal }) => {
       // Revert state if API call fails
       setSelectedPostLikes(selectedPostLikes);
       setSelectedPostLikedByUser(!selectedPostLikedByUser);
-      toast.error("Failed to toggle like on the post. Please try again.", {
-        position: "top-left",
-        autoClose: 2000,
-      });
+      authLogout();
+      toast.error(
+        "Failed to toggle like on the post. Please try again after Login.",
+        {
+          position: "top-left",
+          autoClose: 2000,
+        }
+      );
     } finally {
       setLoading(false);
     }

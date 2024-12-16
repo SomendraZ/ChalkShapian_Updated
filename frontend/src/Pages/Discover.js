@@ -1,10 +1,11 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import { toast, ToastContainer } from "react-toastify";
 import Navbar from "../Components/Navbar";
 import Footer from "../Components/Footer";
 import PostComponent from "../Components/PostComponent.js";
 import "../CSS/Discover.css";
-import { toast, ToastContainer } from "react-toastify";
+import { useAuth } from "../AuthContext";
 
 let notFound = require("../Resources/notfound.png");
 
@@ -18,6 +19,8 @@ const Discover = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [filterType, setFilterType] = useState("all");
   const [selectedCategory, setSelectedCategory] = useState("all");
+
+  const { logout: authLogout } = useAuth();
 
   const { postId } = useParams();
   const navigate = useNavigate();
@@ -53,6 +56,7 @@ const Discover = () => {
         setPosts(data.posts);
       } catch (error) {
         console.error("Error fetching posts:", error.message);
+        authLogout();
         toast.error("Please try again after Login.", {
           position: "top-left",
           autoClose: 2000,
@@ -61,7 +65,7 @@ const Discover = () => {
     };
 
     fetchPosts();
-  }, [REACT_APP_POST_ALL_API, token, role]);
+  }, [REACT_APP_POST_ALL_API, token, role, authLogout]);
 
   // Modal Toggle
   const popUp = (post) => {
@@ -170,10 +174,14 @@ const Discover = () => {
         });
       } catch (error) {
         console.error("Error deleting post:", error.message);
-        toast.error("Failed to delete the post.", {
-          position: "top-left",
-          autoClose: 2000,
-        });
+        authLogout();
+        toast.error(
+          "Failed to delete the post. Please try again after Login.",
+          {
+            position: "top-left",
+            autoClose: 2000,
+          }
+        );
       }
     }
   };

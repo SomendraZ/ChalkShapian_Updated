@@ -1,3 +1,5 @@
+const cloudinary = require("cloudinary").v2;
+
 const { ImagePost, VideoPost, BasePost } = require("../models/Post");
 const User = require("../models/User");
 
@@ -275,7 +277,7 @@ const deletePost = async (req, res) => {
       return res.status(404).json({ message: "Post not found." });
     }
 
-    // Check authorization
+    // Check if the user is authorized to delete the post
     if (isAdmin || post.email === email) {
       console.log(
         isAdmin
@@ -283,19 +285,49 @@ const deletePost = async (req, res) => {
           : `User ${email} is deleting their own post.`
       );
 
-      // Extract user emails from the likes array
+      // Extract user emails who liked this post
       const likedByEmails = post.likes;
 
-      // Delete the post
+      // Step 1: Delete the image from Cloudinary
+      // Split the URL and extract the filename (including extension)
+      const filename = post.imageUrl.split("/").pop(); // Get filename with extension
+
+      // Decode the filename (to handle characters like '%40' for '@')
+      const decodedFileName = decodeURIComponent(filename);
+
+      // Split the decoded filename to separate the publicId from the file extension
+      const urlSegments = decodedFileName.split(".");
+
+      // The publicId is the filename without the extension
+      const publicId = urlSegments.slice(0, urlSegments.length - 1).join(".");
+
+      console.log("Extracted publicId for deletion:", publicId);
+      try {
+        const cloudinaryResult = await cloudinary.uploader.destroy(publicId);
+        console.log(
+          `Cloudinary image deleted successfully: ${
+            cloudinaryResult.result || cloudinaryResult.message
+          }`
+        );
+      } catch (cloudinaryError) {
+        console.error(
+          `Error deleting image from Cloudinary: ${cloudinaryError.message}`
+        );
+        return res
+          .status(500)
+          .json({ message: "Error deleting image from Cloudinary." });
+      }
+
+      // Step 2: After successful image deletion, delete the post from the database
       await post.deleteOne();
 
-      // Remove post from the creator's posts array
+      // Step 3: Remove post from the creator's posts array
       await User.findOneAndUpdate(
         { email: post.email },
         { $pull: { posts: postId } }
       );
 
-      // Remove post from likedPosts array for all users who liked it
+      // Step 4: Remove post from the likedPosts array for all users who liked it
       if (likedByEmails.length > 0) {
         // Find and log affected users
         const affectedUsers = await User.find(
@@ -303,13 +335,13 @@ const deletePost = async (req, res) => {
           { email: 1, likedPosts: 1 }
         ).exec();
 
-        // Perform the update
+        // Perform the update to remove the post from likedPosts
         await User.updateMany(
           { email: { $in: likedByEmails } },
           { $pull: { likedPosts: postId } }
         );
 
-        // Log the users from whom the post was removed
+        // Log the users whose likedPosts were updated
         console.log("Users affected by the removal of post from likedPosts:");
         affectedUsers.forEach((user) =>
           console.log(`- Email: ${user.email}, LikedPosts: ${user.likedPosts}`)

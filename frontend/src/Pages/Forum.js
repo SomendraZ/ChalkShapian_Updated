@@ -1,8 +1,10 @@
 import React, { useState, useRef, useEffect } from "react";
 import { io } from "socket.io-client";
+import { toast } from "react-toastify";
 import Navbar from "../Components/Navbar";
 import Profile from "../Resources/profile.png";
 import "../CSS/Forum.css";
+import { useAuth } from "../AuthContext";
 
 const Forum = ({ chalkName }) => {
   const [messages, setMessages] = useState([]);
@@ -13,6 +15,8 @@ const Forum = ({ chalkName }) => {
   const REACT_APP_FORUM_SEND_API = process.env.REACT_APP_FORUM_SEND_API;
   const REACT_APP_SOCKET_SERVER = process.env.REACT_APP_SOCKET_SERVER;
   const socket = useRef(null);
+
+  const { logout: authLogout } = useAuth();
 
   // Retrieve JWT token from localStorage
   const token = localStorage.getItem("jwtToken");
@@ -34,11 +38,16 @@ const Forum = ({ chalkName }) => {
         setMessages(data);
       } catch (error) {
         console.error("Error fetching messages:", error.message);
+        authLogout();
+        toast.error("Please try again after Login.", {
+          position: "top-left",
+          autoClose: 2000,
+        });
       }
     };
 
     fetchMessages();
-  }, [REACT_APP_FORUM_GET_API, chalkName, token]);
+  }, [REACT_APP_FORUM_GET_API, chalkName, token, authLogout]);
 
   // Connect to Socket.IO server on component mount
   useEffect(() => {
@@ -87,6 +96,11 @@ const Forum = ({ chalkName }) => {
       setNewMessage("");
     } catch (error) {
       console.error("Error sending message:", error.message);
+      authLogout();
+      toast.error("Please try again after Login.", {
+        position: "top-left",
+        autoClose: 2000,
+      });
     }
   };
 

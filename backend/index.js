@@ -3,13 +3,21 @@ const http = require("http");
 const { Server } = require("socket.io");
 const dotenv = require("dotenv");
 const cors = require("cors");
+const cloudinary = require("cloudinary").v2;
 const connectDB = require("./config/db");
 const userRoutes = require("./routes/userRoutes");
 const postRoutes = require("./routes/postRoutes");
 const forumRoutes = require("./routes/forumRoutes");
 const verifySocketToken = require("./middleware/verifySocketToken");
 
-dotenv.config();
+dotenv.config(); // Load environment variables
+
+// Ensure Cloudinary is properly configured
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+});
 
 // Connect to MongoDB
 connectDB();
