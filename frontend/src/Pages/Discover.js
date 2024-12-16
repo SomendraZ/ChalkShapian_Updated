@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 import Navbar from "../Components/Navbar";
@@ -12,7 +12,7 @@ let notFound = require("../Resources/notfound.png");
 const Discover = () => {
   const [posts, setPosts] = useState([]);
   const [openModal, setOpenModal] = useState(false);
-  const [selectedPost, setSelectedPost] = useState(null);
+  const [selectedPostID, setSelectedPostID] = useState(null);
   const [StyleAll, setStyleAll] = useState("contAll");
   const [StyleImage, setStyleImage] = useState("contVideo");
   const [StyleVideo, setStyleVideo] = useState("contVideo");
@@ -29,7 +29,6 @@ const Discover = () => {
   const role = localStorage.getItem("isAdmin");
 
   const REACT_APP_POST_ALL_API = process.env.REACT_APP_POST_ALL_API;
-  const REACT_APP_POST_BY_ID_API = process.env.REACT_APP_POST_BY_ID_API;
   const REACT_APP_POST_DELETE_API = process.env.REACT_APP_POST_DELETE_API;
 
   useEffect(() => {
@@ -67,10 +66,10 @@ const Discover = () => {
     fetchPosts();
   }, [REACT_APP_POST_ALL_API, token, role, authLogout]);
 
-  // Modal Toggle
-  const popUp = (post) => {
-    setOpenModal(!openModal);
-    setSelectedPost(post); // Make sure this is setting the selected post properly
+  // Modal Toggle without useCallback
+  const popUp = (postId) => {
+    setSelectedPostID(postId); // Update the state with the new postId
+    setOpenModal(true); // Open the modal
   };
 
   // Filters Styling
@@ -115,40 +114,12 @@ const Discover = () => {
     return matchesSearch && matchesType && matchesCategory;
   });
 
-  // Fetch post by ID function wrapped with useCallback
-  const fetchPostById = useCallback(
-    async (postId) => {
-      try {
-        const response = await fetch(`${REACT_APP_POST_BY_ID_API}/${postId}`, {
-          method: "GET",
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-        if (!response.ok) {
-          throw new Error("Failed to fetch post");
-        }
-        const postIdPost = await response.json();
-        setSelectedPost(postIdPost.post);
-        setOpenModal(true);
-      } catch (error) {
-        console.error("Error fetching post by ID:", error.message);
-        authLogout();
-        toast.error("Please try again after Login.", {
-          position: "top-left",
-          autoClose: 2000,
-        });
-      }
-    },
-    [REACT_APP_POST_BY_ID_API, token, authLogout]
-  );
-
   // If postId exists in the URL, fetch post details by ID
   useEffect(() => {
     if (postId) {
-      fetchPostById(postId);
+      popUp(postId);
     }
-  }, [postId, fetchPostById]);
+  }, [postId]);
 
   const handleDeletePost = async (postId) => {
     if (window.confirm("Are you sure you want to delete this post?")) {
@@ -256,7 +227,7 @@ const Discover = () => {
                     post.postType === "image" ? "imgContent" : "vidContent"
                   }
                   key={post._id}
-                  onClick={() => popUp(post)}
+                  onClick={() => popUp(post._id)}
                 >
                   <img
                     src={post.imageUrl || post.coverImageUrl}
@@ -291,9 +262,9 @@ const Discover = () => {
       </div>
 
       {/* Conditionally render PostComponent when openModal is true and selectedPost is set */}
-      {openModal && selectedPost && (
+      {openModal && (
         <PostComponent
-          post={selectedPost} // Pass selectedPost correctly here
+          post={selectedPostID} // Pass selectedPost correctly here
           email={email}
           token={token}
           openModal={openModal}

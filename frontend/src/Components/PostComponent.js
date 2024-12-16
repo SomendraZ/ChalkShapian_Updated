@@ -7,24 +7,58 @@ let x = require("../Resources/x.png");
 let notFound = require("../Resources/notfound.png");
 
 const PostComponent = ({ post, email, token, openModal, setOpenModal }) => {
-  const [selectedPostLikes, setSelectedPostLikes] = useState([]);
-  const [selectedPostLikedByUser, setSelectedPostLikedByUser] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
-  const { logout: authLogout } = useAuth();
+  const [postDetails, setPostDetails] = useState(null);
+  const [postLikes, setPostLikes] = useState([]);
+  const [postLikedByUser, setPostLikedByUser] = useState(false);
 
+  const REACT_APP_POST_BY_ID_API = process.env.REACT_APP_POST_BY_ID_API;
   const REACT_APP_POST_TOGGLE_LIKE_API =
     process.env.REACT_APP_POST_TOGGLE_LIKE_API;
 
-  const navigate = useNavigate();
+  const { logout: authLogout } = useAuth();
 
   useEffect(() => {
-    setSelectedPostLikes(post.likes);
-    setSelectedPostLikedByUser(post.likes.includes(email));
-  }, [post, email]);
+    if (post) {
+      // Fetch post details including likes when the component mounts
+      const fetchPost = async () => {
+        try {
+          const response = await fetch(`${REACT_APP_POST_BY_ID_API}/${post}`, {
+            method: "GET",
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          });
+
+          if (!response.ok) {
+            throw new Error("Failed to fetch post details");
+          }
+
+          const data = await response.json();
+          setPostDetails(data.post);
+          setPostLikes(data.post.likes);
+          setPostLikedByUser(data.post.likes.includes(email)); // Check if the user has liked the post
+        } catch (error) {
+          console.error("Error fetching post:", error.message);
+          authLogout();
+          toast.error("Failed to load post. Please try again after Login.", {
+            position: "top-left",
+            autoClose: 2000,
+          });
+        }
+      };
+
+      fetchPost();
+    }
+  }, [post, token, REACT_APP_POST_BY_ID_API, authLogout, email]);
+
+  if (!postDetails) {
+    return <div>Post not found</div>;
+  }
 
   const handleShare = () => {
-    const shareURL = `${window.location.origin}/discover/${post._id}`;
+    const shareURL = `${window.location.origin}/discover/${postDetails._id}`;
 
     if (navigator.clipboard && navigator.clipboard.writeText) {
       navigator.clipboard
@@ -59,27 +93,35 @@ const PostComponent = ({ post, email, token, openModal, setOpenModal }) => {
   };
 
   const handleToggleLike = async () => {
-    if (loading) return;
-    setLoading(true);
+    // Optimistically update the like status and count
+    const newLikes = postLikedByUser
+      ? postLikes.filter((like) => like !== email)
+      : [...postLikes, email];
+    setPostLikes(newLikes);
+    setPostLikedByUser(!postLikedByUser);
 
-    // Optimistically update the state
-    const newLikes = selectedPostLikedByUser
-      ? selectedPostLikes.filter((like) => like !== email)
-      : [...selectedPostLikes, email];
-    setSelectedPostLikes(newLikes);
-    setSelectedPostLikedByUser(!selectedPostLikedByUser);
+    // Optimistically update the like count
+    const newLikeCount = postLikedByUser
+      ? postDetails.likes.length - 1
+      : postDetails.likes.length + 1;
+
+    // Update the like count in the UI
+    const updatedPostDetails = {
+      ...postDetails,
+      likes: newLikes,
+      likeCount: newLikeCount,
+    };
+
+    setPostDetails(updatedPostDetails);
 
     try {
-      const response = await fetch(
-        `${REACT_APP_POST_TOGGLE_LIKE_API}${post._id}`,
-        {
-          method: "POST",
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-          },
-        }
-      );
+      const response = await fetch(`${REACT_APP_POST_TOGGLE_LIKE_API}${post}`, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      });
 
       if (!response.ok) {
         throw new Error("Failed to toggle like on the post.");
@@ -93,8 +135,12 @@ const PostComponent = ({ post, email, token, openModal, setOpenModal }) => {
     } catch (error) {
       console.error("Error toggling like on post:", error.message);
       // Revert state if API call fails
-      setSelectedPostLikes(selectedPostLikes);
-      setSelectedPostLikedByUser(!selectedPostLikedByUser);
+      setPostLikes(postLikes);
+      setPostLikedByUser(!postLikedByUser);
+      setPostDetails({
+        ...postDetails,
+        likeCount: postDetails.likes.length,
+      });
       authLogout();
       toast.error(
         "Failed to toggle like on the post. Please try again after Login.",
@@ -103,13 +149,11 @@ const PostComponent = ({ post, email, token, openModal, setOpenModal }) => {
           autoClose: 2000,
         }
       );
-    } finally {
-      setLoading(false);
     }
   };
 
   const handleDiscuss = () => {
-    const sharedLink = `${window.location.origin}/discover/${post._id}`;
+    const sharedLink = `${window.location.origin}/discover/${postDetails._id}`;
     navigate(`/forum?sharedLink=${encodeURIComponent(sharedLink)}`);
   };
 
@@ -120,7 +164,7 @@ const PostComponent = ({ post, email, token, openModal, setOpenModal }) => {
         <div className="right">
           <div className="type">
             <div className="postType">Post Type:</div>
-            <div className="postTypeModal">{post.postType}</div>
+            <div className="postTypeModal">{postDetails.postType}</div>
           </div>
           <div className="likeShareComment">
             <div
@@ -131,13 +175,11 @@ const PostComponent = ({ post, email, token, openModal, setOpenModal }) => {
               }}
             >
               <i
-                className={`fa ${
-                  selectedPostLikedByUser ? "fa-heart" : "fa-heart-o"
-                } likeLogo`}
+                className={`fa ${postLikedByUser ? "fa-heart" : "fa-heart-o"} likeLogo`}
               />
-              <span className="likeCount">{selectedPostLikes.length}</span>
+              <span className="likeCount">{postDetails.likes.length}</span>
               <span className="buttonLabel">
-                {selectedPostLikedByUser ? "Unlike" : "Like"}
+                {postLikedByUser ? "Unlike" : "Like"}
               </span>
             </div>
 
@@ -162,16 +204,16 @@ const PostComponent = ({ post, email, token, openModal, setOpenModal }) => {
         </div>
 
         <div id="info">
-          {(post.imageUrl || post.coverImageUrl) && (
+          {(postDetails.imageUrl || postDetails.coverImageUrl) && (
             <div className="imageAndDetails">
               <a
-                href={post.imageUrl || post.coverImageUrl}
+                href={postDetails.imageUrl || postDetails.coverImageUrl}
                 target="_blank"
                 rel="noreferrer"
               >
                 <img
-                  src={post.imageUrl || post.coverImageUrl}
-                  alt={`${post.title} by ${post.artist}`}
+                  src={postDetails.imageUrl || postDetails.coverImageUrl}
+                  alt={`${postDetails.title} by ${postDetails.artist}`}
                   className="imageContainer"
                   onError={(e) => {
                     e.target.onerror = null;
@@ -183,28 +225,28 @@ const PostComponent = ({ post, email, token, openModal, setOpenModal }) => {
                 <div className="details">
                   <div className="detailRow">
                     <div className="label">Title:</div>
-                    <div className="titleModal">{post.title}</div>
+                    <div className="titleModal">{postDetails.title}</div>
                   </div>
                   <div className="detailRow">
                     <div className="label">Artist:</div>
-                    <div className="artistModal">{post.artist}</div>
+                    <div className="artistModal">{postDetails.artist}</div>
                   </div>
                   <div className="detailRow">
                     <div className="label">Tools Used:</div>
-                    <div className="toolsModal">{post.toolsUsed}</div>
+                    <div className="toolsModal">{postDetails.toolsUsed}</div>
                   </div>
                   <div className="detailRow">
                     <div className="label">Filters:</div>
                     <div className="filtersModal">
-                      {post.filters.join(", ")}
+                      {postDetails.filters.join(", ")}
                     </div>
                   </div>
-                  {post.videoLink && (
+                  {postDetails.videoLink && (
                     <div className="detailRow">
                       <div className="label">Video Link:</div>
                       <div className="videoLinkModal">
                         <a
-                          href={post.videoLink}
+                          href={postDetails.videoLink}
                           target="_blank"
                           rel="noreferrer"
                         >
@@ -219,7 +261,7 @@ const PostComponent = ({ post, email, token, openModal, setOpenModal }) => {
           )}
           <div className="descriptionModal">
             <div className="label">Description:</div>
-            <div className="descModal">{post.description}</div>
+            <div className="descModal">{postDetails.description}</div>
           </div>
         </div>
       </div>
