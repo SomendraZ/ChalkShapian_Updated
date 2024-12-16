@@ -108,6 +108,11 @@ const PostComponent = ({ post, email, token, openModal, setOpenModal }) => {
     }
   };
 
+  const handleDiscuss = () => {
+    const sharedLink = `${window.location.origin}/discover/${post._id}`;
+    navigate(`/forum?sharedLink=${encodeURIComponent(sharedLink)}`);
+  };
+
   return (
     <div>
       {/* Modal */}
@@ -140,7 +145,7 @@ const PostComponent = ({ post, email, token, openModal, setOpenModal }) => {
               <i className="fa fa-share shareLogo" />
               <span className="buttonLabel">Share</span>
             </div>
-            <div className="actionItem">
+            <div className="actionItem" onClick={handleDiscuss}>
               <i className="fa fa-comment commentLogo" />
               <span className="buttonLabel">Discuss</span>
             </div>

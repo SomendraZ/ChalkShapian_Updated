@@ -133,13 +133,14 @@ const Discover = () => {
         setOpenModal(true);
       } catch (error) {
         console.error("Error fetching post by ID:", error.message);
+        authLogout();
         toast.error("Please try again after Login.", {
           position: "top-left",
           autoClose: 2000,
         });
       }
     },
-    [REACT_APP_POST_BY_ID_API, token]
+    [REACT_APP_POST_BY_ID_API, token, authLogout]
   );
 
   // If postId exists in the URL, fetch post details by ID

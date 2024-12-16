@@ -14,6 +14,11 @@ const Login = () => {
   const { login } = useAuth();
 
   const [values, setValues] = useState({ email: "", password: "" });
+  const [showPassword, setShowPassword] = useState(false);
+
+  const togglePasswordVisibility = () => {
+    setShowPassword((prev) => !prev);
+  };
 
   const loginFunc = async (event) => {
     event.preventDefault();
@@ -99,14 +104,22 @@ const Login = () => {
               <input
                 id="passwordLogin"
                 placeholder="Password"
-                type="password"
+                type={showPassword ? "text" : "password"} // Bind the type to showPassword state
                 onChange={(event) =>
                   setValues((prev) => ({
                     ...prev,
                     password: event.target.value,
                   }))
                 }
+                onKeyDown={(event) => {
+                  if (event.key === "Enter" && !event.shiftKey) {
+                    loginFunc(event);
+                  }
+                }}
               />
+              <span className="showPassword" onClick={togglePasswordVisibility}>
+                {showPassword ? "🙈" : "👁️"}
+              </span>
             </div>
             <div className="remember">
               <input type="checkbox" id="check" />
