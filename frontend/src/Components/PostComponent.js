@@ -58,7 +58,7 @@ const PostComponent = ({ post, email, token, openModal, setOpenModal }) => {
   }
 
   const handleShare = () => {
-    const shareURL = `${window.location.origin}/discover/${postDetails._id}`;
+    const shareURL = `${window.location}`;
 
     if (navigator.clipboard && navigator.clipboard.writeText) {
       navigator.clipboard
@@ -153,7 +153,7 @@ const PostComponent = ({ post, email, token, openModal, setOpenModal }) => {
   };
 
   const handleDiscuss = () => {
-    const sharedLink = `${window.location.origin}/discover/${postDetails._id}`;
+    const sharedLink = `${window.location}`;
     navigate(`/forum?sharedLink=${encodeURIComponent(sharedLink)}`);
   };
 
@@ -175,7 +175,9 @@ const PostComponent = ({ post, email, token, openModal, setOpenModal }) => {
               }}
             >
               <i
-                className={`fa ${postLikedByUser ? "fa-heart" : "fa-heart-o"} likeLogo`}
+                className={`fa ${
+                  postLikedByUser ? "fa-heart" : "fa-heart-o"
+                } likeLogo`}
               />
               <span className="likeCount">{postDetails.likes.length}</span>
               <span className="buttonLabel">

@@ -66,12 +66,6 @@ const Discover = () => {
     fetchPosts();
   }, [REACT_APP_POST_ALL_API, token, role, authLogout]);
 
-  // Modal Toggle without useCallback
-  const popUp = (postId) => {
-    setSelectedPostID(postId); // Update the state with the new postId
-    setOpenModal(true); // Open the modal
-  };
-
   // Filters Styling
   const changeStyleAll = () => {
     setStyleAll("contAll");
@@ -117,14 +111,15 @@ const Discover = () => {
   // If postId exists in the URL, fetch post details by ID
   useEffect(() => {
     if (postId) {
-      popUp(postId);
+      setSelectedPostID(postId);
+      setOpenModal(true);
     }
   }, [postId]);
 
   const handleDeletePost = async (postId) => {
     if (window.confirm("Are you sure you want to delete this post?")) {
       try {
-        const response = await fetch(`${REACT_APP_POST_DELETE_API}/${postId}`, {
+        const response = await fetch(`${REACT_APP_POST_DELETE_API}${postId}`, {
           method: "DELETE",
           headers: {
             Authorization: `Bearer ${token}`,
@@ -227,7 +222,7 @@ const Discover = () => {
                     post.postType === "image" ? "imgContent" : "vidContent"
                   }
                   key={post._id}
-                  onClick={() => popUp(post._id)}
+                  onClick={() => navigate(`/discover/${post._id}`)}
                 >
                   <img
                     src={post.imageUrl || post.coverImageUrl}
