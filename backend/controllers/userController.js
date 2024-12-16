@@ -44,7 +44,7 @@ const registerUser = async (req, res) => {
     const payload = {
       id: user._id,
       chalkName: user.chalkName,
-      isAdmin: user.isAdmin || false,
+      isAdmin: false,
       email: user.email,
     };
 
@@ -57,6 +57,7 @@ const registerUser = async (req, res) => {
       message: "User registered successfully.",
       token,
       chalkName: user.chalkName,
+      isAdmin: user.isAdmin,
     });
   } catch (err) {
     console.error("Error in registration:", err.message);
@@ -99,6 +100,7 @@ const loginUser = async (req, res) => {
       message: "Login successful.",
       token,
       chalkName: user.chalkName,
+      isAdmin: user.isAdmin,
     });
   } catch (err) {
     console.error(`Error in login: ${err.message}`);

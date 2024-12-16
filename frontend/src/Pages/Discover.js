@@ -23,9 +23,11 @@ const Discover = () => {
   const navigate = useNavigate();
   const email = localStorage.getItem("email");
   const token = localStorage.getItem("jwtToken");
+  const role = localStorage.getItem("isAdmin");
 
   const REACT_APP_POST_ALL_API = process.env.REACT_APP_POST_ALL_API;
   const REACT_APP_POST_BY_ID_API = process.env.REACT_APP_POST_BY_ID_API;
+  const REACT_APP_POST_DELETE_API = process.env.REACT_APP_POST_DELETE_API;
 
   useEffect(() => {
     if (!token) {
@@ -59,7 +61,7 @@ const Discover = () => {
     };
 
     fetchPosts();
-  }, [REACT_APP_POST_ALL_API, token]);
+  }, [REACT_APP_POST_ALL_API, token, role]);
 
   // Modal Toggle
   const popUp = (post) => {
@@ -143,6 +145,39 @@ const Discover = () => {
     }
   }, [postId, fetchPostById]);
 
+  const handleDeletePost = async (postId) => {
+    if (window.confirm("Are you sure you want to delete this post?")) {
+      try {
+        const response = await fetch(`${REACT_APP_POST_DELETE_API}/${postId}`, {
+          method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        if (!response.ok) {
+          throw new Error("Failed to delete the post");
+        }
+
+        // Remove the deleted post from the state
+        setPosts((prevPosts) =>
+          prevPosts.filter((post) => post._id !== postId)
+        );
+
+        toast.success("Post deleted successfully!", {
+          position: "top-left",
+          autoClose: 2000,
+        });
+      } catch (error) {
+        console.error("Error deleting post:", error.message);
+        toast.error("Failed to delete the post.", {
+          position: "top-left",
+          autoClose: 2000,
+        });
+      }
+    }
+  };
+
   return (
     <>
       <ToastContainer />
@@ -204,7 +239,7 @@ const Discover = () => {
           <div className="content">
             {/* Mapping filtered posts */}
             {filteredPosts.length === 0 ? (
-              <div>No posts found matching your criteria</div>
+              <div>No posts found</div>
             ) : (
               filteredPosts.map((post) => (
                 <div
@@ -225,6 +260,19 @@ const Discover = () => {
                   />
                   <div className="craftName">{post.title}</div>
                   <div className="artistName">{post.artist}</div>
+
+                  {/* Show delete button for post owner or admin */}
+                  {(post.email === email || role === "true") && (
+                    <button
+                      className="deleteBtn"
+                      onClick={(e) => {
+                        e.stopPropagation(); // Prevent triggering the popUp
+                        handleDeletePost(post._id); // Call delete handler
+                      }}
+                    >
+                      <i className="fa fa-trash" aria-hidden="true"></i>
+                    </button>
+                  )}
                 </div>
               ))
             )}

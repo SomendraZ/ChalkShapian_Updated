@@ -95,7 +95,7 @@ const SignUp = () => {
         });
 
         // Update auth context with user info and jwt token
-        login(username, email, data.token);
+        login(username, email, data.token, data.isAdmin);
         navigate("/discover");
       } else {
         // Handle errors

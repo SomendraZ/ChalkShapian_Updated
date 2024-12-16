@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 import { useAuth } from "./AuthContext";
 import Login from "./Pages/Login";
@@ -10,8 +10,18 @@ import ChalkName from "./Pages/ChalkName";
 import YourPost from "./Pages/YourPost";
 
 const App = () => {
-  const { loggedIn } = useAuth();
+  const { loggedIn, setLoggedIn } = useAuth();
   const chalkName = localStorage.getItem("chalkName");
+  const jwtToken = localStorage.getItem("jwtToken");
+
+  useEffect(() => {
+    // If JWT token exists in localStorage, consider user as logged in
+    if (jwtToken) {
+      setLoggedIn(true);
+    } else {
+      setLoggedIn(false);
+    }
+  }, [jwtToken, setLoggedIn]);
 
   return (
     <Routes>
@@ -36,7 +46,7 @@ const App = () => {
         path="/discover"
         element={loggedIn ? <Discover /> : <Navigate to="/login" replace />}
       />
-      <Route path="/discover/:postId" Component={Discover}/>
+      <Route path="/discover/:postId" element={<Discover />} />
       <Route
         path="/forum"
         element={

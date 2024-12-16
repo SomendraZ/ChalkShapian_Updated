@@ -10,6 +10,7 @@
     padding-bottom: 0.25vw;
     background: #1e1e1e;
     transform: translateY(-1.5vh);
+    z-index: 100;
   }
   .bar {
     width: 100%;
@@ -85,7 +86,7 @@
     margin-top: -1vw;
     margin-left: 74.9vw;
     position: fixed;
-    z-index: 1;
+    z-index: 100;
     transform: translateY(5.8vw);
     border-bottom-style: double;
     border-left-style: double;
@@ -99,7 +100,7 @@
     flex-direction: column;
     justify-content: space-between;
   }
-  .pfl{
+  .pfl {
     height: 20vw;
     display: flex;
     flex-direction: column;
@@ -107,32 +108,32 @@
     margin-bottom: 2.5vw;
     margin-left: 2vw;
   }
-  .closeProfile{
+  .closeProfile {
     color: rgb(255, 0, 0);
     font-size: 1.5vw;
     margin-left: 21vw;
     cursor: pointer;
   }
-  .closeProfile:hover{
-    text-shadow: 0.05Vw 0.05vw 0.1vw rgb(255, 255, 255);
+  .closeProfile:hover {
+    text-shadow: 0.05vw 0.05vw 0.1vw rgb(255, 255, 255);
   }
-  .yourPosts{
+  .yourPosts {
     color: #15ff0085;
     cursor: pointer;
   }
-  .yourPosts:hover{
+  .yourPosts:hover {
     color: #15ff00;
     text-shadow: 0.1vw 0.15vw 0.2vw #15ff0085;
   }
-  .postYourChalkLink{
+  .postYourChalkLink {
     color: #fff70085;
     cursor: pointer;
   }
-  .postYourChalkLink:hover{
+  .postYourChalkLink:hover {
     color: #fff500;
     text-shadow: 0.1vw 0.15vw 0.2vw #fff70085;
   }
-  .logout{
+  .logout {
     color: rgba(255, 0, 0, 0.5);
     cursor: pointer;
   }
@@ -161,6 +162,7 @@
     padding-top: 0.5vh;
     padding-bottom: 0.25vh;
     transform: translateY(-1.5vh);
+    z-index: 100;
   }
   .bar {
     width: 100%;
@@ -229,7 +231,7 @@
     margin-top: 3.7vh;
     margin-left: 55vw;
     position: fixed;
-    z-index: 1;
+    z-index: 100;
     transform: translateY(1vh);
     border-bottom-style: double;
     border-left-style: double;
@@ -243,7 +245,7 @@
     flex-direction: column;
     justify-content: space-between;
   }
-  .pfl{
+  .pfl {
     height: 10vh;
     display: flex;
     flex-direction: column;
@@ -251,31 +253,32 @@
     margin-bottom: 1vh;
     margin-left: 4vw;
   }
-  .closeProfile{
+  .closeProfile {
     color: rgb(255, 0, 0);
     font-size: 3vw;
     margin-left: 37.75vw;
     cursor: pointer;
-  }.closeProfile:hover{
-    text-shadow: 0.05Vw 0.05vw 0.1vw rgb(255, 255, 255);
   }
-  .yourPosts{
+  .closeProfile:hover {
+    text-shadow: 0.05vw 0.05vw 0.1vw rgb(255, 255, 255);
+  }
+  .yourPosts {
     color: #15ff0085;
     cursor: pointer;
   }
-  .yourPosts:hover{
+  .yourPosts:hover {
     color: #15ff00;
     text-shadow: 0.1vw 0.15vw 0.2vw #15ff0085;
   }
-  .postYourChalkLink{
+  .postYourChalkLink {
     color: #fff70085;
     cursor: pointer;
   }
-  .postYourChalkLink:hover{
+  .postYourChalkLink:hover {
     color: #fff500;
     text-shadow: 0.1vw 0.15vw 0.2vw #fff70085;
   }
-  .logout{
+  .logout {
     color: rgba(255, 0, 0, 0.5);
     cursor: pointer;
   }

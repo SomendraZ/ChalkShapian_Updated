@@ -25,6 +25,7 @@ export const AuthProvider = ({ children }) => {
     localStorage.removeItem("LoggedIn");
     localStorage.removeItem("email");
     localStorage.removeItem("jwtToken");
+    localStorage.removeItem("isAdmin");
 
     if (activityTimeoutRef.current) {
       clearTimeout(activityTimeoutRef.current);
@@ -35,13 +36,14 @@ export const AuthProvider = ({ children }) => {
   }, [navigate]);
 
   // Login the user
-  const login = (name, email, jwtToken) => {
+  const login = (name, email, jwtToken, isAdmin) => {
     setChalkName(name);
     setLoggedIn(true);
     localStorage.setItem("chalkName", name);
     localStorage.setItem("LoggedIn", "true");
     localStorage.setItem("email", email);
     localStorage.setItem("jwtToken", jwtToken);
+    localStorage.setItem("isAdmin", isAdmin);
     resetInactivityTimeout();
   };
 
@@ -62,8 +64,9 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     const storedChalkName = localStorage.getItem("chalkName");
     const storedLoggedIn = localStorage.getItem("LoggedIn") === "true";
+    const storedJwtToken = localStorage.getItem("jwtToken");
 
-    if (storedLoggedIn && storedChalkName) {
+    if (storedLoggedIn && storedChalkName && storedJwtToken) {
       setChalkName(storedChalkName);
       setLoggedIn(true);
       resetInactivityTimeout(); // Reset inactivity timeout when logged in
@@ -91,7 +94,9 @@ export const AuthProvider = ({ children }) => {
   }, [loggedIn, resetInactivityTimeout]);
 
   return (
-    <AuthContext.Provider value={{ chalkName, loggedIn, login, logout }}>
+    <AuthContext.Provider
+      value={{ chalkName, loggedIn, login, logout, setLoggedIn }}
+    >
       {children}
     </AuthContext.Provider>
   );

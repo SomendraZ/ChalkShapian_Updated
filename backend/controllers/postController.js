@@ -165,8 +165,6 @@ const getPostById = async (req, res) => {
       console.error(`Post with ID ${id} not found.`);
       return res.status(404).json({ message: "Post not found." });
     }
-
-    console.log(`Post found: ${post}`);
     res.status(200).json({ message: "Post retrieved successfully.", post });
   } catch (err) {
     console.error(`Error fetching post with ID ${id}:`, err.stack);
@@ -262,6 +260,78 @@ const toggleLikePost = async (req, res) => {
   }
 };
 
+const deletePost = async (req, res) => {
+  const { postId } = req.params;
+  const { isAdmin, email } = req.user;
+
+  console.log(`Delete request received for post: ${postId} by user: ${email}`);
+
+  try {
+    // Find the post by ID
+    const post = await BasePost.findById(postId).exec();
+
+    if (!post) {
+      console.log(`Post with ID ${postId} not found.`);
+      return res.status(404).json({ message: "Post not found." });
+    }
+
+    // Check authorization
+    if (isAdmin || post.email === email) {
+      console.log(
+        isAdmin
+          ? `Admin ${email} is deleting the post.`
+          : `User ${email} is deleting their own post.`
+      );
+
+      // Extract user emails from the likes array
+      const likedByEmails = post.likes;
+
+      // Delete the post
+      await post.deleteOne();
+
+      // Remove post from the creator's posts array
+      await User.findOneAndUpdate(
+        { email: post.email },
+        { $pull: { posts: postId } }
+      );
+
+      // Remove post from likedPosts array for all users who liked it
+      if (likedByEmails.length > 0) {
+        // Find and log affected users
+        const affectedUsers = await User.find(
+          { email: { $in: likedByEmails } },
+          { email: 1, likedPosts: 1 }
+        ).exec();
+
+        // Perform the update
+        await User.updateMany(
+          { email: { $in: likedByEmails } },
+          { $pull: { likedPosts: postId } }
+        );
+
+        // Log the users from whom the post was removed
+        console.log("Users affected by the removal of post from likedPosts:");
+        affectedUsers.forEach((user) =>
+          console.log(`- Email: ${user.email}, LikedPosts: ${user.likedPosts}`)
+        );
+      }
+
+      console.log(`Post with ID ${postId} deleted successfully.`);
+      return res.status(200).json({ message: "Post deleted successfully." });
+    } else {
+      console.log(
+        `User ${email} is unauthorized to delete post with ID: ${postId}.`
+      );
+      return res.status(403).json({ message: "Access denied." });
+    }
+  } catch (err) {
+    console.error(`Error deleting post with ID ${postId}:`, err.stack);
+    return res
+      .status(500)
+      .json({ message: "Server error", error: err.message });
+  }
+};
+
 module.exports = {
   createImagePost,
   createVideoPost,
@@ -269,4 +339,5 @@ module.exports = {
   getPostById,
   getUserPosts,
   toggleLikePost,
+  deletePost,
 };

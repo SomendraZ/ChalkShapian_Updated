@@ -80,6 +80,7 @@
     border-radius: 0px 0px 1.2vw 1.2vw;
     position: fixed;
     margin-top: -0.65vh;
+    z-index: 99;
   }
   #filter {
     color: #000000;
@@ -211,7 +212,7 @@
     display: grid;
     grid-template-columns: auto auto auto auto auto;
     padding-top: 1.5vw;
-    margin-top: 3.5vw;
+    margin-top: 4vw;
     justify-content: space-evenly;
   }
   #myModal {
@@ -457,7 +458,7 @@
     text-shadow: 0.1vw 0.15vw 0.1vw rgba(255, 0, 0, 0.5);
     margin-top: -0.5vw;
   }
-  
+
   .shareLogo {
     color: rgba(255, 255, 0, 0.5);
   }
@@ -508,6 +509,25 @@
     margin-top: -0.25vw;
     margin-left: -1.85vw;
     width: 1.5vw;
+  }
+  .deleteBtn {
+    position: absolute;
+    background-color: #232323;
+    width: 3vw;
+    border: 0.2vw solid rgb(255, 255, 255);
+    border-radius: 1.25vw;
+    cursor: pointer;
+    color: red;
+    font-size: 2.25vw;
+    z-index: 0;
+    margin-top: -20vw;
+    margin-right: -15vw;
+  }
+
+  .deleteBtn:hover {
+    scale: 1.1;
+    margin-top: -19vw;
+    margin-right: -14vw;
   }
 }
 @media only screen and (max-width: 550px) {
@@ -592,6 +612,7 @@
     border-radius: 0px 0px 1.2vw 1.2vw;
     position: fixed;
     margin-top: 5vh;
+    z-index: 99;
   }
   #filter {
     color: #000000;
@@ -705,7 +726,7 @@
     display: grid;
     grid-template-columns: auto auto;
     padding-top: 2vh;
-    margin-top: 7.5vh;
+    margin-top: 8vh;
     justify-content: space-evenly;
   }
   #myModal {
@@ -1010,5 +1031,24 @@
   .actionItem .buttonLabel {
     font-size: 1.5vh;
     transition: opacity 0.2s ease;
+  }
+  .deleteBtn {
+    position: absolute;
+    background-color: #232323;
+    width: 3vh;
+    border: 0.2vh solid rgb(255, 255, 255);
+    border-radius: 1.25vh;
+    cursor: pointer;
+    color: red;
+    font-size: 2.25vh;
+    z-index: 0;
+    margin-top: -27.5vh;
+    margin-right: -17.5vh;
+  }
+
+  .deleteBtn:hover {
+    scale: 1.1;
+    margin-top: -26.5vh;
+    margin-right: -16.5vh;
   }
 }

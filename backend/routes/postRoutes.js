@@ -6,6 +6,7 @@ const {
   getPostById,
   getUserPosts,
   toggleLikePost,
+  deletePost,
 } = require("../controllers/postController");
 const verifyToken = require("../middleware/authMiddleware");
 
@@ -28,5 +29,8 @@ router.get("/user/:email", verifyToken, getUserPosts);
 
 // POST: Toggle like on a post by ID
 router.post("/toggleLike/:postId", verifyToken, toggleLikePost);
+
+// DELETE: Delete a post by ID
+router.delete("/:postId", verifyToken, deletePost);
 
 module.exports = router;

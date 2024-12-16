@@ -58,7 +58,7 @@ const Login = () => {
         });
       } else {
         // Update auth context with user info and jwt token
-        login(data.chalkName, email, data.token);
+        login(data.chalkName, email, data.token, data.isAdmin);
 
         // Navigate to the discover page
         navigate("/discover");

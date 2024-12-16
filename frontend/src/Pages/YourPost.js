@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { toast, ToastContainer } from "react-toastify";
 import Navbar from "../Components/Navbar";
 import Footer from "../Components/Footer";
 import "../CSS/YourPost.css";
@@ -9,6 +10,7 @@ let notFound = require("../Resources/notfound.png");
 const YourPost = () => {
   const email = localStorage.getItem("email");
   const REACT_APP_USER_POST_API = process.env.REACT_APP_USER_POST_API + email;
+  const REACT_APP_POST_DELETE_API = process.env.REACT_APP_POST_DELETE_API;
 
   // Retrieve JWT token from localStorage
   const token = localStorage.getItem("jwtToken");
@@ -95,8 +97,43 @@ const YourPost = () => {
     return matchesSearchQuery && matchesFilterType && matchesCategory;
   });
 
+  // Handle delete post by ID
+  const handleDeletePost = async (postId) => {
+    if (window.confirm("Are you sure you want to delete this post?")) {
+      try {
+        const response = await fetch(`${REACT_APP_POST_DELETE_API}/${postId}`, {
+          method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        if (!response.ok) {
+          throw new Error("Failed to delete the post");
+        }
+
+        // Remove the deleted post from the state
+        setUserPosts((prevPosts) =>
+          prevPosts.filter((post) => post._id !== postId)
+        );
+
+        toast.success("Post deleted successfully!", {
+          position: "top-left",
+          autoClose: 2000,
+        });
+      } catch (error) {
+        console.error("Error deleting post:", error.message);
+        toast.error("Failed to delete the post.", {
+          position: "top-left",
+          autoClose: 2000,
+        });
+      }
+    }
+  };
+
   return (
     <>
+      <ToastContainer />
       {/* Overlay for modal */}
       <div className={`overlay ${openUserModal ? "active" : ""}`} />
       <div className={`wrapper ${openUserModal ? "blurred" : ""}`}>
@@ -158,27 +195,43 @@ const YourPost = () => {
           </div>
           <div className="content" id="yourPostContent">
             {/* Mapping filtered posts */}
-            {filteredUserPosts.map((post) => (
-              <div
-                className={
-                  post.postType === "image" ? "imgContent" : "vidContent"
-                }
-                key={post._id}
-                onClick={() => userPopUp(post)}
-              >
-                <img
-                  src={post.imageUrl || post.coverImageUrl}
-                  alt={`${post.title} by ${post.artist}`}
-                  id={post.postType === "image" ? "imgChalk" : "vidChalk"}
-                  onError={(e) => {
-                    e.target.onerror = null;
-                    e.target.src = notFound; // Fallback to notFound image
-                  }}
-                />
-                <div className="craftName">{post.title}</div>
-                <div className="artistName">{post.artist}</div>
-              </div>
-            ))}
+            {filteredUserPosts.length === 0 ? (
+              <div>No posts found</div>
+            ) : (
+              filteredUserPosts.map((post) => (
+                <div
+                  className={
+                    post.postType === "image" ? "imgContent" : "vidContent"
+                  }
+                  key={post._id}
+                  onClick={() => userPopUp(post)}
+                >
+                  <img
+                    src={post.imageUrl || post.coverImageUrl}
+                    alt={`${post.title} by ${post.artist}`}
+                    id={post.postType === "image" ? "imgChalk" : "vidChalk"}
+                    onError={(e) => {
+                      e.target.onerror = null;
+                      e.target.src = notFound; // Fallback to notFound image
+                    }}
+                  />
+                  <div className="craftName">{post.title}</div>
+                  <div className="artistName">{post.artist}</div>
+                  {/* Delete Icon: Show only if the post belongs to the logged-in user */}
+                  {post.email === email && (
+                    <button
+                      className="deleteBtn"
+                      onClick={(e) => {
+                        e.stopPropagation(); // Prevent triggering the popUp
+                        handleDeletePost(post._id); // Call delete handler
+                      }}
+                    >
+                      <i className="fa fa-trash" aria-hidden="true"></i>
+                    </button>
+                  )}
+                </div>
+              ))
+            )}
           </div>
         </div>
       </div>
