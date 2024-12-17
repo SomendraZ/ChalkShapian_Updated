@@ -24,13 +24,13 @@ const registerUser = async (req, res) => {
     if (chalkName.length > 10) {
       return res.status(400).json({
         success: false,
-        message: "chalkName must not exceed 10 characters.",
+        message: "Chalk Name must not exceed 10 characters.",
       });
     }
 
     // Validate password complexity
     const passwordRegex =
-      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#!])[A-Za-z\d@$!%*?&#!]{8,}$/;
 
     if (!passwordRegex.test(password)) {
       return res.status(400).json({
