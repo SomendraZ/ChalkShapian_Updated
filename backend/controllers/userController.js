@@ -6,7 +6,7 @@ const registerUser = async (req, res) => {
   const { fullName, chalkName, email, password } = req.body;
 
   try {
-    // Check if the user already exists by email or chalkName
+    // Check if user exists
     const existingUser = await User.findOne({
       $or: [{ email }, { chalkName }],
     });
@@ -15,22 +15,36 @@ const registerUser = async (req, res) => {
       const conflictField =
         existingUser.email === email ? "email" : "chalkName";
       return res.status(400).json({
+        success: false,
         message: `User already exists with the same ${conflictField}.`,
       });
     }
 
-    // Validate password complexity
-    if (password.length < 8) {
+    // Validate chalkName length
+    if (chalkName.length > 10) {
       return res.status(400).json({
-        message: "Password must be at least 8 characters long.",
+        success: false,
+        message: "chalkName must not exceed 10 characters.",
       });
     }
 
-    // Hash the password
+    // Validate password complexity
+    const passwordRegex =
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+
+    if (!passwordRegex.test(password)) {
+      return res.status(400).json({
+        success: false,
+        message:
+          "Password must be at least 8 characters long, include uppercase, lowercase, a number, and a special character.",
+      });
+    }
+
+    // Hash password
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
 
-    // Create new user
+    // Create user
     const user = new User({
       fullName,
       chalkName,
@@ -40,7 +54,7 @@ const registerUser = async (req, res) => {
 
     await user.save();
 
-    // Generate JWT Token
+    // Generate token
     const payload = {
       id: user._id,
       chalkName: user.chalkName,
@@ -49,11 +63,11 @@ const registerUser = async (req, res) => {
     };
 
     const token = jwt.sign(payload, process.env.JWT_SECRET, {
-      expiresIn: "1h",
+      expiresIn: process.env.JWT_EXPIRY || "1h",
     });
 
-    // Send the token and user info to the client
     res.status(201).json({
+      success: true,
       message: "User registered successfully.",
       token,
       chalkName: user.chalkName,
@@ -61,7 +75,7 @@ const registerUser = async (req, res) => {
     });
   } catch (err) {
     console.error("Error in registration:", err.message);
-    res.status(500).send("Server error");
+    res.status(500).json({ success: false, message: "Server error" });
   }
 };
 

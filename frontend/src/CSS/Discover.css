@@ -529,6 +529,13 @@
     margin-top: -19vw;
     margin-right: -14vw;
   }
+  .noPostFound {
+    font-size: 2.75vw;
+    margin: 9vw 37.5vw;
+    font-family: "Chakra Petch", sans-serif;
+    color: rgb(255, 0, 0);
+    text-shadow: 0.1vw 0.1vw 0.25vw rgb(255, 0, 0);
+  }
 }
 @media only screen and (max-width: 550px) {
   .wrapper {
@@ -1050,5 +1057,12 @@
     scale: 1.1;
     margin-top: -26.5vh;
     margin-right: -16.5vh;
+  }
+  .noPostFound {
+    font-size: 3vh;
+    margin: 35vh 11.75vh;
+    font-family: "Chakra Petch", sans-serif;
+    color: rgb(255, 0, 0);
+    text-shadow: 0.1vw 0.1vw 0.25vw rgb(255, 0, 0);
   }
 }

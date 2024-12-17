@@ -41,8 +41,9 @@ const PostComponent = ({ post, email, token, openModal, setOpenModal }) => {
           setPostLikedByUser(data.post.likes.includes(email)); // Check if the user has liked the post
         } catch (error) {
           console.error("Error fetching post:", error.message);
-          authLogout();
-          toast.error("Failed to load post. Please try again after Login.", {
+          navigate("/discover");
+          setOpenModal(false);
+          toast.error("Post not found.", {
             position: "top-left",
             autoClose: 2000,
           });
@@ -51,7 +52,7 @@ const PostComponent = ({ post, email, token, openModal, setOpenModal }) => {
 
       fetchPost();
     }
-  }, [post, token, REACT_APP_POST_BY_ID_API, authLogout, email]);
+  }, [post, token, REACT_APP_POST_BY_ID_API, authLogout, email, navigate, setOpenModal]);
 
   if (!postDetails) {
     return <div>Post not found</div>;

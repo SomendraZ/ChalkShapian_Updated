@@ -208,7 +208,7 @@ const YourPost = () => {
           <div className="content" id="yourPostContent">
             {/* Mapping filtered posts */}
             {filteredUserPosts.length === 0 ? (
-              <div>No posts found</div>
+              <div className="noPostFound">No User Posts.</div>
             ) : (
               filteredUserPosts.map((post) => (
                 <div

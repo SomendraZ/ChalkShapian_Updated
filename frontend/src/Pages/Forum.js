@@ -191,23 +191,27 @@ const Forum = ({ chalkName }) => {
       <div className="forumPage">
         <div className="chat">
           <div className="chats">
-            {messages.map((msg, index) =>
-              msg.sender === chalkName ? (
-                <div className="me" key={index}>
-                  <div className="meDateTime">{msg.datetime}</div>
-                  <div className="meSend">{renderMessage(msg.text)}</div>
-                </div>
-              ) : (
-                <div className="notMe" key={index}>
-                  <div className="notMeDateTime">{msg.datetime}</div>
-                  <div className="notMeProfile">
-                    <img src={Profile} alt="" className="notMeProfileImage" />
-                    <div className="notMeProfileName">
-                      {msg.sender || "Unknown"}
-                    </div>
+            {messages.length === 0 ? (
+              <div className="noPostFound">No Messages found.</div>
+            ) : (
+              messages.map((msg, index) =>
+                msg.sender === chalkName ? (
+                  <div className="me" key={index}>
+                    <div className="meDateTime">{msg.datetime}</div>
+                    <div className="meSend">{renderMessage(msg.text)}</div>
                   </div>
-                  <div className="notMeSend">{renderMessage(msg.text)}</div>
-                </div>
+                ) : (
+                  <div className="notMe" key={index}>
+                    <div className="notMeDateTime">{msg.datetime}</div>
+                    <div className="notMeProfile">
+                      <img src={Profile} alt="" className="notMeProfileImage" />
+                      <div className="notMeProfileName">
+                        {msg.sender || "Unknown"}
+                      </div>
+                    </div>
+                    <div className="notMeSend">{renderMessage(msg.text)}</div>
+                  </div>
+                )
               )
             )}
             <div ref={chatEndRef} /> {/* Invisible element to scroll to */}

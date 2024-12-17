@@ -214,7 +214,7 @@ const Discover = () => {
           <div className="content">
             {/* Mapping filtered posts */}
             {filteredPosts.length === 0 ? (
-              <div>No posts found</div>
+              <div className="noPostFound">No posts found.</div>
             ) : (
               filteredPosts.map((post) => (
                 <div

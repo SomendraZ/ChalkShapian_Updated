@@ -11,6 +11,8 @@ const Navbar = () => {
   const location = useLocation();
   const { chalkName, logout: authLogout } = useAuth();
 
+  const isAdmin = localStorage.getItem("isAdmin");
+
   const [activeLink, setActiveLink] = useState("");
   const [open, setOpen] = useState(false);
 
@@ -58,7 +60,15 @@ const Navbar = () => {
           </div>
           <div id="profile" onClick={() => setOpen(!open)}>
             <>
-              Hi,&nbsp;<u>{chalkName}</u>&nbsp;&nbsp;
+              {isAdmin ? (
+                <>
+                  Hi Admin,&nbsp;<u>{chalkName}</u>&nbsp;&nbsp;
+                </>
+              ) : (
+                <>
+                  Hi,&nbsp;<u>{chalkName}</u>&nbsp;&nbsp;
+                </>
+              )}
               <img className="profile" src={Profile} alt="Profile" />
             </>
           </div>
