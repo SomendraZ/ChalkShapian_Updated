@@ -1,0 +1,141 @@
+@media only screen and (min-width: 550px) {
+  .otpVerificationContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    width: 100vw;
+    background: conic-gradient(
+      from 221.94deg at 50% 50%,
+      #14ff00 -98.91deg,
+      #fff500 84.7deg,
+      #14ff00 261.09deg,
+      #fff500 444.7deg
+    );
+    font-family: "Chakra Petch", sans-serif;
+  }
+  .enterOTP {
+    font-size: 3vw;
+    font-weight: bold;
+  }
+  .otpInstructions {
+    font-size: 1.5vw;
+  }
+  .otpForm {
+    margin-top: 1vw;
+  }
+  .otpInputs {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 40vw;
+  }
+  .otpInput {
+    font-size: 2vw;
+    width: 5vw;
+    height: 3.5vw;
+    border: none;
+    border-radius: 0.5vw;
+    text-align: center;
+    font-family: "Marvel", sans-serif;
+    font-weight: bolder;
+  }
+  .verifyButton {
+    background: #1877f2;
+    box-shadow: 0.4vw 0.4vw 0.4vw rgba(0, 0, 0, 0.25);
+    border: none;
+    border-radius: 0.5vw;
+    width: 10vw;
+    height: 2.5vw;
+    font-family: "Chakra Petch", sans-serif;
+    font-weight: 500;
+    font-size: 1.7vw;
+    color: #ffffff;
+    text-shadow: 0px 0.4vw 0.4vw rgba(0, 0, 0, 0.25);
+    text-align: center;
+    cursor: pointer;
+    margin: 0 15vw;
+    margin-top: 1.5vw;
+  }
+  .verifyButton:hover {
+    background-color: #0048a7;
+  }
+  .verifyButton:active {
+    background-color: #1877f2;
+    box-shadow: 0.4vw 0.4vw 0.4vw rgba(0, 0, 0, 0);
+    transform: translateY(1vh);
+  }
+}
+
+@media only screen and (max-width: 550px) {
+  .otpVerificationContainer {
+    margin-top: -6.25vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    width: 100vw;
+    background: conic-gradient(
+      from 221.94deg at 50% 50%,
+      #14ff00 -98.91deg,
+      #fff500 84.7deg,
+      #14ff00 261.09deg,
+      #fff500 444.7deg
+    );
+    font-family: "Chakra Petch", sans-serif;
+  }
+  .enterOTP {
+    font-size: 3vh;
+    font-weight: bold;
+  }
+  .otpInstructions {
+    font-size: 1.5vh;
+    width: 80vw;
+  }
+  .otpForm {
+    margin-top: 1vh;
+  }
+  .otpInputs {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 75vw;
+  }
+  .otpInput {
+    font-size: 2vh;
+    width: 5vh;
+    height: 3.5vh;
+    border: none;
+    border-radius: 0.5vh;
+    text-align: center;
+    font-family: "Marvel", sans-serif;
+    font-weight: bolder;
+  }
+  .verifyButton {
+    background: #1877f2;
+    box-shadow: 0.4vw 0.4vw 0.4vw rgba(0, 0, 0, 0.25);
+    border: none;
+    border-radius: 0.5vh;
+    width: 15vh;
+    height: 3.5vh;
+    font-family: "Chakra Petch", sans-serif;
+    font-weight: 500;
+    font-size: 4.5vw;
+    color: #ffffff;
+    text-shadow: 0px 0.4vw 0.4vw rgba(0, 0, 0, 0.25);
+    text-align: center;
+    cursor: pointer;
+    margin: 0 10vh;
+    margin-top: 1.5vh;
+  }
+  .verifyButton:hover {
+    background-color: #0048a7;
+  }
+  .verifyButton:active {
+    background-color: #1877f2;
+    box-shadow: 0.4vw 0.4vw 0.4vw rgba(0, 0, 0, 0);
+    transform: translateY(1vh);
+  }
+}

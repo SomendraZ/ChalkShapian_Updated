@@ -58,7 +58,7 @@ io.on("connection", (socket) => {
   console.log("A user connected with chalkName:", socket.user.chalkName);
 
   socket.on("disconnect", () => {
-    console.log("A user disconnected");
+    console.log("A user disconnected with chalkName:", socket.user.chalkName);
   });
 
   // Example: Handle new messages

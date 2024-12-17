@@ -8,6 +8,7 @@ import Forum from "./Pages/Forum";
 import PostChalk from "./Pages/PostChalk";
 import ChalkName from "./Pages/ChalkName";
 import YourPost from "./Pages/YourPost";
+import OTPVerificationPage from "./Pages/OTPVerificationPage";
 
 const App = () => {
   const { loggedIn, setLoggedIn } = useAuth();
@@ -39,6 +40,16 @@ const App = () => {
       <Route
         path="/signup"
         element={loggedIn ? <Navigate to="/discover" replace /> : <SignUp />}
+      />
+      <Route
+        path="/otpVerification"
+        element={
+          loggedIn ? (
+            <Navigate to="/discover" replace />
+          ) : (
+            <OTPVerificationPage />
+          )
+        }
       />
 
       {/* Protected Routes */}

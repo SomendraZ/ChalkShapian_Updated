@@ -56,17 +56,26 @@ const Login = () => {
       const data = await response.json();
 
       if (!response.ok) {
+        // Store the email in localStorage to pre-fill the email field in the OTP verification page
+        localStorage.setItem("email", email);
+
+        navigate("/otpVerification");
         // Display error message from the server
         toast.error(data.message, {
           position: "top-left",
           autoClose: 1000,
         });
       } else {
-        // Update auth context with user info and jwt token
-        login(data.chalkName, email, data.token, data.isAdmin);
-
-        // Navigate to the discover page
-        navigate("/discover");
+        if (data.isVerified) {
+          login(
+            data.chalkName,
+            data.email,
+            data.token,
+            data.isAdmin,
+            data.isVerified
+          );
+          navigate("/discover");
+        }
       }
     } catch (error) {
       console.error("Error during login:", error);
@@ -118,7 +127,7 @@ const Login = () => {
                 }}
               />
               <span className="showPassword" onClick={togglePasswordVisibility}>
-                {showPassword ? "🙈" : "👁️"}
+                {showPassword ? "👁️" : "🙈"}
               </span>
             </div>
             <div className="remember">

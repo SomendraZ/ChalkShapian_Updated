@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { useAuth } from "../AuthContext";
 
 let x = require("../Resources/x.png");
 let notFound = require("../Resources/notfound.png");
@@ -16,8 +15,6 @@ const PostComponent = ({ post, email, token, openModal, setOpenModal }) => {
   const REACT_APP_POST_BY_ID_API = process.env.REACT_APP_POST_BY_ID_API;
   const REACT_APP_POST_TOGGLE_LIKE_API =
     process.env.REACT_APP_POST_TOGGLE_LIKE_API;
-
-  const { logout: authLogout } = useAuth();
 
   useEffect(() => {
     if (post) {
@@ -52,7 +49,7 @@ const PostComponent = ({ post, email, token, openModal, setOpenModal }) => {
 
       fetchPost();
     }
-  }, [post, token, REACT_APP_POST_BY_ID_API, authLogout, email, navigate, setOpenModal]);
+  }, [post, token, REACT_APP_POST_BY_ID_API, email, navigate, setOpenModal]);
 
   if (!postDetails) {
     return <div>Post not found</div>;
@@ -142,9 +139,8 @@ const PostComponent = ({ post, email, token, openModal, setOpenModal }) => {
         ...postDetails,
         likeCount: postDetails.likes.length,
       });
-      authLogout();
       toast.error(
-        "Failed to toggle like on the post. Please try again after Login.",
+        "Failed to toggle like on the post. Please try again after Logout.",
         {
           position: "top-left",
           autoClose: 2000,

@@ -5,7 +5,6 @@ import Navbar from "../Components/Navbar";
 import Footer from "../Components/Footer";
 import PostComponent from "../Components/PostComponent.js";
 import "../CSS/Discover.css";
-import { useAuth } from "../AuthContext";
 
 let notFound = require("../Resources/notfound.png");
 
@@ -20,8 +19,6 @@ const Discover = () => {
   const [filterType, setFilterType] = useState("all");
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [dropdownOpen, setDropdownOpen] = useState(false);
-
-  const { logout: authLogout } = useAuth();
 
   const { postId } = useParams();
   const navigate = useNavigate();
@@ -56,8 +53,7 @@ const Discover = () => {
         setPosts(data.posts);
       } catch (error) {
         console.error("Error fetching posts:", error.message);
-        authLogout();
-        toast.error("Please try again after Login.", {
+        toast.error("Please try again after Logout.", {
           position: "top-left",
           autoClose: 2000,
         });
@@ -65,7 +61,7 @@ const Discover = () => {
     };
 
     fetchPosts();
-  }, [REACT_APP_POST_ALL_API, token, role, authLogout]);
+  }, [REACT_APP_POST_ALL_API, token, role]);
 
   // Filters Styling
   const changeStyleAll = () => {
@@ -146,9 +142,8 @@ const Discover = () => {
         });
       } catch (error) {
         console.error("Error deleting post:", error.message);
-        authLogout();
         toast.error(
-          "Failed to delete the post. Please try again after Login.",
+          "Failed to delete the post. Please try again after Logout.",
           {
             position: "top-left",
             autoClose: 2000,

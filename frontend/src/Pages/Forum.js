@@ -5,7 +5,6 @@ import { toast } from "react-toastify";
 import Navbar from "../Components/Navbar";
 import Profile from "../Resources/profile.png";
 import "../CSS/Forum.css";
-import { useAuth } from "../AuthContext";
 
 const Forum = ({ chalkName }) => {
   const [messages, setMessages] = useState([]);
@@ -19,7 +18,6 @@ const Forum = ({ chalkName }) => {
   const REACT_APP_SOCKET_SERVER = process.env.REACT_APP_SOCKET_SERVER;
   const socket = useRef(null);
 
-  const { logout: authLogout } = useAuth();
   const token = localStorage.getItem("jwtToken");
 
   // Fetch messages on component mount
@@ -39,8 +37,7 @@ const Forum = ({ chalkName }) => {
         setMessages(data);
       } catch (error) {
         console.error("Error fetching messages:", error.message);
-        authLogout();
-        toast.error("Please try again after Login.", {
+        toast.error("Please try again after Logout.", {
           position: "top-left",
           autoClose: 2000,
         });
@@ -48,7 +45,7 @@ const Forum = ({ chalkName }) => {
     };
 
     fetchMessages();
-  }, [REACT_APP_FORUM_GET_API, chalkName, token, authLogout]);
+  }, [REACT_APP_FORUM_GET_API, chalkName, token]);
 
   // Connect to Socket.IO server on component mount
   useEffect(() => {
@@ -120,14 +117,13 @@ const Forum = ({ chalkName }) => {
         setNewMessage(""); // Clear the input after sending
       } catch (error) {
         console.error("Error sending message:", error.message);
-        authLogout();
-        toast.error("Please try again after Login.", {
+        toast.error("Please try again after Logout.", {
           position: "top-left",
           autoClose: 2000,
         });
       }
     },
-    [chalkName, token, REACT_APP_FORUM_SEND_API, authLogout]
+    [chalkName, token, REACT_APP_FORUM_SEND_API]
   );
 
   const handleKeyPress = (e) => {

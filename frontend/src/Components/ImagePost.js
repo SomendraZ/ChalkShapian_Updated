@@ -4,7 +4,6 @@ import { ToastContainer, toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { uploadImageToCloudinary } from "../Services/CloudinaryService";
 import "react-toastify/dist/ReactToastify.css";
-import { useAuth } from "../AuthContext";
 
 let plus = require("../Resources/plus.png");
 
@@ -22,8 +21,6 @@ const ImagePost = () => {
   const [filters, setImageFilters] = useState([]);
   const [isPosting, setIsPosting] = useState(false);
   const navigate = useNavigate();
-
-  const { logout: authLogout } = useAuth();
 
   useEffect(() => {
     const chalkName = localStorage.getItem("chalkName");
@@ -173,8 +170,7 @@ const ImagePost = () => {
         });
       }
     } catch (error) {
-      authLogout();
-      toast.error("Post not sent. Please try again after Login.", {
+      toast.error("Post not sent. Please try again after Logout.", {
         position: "top-left",
         autoClose: 1000,
       });

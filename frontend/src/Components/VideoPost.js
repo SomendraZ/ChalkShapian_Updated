@@ -4,7 +4,6 @@ import { ToastContainer, toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { uploadImageToCloudinary } from "../Services/CloudinaryService";
 import "react-toastify/dist/ReactToastify.css";
-import { useAuth } from "../AuthContext";
 
 let plus = require("../Resources/plus.png");
 
@@ -23,8 +22,6 @@ const VideoPost = () => {
   const [filters, setVideoFilters] = useState([]);
   const [isPosting, setIsPosting] = useState(false);
   const navigate = useNavigate();
-
-  const { logout: authLogout } = useAuth();
 
   useEffect(() => {
     const chalkName = localStorage.getItem("chalkName");
@@ -183,8 +180,7 @@ const VideoPost = () => {
       }
     } catch (error) {
       console.error("Error posting video:", error.message);
-      authLogout();
-      toast.error("Something went wrong. Please try again after Login.", {
+      toast.error("Something went wrong. Please try again after Logout.", {
         position: "top-left",
         autoClose: 1000,
       });

@@ -3,7 +3,6 @@ import { toast, ToastContainer } from "react-toastify";
 import Navbar from "../Components/Navbar";
 import Footer from "../Components/Footer";
 import "../CSS/YourPost.css";
-import { useAuth } from "../AuthContext";
 
 let x = require("../Resources/x.png");
 let notFound = require("../Resources/notfound.png");
@@ -12,8 +11,6 @@ const YourPost = () => {
   const email = localStorage.getItem("email");
   const REACT_APP_USER_POST_API = process.env.REACT_APP_USER_POST_API + email;
   const REACT_APP_POST_DELETE_API = process.env.REACT_APP_POST_DELETE_API;
-
-  const { logout: authLogout } = useAuth();
 
   // Retrieve JWT token from localStorage
   const token = localStorage.getItem("jwtToken");
@@ -46,8 +43,7 @@ const YourPost = () => {
         setUserPosts(data.posts);
       } catch (error) {
         console.error("Error fetching posts:", error.message);
-        authLogout();
-        toast.error("Please try again after Login.", {
+        toast.error("Please try again after Logout.", {
           position: "top-left",
           autoClose: 2000,
         });
@@ -55,7 +51,7 @@ const YourPost = () => {
     };
 
     fetchPosts();
-  }, [REACT_APP_USER_POST_API, token, authLogout]);
+  }, [REACT_APP_USER_POST_API, token]);
 
   // Modal Toggle
   const userPopUp = (post) => {
@@ -136,9 +132,8 @@ const YourPost = () => {
         });
       } catch (error) {
         console.error("Error deleting post:", error.message);
-        authLogout();
         toast.error(
-          "Failed to delete the post. Please try again after Login.",
+          "Failed to delete the post. Please try again after Logout.",
           {
             position: "top-left",
             autoClose: 2000,

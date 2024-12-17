@@ -26,6 +26,7 @@ export const AuthProvider = ({ children }) => {
     localStorage.removeItem("email");
     localStorage.removeItem("jwtToken");
     localStorage.removeItem("isAdmin");
+    localStorage.removeItem("isVerified");
 
     if (activityTimeoutRef.current) {
       clearTimeout(activityTimeoutRef.current);
@@ -36,7 +37,7 @@ export const AuthProvider = ({ children }) => {
   }, [navigate]);
 
   // Login the user
-  const login = (name, email, jwtToken, isAdmin) => {
+  const login = (name, email, jwtToken, isAdmin, isVerified) => {
     setChalkName(name);
     setLoggedIn(true);
     localStorage.setItem("chalkName", name);
@@ -44,6 +45,7 @@ export const AuthProvider = ({ children }) => {
     localStorage.setItem("email", email);
     localStorage.setItem("jwtToken", jwtToken);
     localStorage.setItem("isAdmin", isAdmin);
+    localStorage.setItem("isVerified", isVerified);
     resetInactivityTimeout();
   };
 

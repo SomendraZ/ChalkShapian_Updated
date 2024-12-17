@@ -5,7 +5,6 @@ import "react-toastify/dist/ReactToastify.css";
 
 import "../CSS/SignUp.css";
 import Gif from "../Resources/Chalk_Shapian.gif";
-import { useAuth } from "../AuthContext";
 
 const SignUp = () => {
   const [values, setValues] = useState({
@@ -16,13 +15,6 @@ const SignUp = () => {
   });
 
   const navigate = useNavigate();
-  const { login } = useAuth();
-
-  const validateEmail = (email) => {
-    // Regex to check email format
-    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return regex.test(email);
-  };
 
   const signup = async (e) => {
     e.preventDefault();
@@ -42,28 +34,7 @@ const SignUp = () => {
     }
 
     if (password !== confirmPassword) {
-      toast.warning("Passwords do not match", {
-        position: "top-left",
-        autoClose: 2000,
-      });
-      return;
-    }
-
-    // Password must be at least 8 characters long and contain at least 1 uppercase letter, 1 number, and 1 special character
-    const passwordRegex = /^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$&*])(?=.{8,})/;
-    if (!passwordRegex.test(password)) {
-      toast.warning(
-        "Password must be at least 8 characters long and contain at least 1 uppercase letter, 1 number, and 1 special character",
-        {
-          position: "top-left",
-          autoClose: 2000,
-        }
-      );
-      return;
-    }
-
-    if (!validateEmail(email)) {
-      toast.warning("Please enter a valid email address.", {
+      toast.warning("Passwords do not match.", {
         position: "top-left",
         autoClose: 2000,
       });
@@ -88,17 +59,19 @@ const SignUp = () => {
       const data = await response.json();
 
       if (response.ok) {
-        // Handle successful signup
-        toast.success("Signup successful!", {
+        // Notify the user that a verification email has been sent
+        toast.success("Signup successful! Please check your email for OTP.", {
           position: "top-left",
           autoClose: 2000,
         });
 
-        // Update auth context with user info and jwt token
-        login(username, email, data.token, data.isAdmin);
-        navigate("/discover");
+        // Store the email in localStorage to pre-fill the OTP verification form
+        localStorage.setItem("email", email);
+
+        // Send the user to the OTP verification page
+        navigate("/otpVerification");
       } else {
-        // Handle errors
+        // Handle errors from backend
         toast.error(data.message || "Signup failed.", {
           position: "top-left",
           autoClose: 2000,
@@ -118,7 +91,7 @@ const SignUp = () => {
       <div className="bg">
         <div className="gif">
           <div id="gif">
-            <img src={Gif} alt="" id="Gif" />
+            <img src={Gif} alt="Chalk Shapian Gif" id="Gif" />
           </div>
           <div className="SignUpPage">
             <div className="SignUpToAccount">Create Account</div>
