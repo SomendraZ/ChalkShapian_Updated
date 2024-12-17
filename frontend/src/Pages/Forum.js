@@ -10,6 +10,7 @@ import { useAuth } from "../AuthContext";
 const Forum = ({ chalkName }) => {
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState("");
+  const [dropdownOpen, setDropdownOpen] = useState(false);
   const chatEndRef = useRef(null);
   const location = useLocation();
 
@@ -185,10 +186,16 @@ const Forum = ({ chalkName }) => {
     );
   };
 
+  const handleAreaFocus = () => {
+    if (dropdownOpen) {
+      setDropdownOpen(false);
+    }
+  };
+
   return (
     <>
-      <Navbar />
-      <div className="forumPage">
+      <Navbar dropdownOpen={dropdownOpen} setDropdownOpen={setDropdownOpen} />
+      <div className="forumPage" onFocus={handleAreaFocus}>
         <div className="chat">
           <div className="chats">
             {messages.length === 0 ? (

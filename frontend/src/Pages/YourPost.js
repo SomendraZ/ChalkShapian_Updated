@@ -27,6 +27,7 @@ const YourPost = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [filterType, setFilterType] = useState("all");
   const [selectedCategory, setSelectedCategory] = useState("all");
+  const [dropdownOpen, setDropdownOpen] = useState(false);
 
   // Fetching posts on component mount
   useEffect(() => {
@@ -59,6 +60,7 @@ const YourPost = () => {
   // Modal Toggle
   const userPopUp = (post) => {
     setOpenUserModal(!openUserModal);
+    setDropdownOpen(false);
     setSelectedUserPost(post);
   };
 
@@ -68,6 +70,7 @@ const YourPost = () => {
     setStyleImage("contVideo");
     setStyleVideo("contVideo");
     setFilterType("all");
+    handleAreaFocus();
   };
 
   const changeStyleImage = () => {
@@ -75,6 +78,7 @@ const YourPost = () => {
     setStyleImage("contAll");
     setStyleVideo("contVideo");
     setFilterType("image");
+    handleAreaFocus();
   };
 
   const changeStyleVideo = () => {
@@ -82,6 +86,7 @@ const YourPost = () => {
     setStyleImage("contVideo");
     setStyleVideo("contAll");
     setFilterType("video");
+    handleAreaFocus();
   };
 
   // Filter user posts based on search query and selected filter type (all, image, or video)
@@ -143,14 +148,20 @@ const YourPost = () => {
     }
   };
 
+  const handleAreaFocus = () => {
+    if (dropdownOpen) {
+      setDropdownOpen(false);
+    }
+  };
+
   return (
     <>
       <ToastContainer />
       {/* Overlay for modal */}
       <div className={`overlay ${openUserModal ? "active" : ""}`} />
       <div className={`wrapper ${openUserModal ? "blurred" : ""}`}>
-        <Navbar />
-        <div className="discover">
+        <Navbar dropdownOpen={dropdownOpen} setDropdownOpen={setDropdownOpen} />
+        <div className="discover" onFocus={handleAreaFocus}>
           <div className="discoverBar" id="yourPostDiscoverBar">
             <div className="yourPostFilters">
               <div className="postYourChalk">“Your Posts”</div>

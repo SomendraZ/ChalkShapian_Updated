@@ -6,18 +6,16 @@ import Profile from "../Resources/profile.png";
 import "../CSS/Navbar.css";
 import { useAuth } from "../AuthContext";
 
-const Navbar = () => {
+const Navbar = ({ dropdownOpen, setDropdownOpen }) => {
   const navigate = useNavigate();
   const location = useLocation();
   const { chalkName, logout: authLogout } = useAuth();
 
-  const isAdmin = localStorage.getItem("isAdmin");
+  const isAdmin = localStorage.getItem("isAdmin") === "true";
 
   const [activeLink, setActiveLink] = useState("");
-  const [open, setOpen] = useState(false);
 
   useEffect(() => {
-    // Update activeLink state based on the current route
     if (location.pathname === "/discover") {
       setActiveLink("Discover");
     } else if (location.pathname === "/forum") {
@@ -27,7 +25,7 @@ const Navbar = () => {
 
   const handleLogout = () => {
     authLogout();
-    setOpen(false);
+    setDropdownOpen(false);
     navigate("/login", { replace: true });
   };
 
@@ -58,7 +56,7 @@ const Navbar = () => {
               Forum
             </Link>
           </div>
-          <div id="profile" onClick={() => setOpen(!open)}>
+          <div id="profile" onClick={() => setDropdownOpen(!dropdownOpen)}>
             <>
               {isAdmin ? (
                 <>
@@ -74,9 +72,9 @@ const Navbar = () => {
           </div>
         </div>
       </div>
-      {open && (
+      {dropdownOpen && (
         <div className="profileDrop">
-          <div className="closeProfile" onClick={() => setOpen(false)}>
+          <div className="closeProfile" onClick={() => setDropdownOpen(false)}>
             X
           </div>
           <div className="pfl">

@@ -19,6 +19,7 @@ const Discover = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [filterType, setFilterType] = useState("all");
   const [selectedCategory, setSelectedCategory] = useState("all");
+  const [dropdownOpen, setDropdownOpen] = useState(false);
 
   const { logout: authLogout } = useAuth();
 
@@ -72,6 +73,7 @@ const Discover = () => {
     setStyleImage("contVideo");
     setStyleVideo("contVideo");
     setFilterType("all");
+    handleAreaFocus();
   };
 
   const changeStyleImage = () => {
@@ -79,6 +81,7 @@ const Discover = () => {
     setStyleImage("contAll");
     setStyleVideo("contVideo");
     setFilterType("image");
+    handleAreaFocus();
   };
 
   const changeStyleVideo = () => {
@@ -86,6 +89,7 @@ const Discover = () => {
     setStyleImage("contVideo");
     setStyleVideo("contAll");
     setFilterType("video");
+    handleAreaFocus();
   };
 
   // Filter posts based on search query and selected filter type (all, image, or video)
@@ -112,6 +116,7 @@ const Discover = () => {
   useEffect(() => {
     if (postId) {
       setSelectedPostID(postId);
+      setDropdownOpen(false);
       setOpenModal(true);
     }
   }, [postId]);
@@ -153,14 +158,20 @@ const Discover = () => {
     }
   };
 
+  const handleAreaFocus = () => {
+    if (dropdownOpen) {
+      setDropdownOpen(false);
+    }
+  };
+
   return (
     <>
       <ToastContainer />
       {/* Overlay for modal */}
       <div className={`overlay ${openModal ? "active" : ""}`} />
       <div className={`wrapper ${openModal ? "blurred" : ""}`}>
-        <Navbar />
-        <div className="discover">
+        <Navbar dropdownOpen={dropdownOpen} setDropdownOpen={setDropdownOpen} />
+        <div className="discover" onFocus={handleAreaFocus}>
           <div className="discoverBar">
             <select
               name="filter"

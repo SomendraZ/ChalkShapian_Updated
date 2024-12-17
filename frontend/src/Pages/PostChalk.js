@@ -7,24 +7,33 @@ import VideoPost from "../Components/VideoPost";
 import { useNavigate } from "react-router-dom";
 
 const PostChalk = () => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const [isImage, setIsImage] = useState(true);
   const [PostChalkImage, setPostChalkImage] = useState("contChalkImage");
   const [PostChalkVideo, setPostChalkVideo] = useState("contChalkVideo");
-  
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+
+  const handleAreaFocus = useCallback(() => {
+    if (dropdownOpen) {
+      setDropdownOpen(false);
+    }
+  }, [dropdownOpen]);
+
   const changePostChalkImage = useCallback(() => {
-    setIsImage(true)
-    navigate('/post/image')
+    setIsImage(true);
+    navigate("/post/image");
     setPostChalkImage("contChalkImage");
     setPostChalkVideo("contChalkVideo");
-  }, [navigate]);
+    handleAreaFocus();
+  }, [navigate, handleAreaFocus]);
 
   const changePostChalkVideo = useCallback(() => {
-    navigate('/post/video')
-    setIsImage(false)
+    navigate("/post/video");
+    setIsImage(false);
     setPostChalkImage("contChalkVideo");
     setPostChalkVideo("contChalkImage");
-  }, [navigate]);
+    handleAreaFocus();
+  }, [navigate, handleAreaFocus]);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -32,20 +41,28 @@ const PostChalk = () => {
 
   return (
     <>
-    <Navbar />
-      <div id="name">
+      <Navbar dropdownOpen={dropdownOpen} setDropdownOpen={setDropdownOpen} />
+      <div id="name" onFocus={handleAreaFocus}>
         <div className="postBar">
           <div className="postYourChalk">Post Your “CHALK”</div>
           <div className="lolala">
-            <div className={PostChalkImage} id="image" onClick={changePostChalkImage}>
+            <div
+              className={PostChalkImage}
+              id="image"
+              onClick={changePostChalkImage}
+            >
               Image
             </div>
-            <div className={PostChalkVideo} id="video" onClick={changePostChalkVideo}>
+            <div
+              className={PostChalkVideo}
+              id="video"
+              onClick={changePostChalkVideo}
+            >
               Video
             </div>
           </div>
         </div>
-        {isImage ? <ImagePost/> : <VideoPost/>}
+        {isImage ? <ImagePost /> : <VideoPost />}
       </div>
       <Footer />
     </>
