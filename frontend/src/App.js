@@ -14,6 +14,7 @@ const App = () => {
   const { loggedIn, setLoggedIn } = useAuth();
   const chalkName = localStorage.getItem("chalkName");
   const jwtToken = localStorage.getItem("jwtToken");
+  const email = localStorage.getItem("email");
 
   useEffect(() => {
     // If JWT token exists in localStorage, consider user as logged in
@@ -44,10 +45,10 @@ const App = () => {
       <Route
         path="/otpVerification"
         element={
-          loggedIn ? (
-            <Navigate to="/discover" replace />
-          ) : (
+          !loggedIn && email ? (
             <OTPVerificationPage />
+          ) : (
+            <Navigate to="/discover" replace />
           )
         }
       />
