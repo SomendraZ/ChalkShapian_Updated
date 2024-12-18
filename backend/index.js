@@ -12,6 +12,8 @@ const verifySocketToken = require("./middleware/verifySocketToken");
 
 dotenv.config(); // Load environment variables
 
+const CLIENT_URL = process.env.CLIENT_URL;
+
 // Ensure Cloudinary is properly configured
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
@@ -27,7 +29,7 @@ const app = express();
 const server = http.createServer(app); // Create HTTP server
 const io = new Server(server, {
   cors: {
-    origin: "*", // Adjust this for production
+    origin: `${CLIENT_URL}`,
     methods: ["GET", "POST"],
   },
 });
