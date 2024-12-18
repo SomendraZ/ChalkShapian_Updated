@@ -56,15 +56,15 @@ const Login = () => {
       const data = await response.json();
 
       if (!response.ok) {
-        // Store the email in localStorage to pre-fill the email field in the OTP verification page
-        localStorage.setItem("email", email);
-
-        navigate("/otpVerification");
         // Display error message from the server
         toast.error(data.message, {
           position: "top-left",
           autoClose: 1000,
         });
+        if (data.message !== "Invalid credentials.") {
+          localStorage.setItem("email", email);
+          navigate("/otpVerification");
+        }
       } else {
         if (data.isVerified) {
           login(

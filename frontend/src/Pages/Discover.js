@@ -120,7 +120,7 @@ const Discover = () => {
   const handleDeletePost = async (postId) => {
     if (window.confirm("Are you sure you want to delete this post?")) {
       try {
-        const response = await fetch(`${REACT_APP_POST_DELETE_API}${postId}`, {
+        const response = await fetch(`${REACT_APP_POST_DELETE_API}/${postId}`, {
           method: "DELETE",
           headers: {
             Authorization: `Bearer ${token}`,

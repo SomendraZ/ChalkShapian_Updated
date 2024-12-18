@@ -113,13 +113,16 @@ const PostComponent = ({ post, email, token, openModal, setOpenModal }) => {
     setPostDetails(updatedPostDetails);
 
     try {
-      const response = await fetch(`${REACT_APP_POST_TOGGLE_LIKE_API}${post}`, {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
-      });
+      const response = await fetch(
+        `${REACT_APP_POST_TOGGLE_LIKE_API}/${post}`,
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
 
       if (!response.ok) {
         throw new Error("Failed to toggle like on the post.");

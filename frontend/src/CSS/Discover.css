@@ -1039,6 +1039,12 @@
     font-size: 1.5vh;
     transition: opacity 0.2s ease;
   }
+  .likeCount {
+    font-size: 1vh;
+    margin-top: -0.1vh;
+    margin-left: -2.75vw;
+    width: 1.5vw;
+  }
   .deleteBtn {
     position: absolute;
     background-color: #232323;

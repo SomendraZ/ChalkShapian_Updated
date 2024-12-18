@@ -51,7 +51,7 @@ const YourPost = () => {
     };
 
     fetchPosts();
-  }, [REACT_APP_USER_POST_API, token]);
+  }, [REACT_APP_USER_POST_API, token, email]);
 
   // Modal Toggle
   const userPopUp = (post) => {
