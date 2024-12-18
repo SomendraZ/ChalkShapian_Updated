@@ -29,7 +29,7 @@ const app = express();
 const server = http.createServer(app); // Create HTTP server
 const io = new Server(server, {
   cors: {
-    origin: CLIENT_URL,
+    origin: `${CLIENT_URL}`, // Replace with your React app URL
     methods: ["GET", "POST"],
   },
 });
