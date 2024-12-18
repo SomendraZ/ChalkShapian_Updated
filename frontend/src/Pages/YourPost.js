@@ -42,7 +42,6 @@ const YourPost = () => {
         const data = await response.json();
         setUserPosts(data.posts);
       } catch (error) {
-        console.error("Error fetching posts:", error.message);
         toast.error("Please try again after Logout.", {
           position: "top-left",
           autoClose: 2000,
@@ -131,7 +130,6 @@ const YourPost = () => {
           autoClose: 2000,
         });
       } catch (error) {
-        console.error("Error deleting post:", error.message);
         toast.error(
           "Failed to delete the post. Please try again after Logout.",
           {

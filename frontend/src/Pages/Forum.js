@@ -36,7 +36,6 @@ const Forum = ({ chalkName }) => {
         const data = await response.json();
         setMessages(data);
       } catch (error) {
-        console.error("Error fetching messages:", error.message);
         toast.error("Please try again after Logout.", {
           position: "top-left",
           autoClose: 2000,
@@ -116,7 +115,6 @@ const Forum = ({ chalkName }) => {
 
         setNewMessage(""); // Clear the input after sending
       } catch (error) {
-        console.error("Error sending message:", error.message);
         toast.error("Please try again after Logout.", {
           position: "top-left",
           autoClose: 2000,

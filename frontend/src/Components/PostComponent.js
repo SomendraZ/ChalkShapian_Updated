@@ -37,10 +37,9 @@ const PostComponent = ({ post, email, token, openModal, setOpenModal }) => {
           setPostLikes(data.post.likes);
           setPostLikedByUser(data.post.likes.includes(email)); // Check if the user has liked the post
         } catch (error) {
-          console.error("Error fetching post:", error.message);
           navigate("/discover");
           setOpenModal(false);
-          toast.error("Post not found.", {
+          toast.error("Post not found. Please try again after Logout.", {
             position: "top-left",
             autoClose: 2000,
           });
@@ -68,7 +67,6 @@ const PostComponent = ({ post, email, token, openModal, setOpenModal }) => {
           });
         })
         .catch((error) => {
-          console.error("Error copying to clipboard:", error.message);
           toast.error("Failed to copy link. Try again.", {
             position: "top-left",
             autoClose: 2000,
@@ -134,7 +132,6 @@ const PostComponent = ({ post, email, token, openModal, setOpenModal }) => {
         autoClose: 1000,
       });
     } catch (error) {
-      console.error("Error toggling like on post:", error.message);
       // Revert state if API call fails
       setPostLikes(postLikes);
       setPostLikedByUser(!postLikedByUser);

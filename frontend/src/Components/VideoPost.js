@@ -179,7 +179,6 @@ const VideoPost = () => {
         });
       }
     } catch (error) {
-      console.error("Error posting video:", error.message);
       toast.error("Something went wrong. Please try again after Logout.", {
         position: "top-left",
         autoClose: 1000,
