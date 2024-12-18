@@ -9,7 +9,7 @@ let notFound = require("../Resources/notfound.png");
 
 const YourPost = () => {
   const email = localStorage.getItem("email");
-  const REACT_APP_USER_POST_API = process.env.REACT_APP_USER_POST_API + email;
+  const REACT_APP_USER_POST_API = process.env.REACT_APP_USER_POST_API;
   const REACT_APP_POST_DELETE_API = process.env.REACT_APP_POST_DELETE_API;
 
   // Retrieve JWT token from localStorage
@@ -30,7 +30,7 @@ const YourPost = () => {
   useEffect(() => {
     const fetchPosts = async () => {
       try {
-        const response = await fetch(REACT_APP_USER_POST_API, {
+        const response = await fetch(`${REACT_APP_USER_POST_API}/${email}`, {
           method: "GET",
           headers: {
             Authorization: `Bearer ${token}`,
