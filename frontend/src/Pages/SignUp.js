@@ -1,10 +1,10 @@
-import { Link, useNavigate } from "react-router-dom";
 import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-
 import "../CSS/SignUp.css";
 import Gif from "../Resources/Chalk_Shapian.gif";
+import { REACT_APP_SERVER } from "../Services/Constant";
 
 const SignUp = () => {
   const [values, setValues] = useState({
@@ -43,7 +43,7 @@ const SignUp = () => {
 
     // Sending the signup request to the backend API
     try {
-      const response = await fetch(process.env.REACT_APP_USER_REGISTER_API, {
+      const response = await fetch(`${REACT_APP_SERVER}/api/user/register`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

@@ -1,10 +1,11 @@
-import React, { useState, useRef, useEffect, useCallback } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useLocation } from "react-router-dom";
-import { io } from "socket.io-client";
 import { toast } from "react-toastify";
+import { io } from "socket.io-client";
 import Navbar from "../Components/Navbar";
-import Profile from "../Resources/profile.png";
 import "../CSS/Forum.css";
+import Profile from "../Resources/profile.png";
+import { REACT_APP_SERVER } from "../Services/Constant";
 
 const Forum = ({ chalkName }) => {
   const [messages, setMessages] = useState([]);
@@ -13,9 +14,6 @@ const Forum = ({ chalkName }) => {
   const chatEndRef = useRef(null);
   const location = useLocation();
 
-  const REACT_APP_FORUM_GET_API = process.env.REACT_APP_FORUM_GET_API;
-  const REACT_APP_FORUM_SEND_API = process.env.REACT_APP_FORUM_SEND_API;
-  const REACT_APP_SOCKET_SERVER = process.env.REACT_APP_SOCKET_SERVER;
   const socket = useRef(null);
 
   const token = localStorage.getItem("jwtToken");
@@ -24,7 +22,7 @@ const Forum = ({ chalkName }) => {
   useEffect(() => {
     const fetchMessages = async () => {
       try {
-        const response = await fetch(REACT_APP_FORUM_GET_API, {
+        const response = await fetch(`${REACT_APP_SERVER}/api/forum/messages`, {
           method: "GET",
           headers: {
             Authorization: `Bearer ${token}`,
@@ -44,11 +42,11 @@ const Forum = ({ chalkName }) => {
     };
 
     fetchMessages();
-  }, [REACT_APP_FORUM_GET_API, chalkName, token]);
+  }, [chalkName, token]);
 
   // Connect to Socket.IO server on component mount
   useEffect(() => {
-    socket.current = io(REACT_APP_SOCKET_SERVER, {
+    socket.current = io(REACT_APP_SERVER, {
       query: { token }, // Send the token as query param
     });
 
@@ -59,7 +57,7 @@ const Forum = ({ chalkName }) => {
     return () => {
       socket.current.disconnect();
     };
-  }, [REACT_APP_SOCKET_SERVER, token]);
+  }, [token]);
 
   // Scroll to the bottom whenever messages are updated
   useEffect(() => {
@@ -100,7 +98,7 @@ const Forum = ({ chalkName }) => {
       };
 
       try {
-        const response = await fetch(REACT_APP_FORUM_SEND_API, {
+        const response = await fetch(`${REACT_APP_SERVER}/api/forum/send`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -121,7 +119,7 @@ const Forum = ({ chalkName }) => {
         });
       }
     },
-    [chalkName, token, REACT_APP_FORUM_SEND_API]
+    [chalkName, token]
   );
 
   const handleKeyPress = (e) => {

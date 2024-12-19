@@ -1,9 +1,10 @@
 import axios from "axios";
-import { useAuth } from "../AuthContext";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
+import { useAuth } from "../AuthContext";
 import "../CSS/OTPVerificationPage.css";
+import { REACT_APP_SERVER } from "../Services/Constant";
 
 const OTPVerificationPage = () => {
   const navigate = useNavigate();
@@ -13,8 +14,6 @@ const OTPVerificationPage = () => {
   const [loading, setLoading] = useState(false);
 
   const email = localStorage.getItem("email");
-  const REACT_APP_USER_OTP_VERIFY_API =
-    process.env.REACT_APP_USER_OTP_VERIFY_API;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -32,7 +31,7 @@ const OTPVerificationPage = () => {
     setLoading(true);
 
     try {
-      const response = await axios.post(`${REACT_APP_USER_OTP_VERIFY_API}`, {
+      const response = await axios.post(`${REACT_APP_SERVER}/api/user/verifyOtp`, {
         email,
         otp: otpString,
       });

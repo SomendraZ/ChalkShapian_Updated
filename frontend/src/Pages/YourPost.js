@@ -3,14 +3,13 @@ import { toast, ToastContainer } from "react-toastify";
 import Navbar from "../Components/Navbar";
 import Footer from "../Components/Footer";
 import "../CSS/YourPost.css";
+import { REACT_APP_SERVER } from "../Services/Constant";
 
 let x = require("../Resources/x.png");
 let notFound = require("../Resources/notfound.png");
 
 const YourPost = () => {
   const email = localStorage.getItem("email");
-  const REACT_APP_USER_POST_API = process.env.REACT_APP_USER_POST_API;
-  const REACT_APP_POST_DELETE_API = process.env.REACT_APP_POST_DELETE_API;
 
   // Retrieve JWT token from localStorage
   const token = localStorage.getItem("jwtToken");
@@ -30,12 +29,15 @@ const YourPost = () => {
   useEffect(() => {
     const fetchPosts = async () => {
       try {
-        const response = await fetch(`${REACT_APP_USER_POST_API}/${email}`, {
-          method: "GET",
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
+        const response = await fetch(
+          `${REACT_APP_SERVER}/api/post/user/${email}`,
+          {
+            method: "GET",
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
         if (!response.ok) {
           throw new Error("Failed to fetch posts");
         }
@@ -50,7 +52,7 @@ const YourPost = () => {
     };
 
     fetchPosts();
-  }, [REACT_APP_USER_POST_API, token, email]);
+  }, [token, email]);
 
   // Modal Toggle
   const userPopUp = (post) => {
@@ -109,7 +111,7 @@ const YourPost = () => {
   const handleDeletePost = async (postId) => {
     if (window.confirm("Are you sure you want to delete this post?")) {
       try {
-        const response = await fetch(`${REACT_APP_POST_DELETE_API}/${postId}`, {
+        const response = await fetch(`${REACT_APP_SERVER}/api/post/${postId}`, {
           method: "DELETE",
           headers: {
             Authorization: `Bearer ${token}`,

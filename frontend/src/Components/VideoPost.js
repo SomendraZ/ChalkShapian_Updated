@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from "react";
-import "../CSS/VideoPost.css";
-import { ToastContainer, toast } from "react-toastify";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { uploadImageToCloudinary } from "../Services/CloudinaryService";
+import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import "../CSS/VideoPost.css";
+import { uploadImageToCloudinary } from "../Services/CloudinaryService";
+import { REACT_APP_SERVER } from "../Services/Constant";
 
 let plus = require("../Resources/plus.png");
 
@@ -155,7 +156,7 @@ const VideoPost = () => {
       };
 
       // Send POST request to the backend API with JSON payload
-      const response = await fetch(`${process.env.REACT_APP_POST_VIDEO_API}`, {
+      const response = await fetch(`${REACT_APP_SERVER}/api/post/video`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

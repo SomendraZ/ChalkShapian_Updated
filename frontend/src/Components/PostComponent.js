@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { REACT_APP_SERVER } from "../Services/Constant";
 
 let x = require("../Resources/x.png");
 let notFound = require("../Resources/notfound.png");
@@ -12,16 +13,12 @@ const PostComponent = ({ post, email, token, openModal, setOpenModal }) => {
   const [postLikes, setPostLikes] = useState([]);
   const [postLikedByUser, setPostLikedByUser] = useState(false);
 
-  const REACT_APP_POST_BY_ID_API = process.env.REACT_APP_POST_BY_ID_API;
-  const REACT_APP_POST_TOGGLE_LIKE_API =
-    process.env.REACT_APP_POST_TOGGLE_LIKE_API;
-
   useEffect(() => {
     if (post) {
       // Fetch post details including likes when the component mounts
       const fetchPost = async () => {
         try {
-          const response = await fetch(`${REACT_APP_POST_BY_ID_API}/${post}`, {
+          const response = await fetch(`${REACT_APP_SERVER}/api/post/${post}`, {
             method: "GET",
             headers: {
               Authorization: `Bearer ${token}`,
@@ -48,7 +45,7 @@ const PostComponent = ({ post, email, token, openModal, setOpenModal }) => {
 
       fetchPost();
     }
-  }, [post, token, REACT_APP_POST_BY_ID_API, email, navigate, setOpenModal]);
+  }, [post, token, email, navigate, setOpenModal]);
 
   if (!postDetails) {
     return <div>Post not found</div>;
@@ -112,7 +109,7 @@ const PostComponent = ({ post, email, token, openModal, setOpenModal }) => {
 
     try {
       const response = await fetch(
-        `${REACT_APP_POST_TOGGLE_LIKE_API}/${post}`,
+        `${REACT_APP_SERVER}/api/post/toggleLike/${post}`,
         {
           method: "POST",
           headers: {

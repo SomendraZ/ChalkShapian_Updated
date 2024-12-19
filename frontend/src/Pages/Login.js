@@ -2,10 +2,10 @@ import { Link, useNavigate } from "react-router-dom";
 import React, { useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-
 import "../CSS/Login.css";
 import Gif from "../Resources/Chalk_Shapian.gif";
 import { useAuth } from "../AuthContext";
+import { REACT_APP_SERVER } from "../Services/Constant";
 
 const google = require("../Resources/google.png");
 
@@ -45,7 +45,7 @@ const Login = () => {
 
     try {
       // Make API call to login
-      const response = await fetch(`${process.env.REACT_APP_USER_LOGIN_API}`, {
+      const response = await fetch(`${REACT_APP_SERVER}/api/user/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

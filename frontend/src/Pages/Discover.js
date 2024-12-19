@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
-import Navbar from "../Components/Navbar";
 import Footer from "../Components/Footer";
+import Navbar from "../Components/Navbar";
 import PostComponent from "../Components/PostComponent.js";
 import "../CSS/Discover.css";
+import { REACT_APP_SERVER } from "../Services/Constant";
 
 let notFound = require("../Resources/notfound.png");
 
@@ -26,9 +27,6 @@ const Discover = () => {
   const token = localStorage.getItem("jwtToken");
   const role = localStorage.getItem("isAdmin");
 
-  const REACT_APP_POST_ALL_API = process.env.REACT_APP_POST_ALL_API;
-  const REACT_APP_POST_DELETE_API = process.env.REACT_APP_POST_DELETE_API;
-
   useEffect(() => {
     if (!token) {
       //redirect to login
@@ -40,7 +38,7 @@ const Discover = () => {
   useEffect(() => {
     const fetchPosts = async () => {
       try {
-        const response = await fetch(REACT_APP_POST_ALL_API, {
+        const response = await fetch(`${REACT_APP_SERVER}/api/post/all`, {
           method: "GET",
           headers: {
             Authorization: `Bearer ${token}`,
@@ -60,7 +58,7 @@ const Discover = () => {
     };
 
     fetchPosts();
-  }, [REACT_APP_POST_ALL_API, token, role]);
+  }, [token, role]);
 
   // Filters Styling
   const changeStyleAll = () => {
@@ -119,7 +117,7 @@ const Discover = () => {
   const handleDeletePost = async (postId) => {
     if (window.confirm("Are you sure you want to delete this post?")) {
       try {
-        const response = await fetch(`${REACT_APP_POST_DELETE_API}/${postId}`, {
+        const response = await fetch(`${REACT_APP_SERVER}/api/post/${postId}`, {
           method: "DELETE",
           headers: {
             Authorization: `Bearer ${token}`,
