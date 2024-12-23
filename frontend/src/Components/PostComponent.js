@@ -6,7 +6,14 @@ import { REACT_APP_SERVER } from "../Services/Constant";
 let x = require("../Resources/x.png");
 let notFound = require("../Resources/notfound.png");
 
-const PostComponent = ({ post, email, token, openModal, setOpenModal }) => {
+const PostComponent = ({
+  post,
+  email,
+  token,
+  openModal,
+  setOpenModal,
+  prevLocation,
+}) => {
   const navigate = useNavigate();
 
   const [postDetails, setPostDetails] = useState(null);
@@ -52,7 +59,9 @@ const PostComponent = ({ post, email, token, openModal, setOpenModal }) => {
   }
 
   const handleShare = () => {
-    const shareURL = `${window.location}`;
+    const shareURL = `${window.location.origin}/discover/${post}`;
+
+    console.log(shareURL);
 
     if (navigator.clipboard && navigator.clipboard.writeText) {
       navigator.clipboard
@@ -147,7 +156,7 @@ const PostComponent = ({ post, email, token, openModal, setOpenModal }) => {
   };
 
   const handleDiscuss = () => {
-    const sharedLink = `${window.location}`;
+    const sharedLink = `${window.location.origin}/discover/${post}`;
     navigate(`/forum?sharedLink=${encodeURIComponent(sharedLink)}`);
   };
 
@@ -194,7 +203,7 @@ const PostComponent = ({ post, email, token, openModal, setOpenModal }) => {
             alt="close"
             onClick={() => {
               setOpenModal(false);
-              navigate("/discover");
+              navigate(`${prevLocation}`);
             }}
           />
         </div>

@@ -6,7 +6,6 @@ import SignUp from "./Pages/SignUp";
 import Discover from "./Pages/Discover";
 import Forum from "./Pages/Forum";
 import PostChalk from "./Pages/PostChalk";
-import ChalkName from "./Pages/ChalkName";
 import YourPost from "./Pages/YourPost";
 import OTPVerificationPage from "./Pages/OTPVerificationPage";
 
@@ -78,13 +77,10 @@ const App = () => {
         element={loggedIn ? <PostChalk /> : <Navigate to="/login" replace />}
       />
       <Route
-        path="/chalkName"
-        element={loggedIn ? <ChalkName /> : <Navigate to="/login" replace />}
-      />
-      <Route
         path="/yourPost"
         element={loggedIn ? <YourPost /> : <Navigate to="/login" replace />}
       />
+      <Route path="/yourPost/:postId" element={<YourPost />} />
     </Routes>
   );
 };

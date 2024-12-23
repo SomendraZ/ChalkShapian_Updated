@@ -31,10 +31,13 @@ const OTPVerificationPage = () => {
     setLoading(true);
 
     try {
-      const response = await axios.post(`${REACT_APP_SERVER}/api/user/verifyOtp`, {
-        email,
-        otp: otpString,
-      });
+      const response = await axios.post(
+        `${REACT_APP_SERVER}/api/user/verifyOtp`,
+        {
+          email,
+          otp: otpString,
+        }
+      );
 
       if (response.status === 200) {
         localStorage.removeItem("email");
@@ -45,10 +48,13 @@ const OTPVerificationPage = () => {
         navigate("/discover");
       }
     } catch (error) {
-      toast.error(error.response?.data?.message || "Something went wrong.", {
-        position: "top-left",
-        autoClose: 2000,
-      });
+      toast.error(
+        error.response.data || "Something went wrong." || error.message,
+        {
+          position: "top-left",
+          autoClose: 2000,
+        }
+      );
     } finally {
       setLoading(false);
     }

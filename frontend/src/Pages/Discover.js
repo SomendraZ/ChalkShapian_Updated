@@ -10,6 +10,12 @@ import { REACT_APP_SERVER } from "../Services/Constant";
 let notFound = require("../Resources/notfound.png");
 
 const Discover = () => {
+  const { postId } = useParams();
+  const navigate = useNavigate();
+  const email = localStorage.getItem("email");
+  const token = localStorage.getItem("jwtToken");
+  const role = localStorage.getItem("isAdmin");
+
   const [posts, setPosts] = useState([]);
   const [openModal, setOpenModal] = useState(false);
   const [selectedPostID, setSelectedPostID] = useState(null);
@@ -20,12 +26,6 @@ const Discover = () => {
   const [filterType, setFilterType] = useState("all");
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [dropdownOpen, setDropdownOpen] = useState(false);
-
-  const { postId } = useParams();
-  const navigate = useNavigate();
-  const email = localStorage.getItem("email");
-  const token = localStorage.getItem("jwtToken");
-  const role = localStorage.getItem("isAdmin");
 
   useEffect(() => {
     if (!token) {
@@ -58,7 +58,7 @@ const Discover = () => {
     };
 
     fetchPosts();
-  }, [token, role]);
+  }, [token]);
 
   // Filters Styling
   const changeStyleAll = () => {
@@ -100,7 +100,10 @@ const Discover = () => {
 
     // Match dropdown category
     const matchesCategory =
-      selectedCategory === "all" || post.filters.includes(selectedCategory);
+      selectedCategory === "all" ||
+      (selectedCategory === "ShapianSpecial" &&
+        post.email === "shapianchalk@gmail.com") ||
+      post.filters.includes(selectedCategory);
 
     return matchesSearch && matchesType && matchesCategory;
   });
@@ -179,6 +182,7 @@ const Discover = () => {
               <option value="Architectures">Architectures</option>
               <option value="Weapons">Weapons</option>
               <option value="Others">Others</option>
+              <option value="ShapianSpecial">Shapian's Special</option>
             </select>
 
             <div className="searchBar">
@@ -266,6 +270,7 @@ const Discover = () => {
           token={token}
           openModal={openModal}
           setOpenModal={setOpenModal}
+          prevLocation="/discover"
         />
       )}
     </>

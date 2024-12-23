@@ -8,6 +8,42 @@
 
 body {
   background-color: #1e1e1e;
+  cursor: none;
+}
+
+/* Custom Cursor */
+.custom-cursor {
+  position: fixed;
+  width: 2.5vw;
+  height: 2.5vw;
+  background: url("./Resources/chalk.png") no-repeat center center;
+  background-size: contain;
+  pointer-events: none;
+  transform: translate(-50%, -50%) rotate(-45deg); /* Initial rotation */
+  z-index: 9999;
+  margin-left: 0.75vw;
+  margin-top: 0.75vw;
+  transition: transform 0.3s ease; /* Smooth transition for rotation */
+}
+
+/* Trail Line (Chalk Effect) */
+.trail-line {
+  position: fixed;
+  height: 0.3vw;
+  background: rgb(0, 217, 255); /* Bright white */
+  border-radius: 1vw; /* Slightly rounded edges for chalkiness */
+  pointer-events: none;
+  transform-origin: left center;
+  box-shadow: 0 0 0.5vw rgb(0, 217, 255, 0.5);
+  animation: fadeOut 0.15s ease-in-out forwards;
+  z-index: 9998;
+}
+
+/* Trail Fade Animation */
+@keyframes fadeOut {
+  to {
+    opacity: 0;
+  }
 }
 
 body::-webkit-scrollbar {

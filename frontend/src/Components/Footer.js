@@ -2,11 +2,11 @@ import React from "react";
 import Chalk from "../Resources/chalk_shapian.PNG";
 import "../CSS/Footer.css";
 
-let instaLink = "https://www.instagram.com/chalk_shapian/?next=%2F&hl=en";
+let instaLink = "https://www.instagram.com/chalkshapian/";
 let insta = require("../Resources/insta.png");
-let youtubeLink = "https://www.youtube.com/@chalkshapian";
+let youtubeLink = "https://www.youtube.com/@ChalkShapian";
 let youtube = require("../Resources/youtube.png");
-let twitterLink = "https://twitter.com/chalk_shapian";
+let twitterLink = "https://x.com/ChalkShapian";
 const twitter = require("../Resources/twitter.png");
 
 const Footer = () => {
@@ -51,19 +51,18 @@ const Footer = () => {
             <div id="contact">
               <div className="white">Contact us at:&nbsp;</div>
               <a
-                href="mailto:chalk.shapian@gmail.com"
+                href="mailto:shapianchalk@gmail.com?subject=Inquiry&body=Hello%20Shapian%20Team,"
                 className="contact"
                 target="_blank"
                 rel="noreferrer"
               >
-                <div className="yellow">c</div>
-                <div className="green">ha</div>
-                <div className="yellow">lk</div>
-                <div className="white">.</div>
-                <div className="green">s</div>
-                <div className="yellow">ha</div>
-                <div className="green">pian</div>
-                <div className="white">@gmail.com</div>
+                <span className="green">s</span>
+                <span className="yellow">ha</span>
+                <span className="green">pian</span>
+                <span className="yellow">c</span>
+                <span className="green">ha</span>
+                <span className="yellow">lk</span>
+                <span className="white">@gmail.com</span>
               </a>
             </div>
           </div>

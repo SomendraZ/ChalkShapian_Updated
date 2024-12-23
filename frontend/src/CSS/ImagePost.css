@@ -22,8 +22,11 @@
     height: 14.25vw;
     width: 12vw;
     margin-top: 0.5vw;
-    cursor: pointer;
     overflow: hidden;
+    cursor: none;
+  }
+  .imageImage:hover #imageImage {
+    transform: scale(1.25);
   }
   .imageRight {
     display: flex;
@@ -33,7 +36,7 @@
   #imageImage {
     height: 10vw;
   }
-  .addImage{
+  .addImage {
     color: aliceblue;
     font-family: "Marvel", sans-serif;
     font-weight: 700;
@@ -73,6 +76,12 @@
     box-shadow: 0.3vw 0.4vw 0.4vw rgba(255, 255, 255, 0.25);
     margin-bottom: 0.7vw;
     outline: none;
+    cursor: none;
+  }
+  #imageTitle:hover,
+  #imageToolsUsed:hover,
+  #imageArtist:hover {
+    transform: scale(1.05);
   }
   .filters {
     color: white;
@@ -99,10 +108,17 @@
   .checkmark {
     margin-right: 0.5vw;
   }
+  .container {
+    cursor: none;
+  }
+  .container:hover {
+    transform: scale(1.05);
+  }
   .checkbox {
     height: 1.4vw;
     width: 1.4vw;
     margin-right: 0.5vw;
+    cursor: none;
   }
   #imageDescription {
     background: #d9d9d9;
@@ -124,6 +140,10 @@
     margin-top: 0.75vw;
     margin-left: 17.5vw;
     outline: none;
+    cursor: none;
+  }
+  #imageDescription:hover {
+    transform: scale(1.05);
   }
   .post {
     background: #1877f2;
@@ -137,11 +157,11 @@
     color: #ffffff;
     text-shadow: 0px 0.4vw 0.4vw rgba(0, 0, 0, 0.25);
     text-align: center;
-    cursor: pointer;
     margin: 0 45vw;
   }
   .post:hover {
     background-color: #0048a7;
+    transform: scale(1.1);
   }
   .post:active {
     background-color: #1877f2;
@@ -183,7 +203,7 @@
   #imageImage {
     height: 25vw;
   }
-  .addImage{
+  .addImage {
     color: aliceblue;
     font-family: "Marvel", sans-serif;
     font-weight: 700;

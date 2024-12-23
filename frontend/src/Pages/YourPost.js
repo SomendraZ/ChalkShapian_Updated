@@ -1,22 +1,23 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 import Navbar from "../Components/Navbar";
 import Footer from "../Components/Footer";
+import PostComponent from "../Components/PostComponent.js";
 import "../CSS/YourPost.css";
 import { REACT_APP_SERVER } from "../Services/Constant";
 
-let x = require("../Resources/x.png");
 let notFound = require("../Resources/notfound.png");
 
 const YourPost = () => {
+  const { postId } = useParams();
+  const navigate = useNavigate();
   const email = localStorage.getItem("email");
-
-  // Retrieve JWT token from localStorage
   const token = localStorage.getItem("jwtToken");
 
-  const [userPosts, setUserPosts] = useState([]);
-  const [openUserModal, setOpenUserModal] = useState(false);
-  const [selectedUserPost, setSelectedUserPost] = useState(null);
+  const [posts, setPosts] = useState([]);
+  const [openModal, setOpenModal] = useState(false);
+  const [selectedPostID, setSelectedPostID] = useState(null);
   const [StyleAll, setStyleAll] = useState("contAll");
   const [StyleImage, setStyleImage] = useState("contVideo");
   const [StyleVideo, setStyleVideo] = useState("contVideo");
@@ -24,6 +25,13 @@ const YourPost = () => {
   const [filterType, setFilterType] = useState("all");
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [dropdownOpen, setDropdownOpen] = useState(false);
+
+  useEffect(() => {
+    if (!token) {
+      //redirect to login
+      navigate("/login");
+    }
+  }, [token, navigate]);
 
   // Fetching posts on component mount
   useEffect(() => {
@@ -42,7 +50,7 @@ const YourPost = () => {
           throw new Error("Failed to fetch posts");
         }
         const data = await response.json();
-        setUserPosts(data.posts);
+        setPosts(data.posts);
       } catch (error) {
         toast.error("Please try again after Logout.", {
           position: "top-left",
@@ -53,13 +61,6 @@ const YourPost = () => {
 
     fetchPosts();
   }, [token, email]);
-
-  // Modal Toggle
-  const userPopUp = (post) => {
-    setOpenUserModal(!openUserModal);
-    setDropdownOpen(false);
-    setSelectedUserPost(post);
-  };
 
   // Filters Styling
   const changeStyleAll = () => {
@@ -86,26 +87,37 @@ const YourPost = () => {
     handleAreaFocus();
   };
 
-  // Filter user posts based on search query and selected filter type (all, image, or video)
-  const filteredUserPosts = userPosts.filter((userPost) => {
-    const searchQueryLower = searchQuery.toLowerCase();
+  // Filter posts based on search query and selected filter type (all, image, or video)
+  const filteredPosts = posts.filter((post) => {
+    const lowerQuery = searchQuery.toLowerCase();
 
     // Match search query
-    const matchesSearchQuery =
-      userPost.title.toLowerCase().includes(searchQueryLower) ||
-      userPost.artist.toLowerCase().includes(searchQueryLower) ||
-      userPost.chalkName.toLowerCase().includes(searchQueryLower);
+    const matchesSearch =
+      post.title.toLowerCase().includes(lowerQuery) ||
+      post.artist.toLowerCase().includes(lowerQuery) ||
+      post.chalkName?.toLowerCase().includes(lowerQuery);
 
-    // Match User Posts filter (All, Image, Video)
-    const matchesFilterType =
-      filterType === "all" || userPost.postType === filterType;
+    // Match postType filter (All, Images, or Videos)
+    const matchesType = filterType === "all" || post.postType === filterType;
 
-    // Match Dropdown Category
+    // Match dropdown category
     const matchesCategory =
-      selectedCategory === "all" || userPost.filters.includes(selectedCategory);
+      selectedCategory === "all" ||
+      (selectedCategory === "ShapianSpecial" &&
+        post.email === "shapianchalk@gmail.com") ||
+      post.filters.includes(selectedCategory);
 
-    return matchesSearchQuery && matchesFilterType && matchesCategory;
+    return matchesSearch && matchesType && matchesCategory;
   });
+
+  // If postId exists in the URL, fetch post details by ID
+  useEffect(() => {
+    if (postId) {
+      setSelectedPostID(postId);
+      setDropdownOpen(false);
+      setOpenModal(true);
+    }
+  }, [postId]);
 
   // Handle delete post by ID
   const handleDeletePost = async (postId) => {
@@ -123,7 +135,7 @@ const YourPost = () => {
         }
 
         // Remove the deleted post from the state
-        setUserPosts((prevPosts) =>
+        setPosts((prevPosts) =>
           prevPosts.filter((post) => post._id !== postId)
         );
 
@@ -153,8 +165,8 @@ const YourPost = () => {
     <>
       <ToastContainer />
       {/* Overlay for modal */}
-      <div className={`overlay ${openUserModal ? "active" : ""}`} />
-      <div className={`wrapper ${openUserModal ? "blurred" : ""}`}>
+      <div className={`overlay ${openModal ? "active" : ""}`} />
+      <div className={`wrapper ${openModal ? "blurred" : ""}`}>
         <Navbar dropdownOpen={dropdownOpen} setDropdownOpen={setDropdownOpen} />
         <div className="discover" onFocus={handleAreaFocus}>
           <div className="discoverBar" id="yourPostDiscoverBar">
@@ -213,16 +225,16 @@ const YourPost = () => {
           </div>
           <div className="content" id="yourPostContent">
             {/* Mapping filtered posts */}
-            {filteredUserPosts.length === 0 ? (
+            {filteredPosts.length === 0 ? (
               <div className="noPostFound">No User Posts.</div>
             ) : (
-              filteredUserPosts.map((post) => (
+              filteredPosts.map((post) => (
                 <div
                   className={
                     post.postType === "image" ? "imgContent" : "vidContent"
                   }
                   key={post._id}
-                  onClick={() => userPopUp(post)}
+                  onClick={() => navigate(`/yourPost/${post._id}`)}
                 >
                   <img
                     src={post.imageUrl || post.coverImageUrl}
@@ -252,97 +264,19 @@ const YourPost = () => {
             )}
           </div>
         </div>
+        <Footer />
       </div>
-
-      {/* Modal */}
-      {openUserModal && selectedUserPost ? (
-        <div id="myModal">
-          <div className="right">
-            <div className="type">
-              <div className="postType">Post Type:</div>
-              <div className="postTypeModal">{selectedUserPost.postType}</div>
-            </div>
-            <img
-              className="close"
-              src={x}
-              alt="close"
-              onClick={() => setOpenUserModal(false)}
-            />
-          </div>
-
-          <div id="info">
-            {(selectedUserPost.imageUrl || selectedUserPost.coverImageUrl) && (
-              <div className="imageAndDetails">
-                <a
-                  href={
-                    selectedUserPost.imageUrl || selectedUserPost.coverImageUrl
-                  }
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  <img
-                    src={
-                      selectedUserPost.imageUrl ||
-                      selectedUserPost.coverImageUrl
-                    }
-                    alt={`${selectedUserPost.title} by ${selectedUserPost.artist}`}
-                    className="imageContainer"
-                    onError={(e) => {
-                      e.target.onerror = null;
-                      e.target.src = notFound; // Fallback to notFound image
-                    }}
-                  />
-                </a>
-                <div className="detailsContainer">
-                  <div className="details">
-                    <div className="detailRow">
-                      <div className="label">Title:</div>
-                      <div className="titleModal">{selectedUserPost.title}</div>
-                    </div>
-                    <div className="detailRow">
-                      <div className="label">Artist:</div>
-                      <div className="artistModal">
-                        {selectedUserPost.artist}
-                      </div>
-                    </div>
-                    <div className="detailRow">
-                      <div className="label">Tools Used:</div>
-                      <div className="toolsModal">
-                        {selectedUserPost.toolsUsed}
-                      </div>
-                    </div>
-                    <div className="detailRow">
-                      <div className="label">Filters:</div>
-                      <div className="filtersModal">
-                        {selectedUserPost.filters.join(", ")}
-                      </div>
-                    </div>
-                    {selectedUserPost.videoLink && (
-                      <div className="detailRow">
-                        <div className="label">Video Link:</div>
-                        <div className="videoLinkModal">
-                          <a
-                            href={selectedUserPost.videoLink}
-                            target="_blank"
-                            rel="noreferrer"
-                          >
-                            Watch Video
-                          </a>
-                        </div>
-                      </div>
-                    )}
-                  </div>
-                </div>
-              </div>
-            )}
-            <div className="descriptionModal">
-              <div className="label">Description:</div>
-              <div className="descModal">{selectedUserPost.description}</div>
-            </div>
-          </div>
-        </div>
-      ) : null}
-      <Footer />
+      {/* Conditionally render PostComponent when openModal is true and selectedPost is set */}
+      {openModal && (
+        <PostComponent
+          post={selectedPostID} // Pass selectedPost correctly here
+          email={email}
+          token={token}
+          openModal={openModal}
+          setOpenModal={setOpenModal}
+          prevLocation="/yourPost"
+        />
+      )}
     </>
   );
 };

@@ -1,7 +1,9 @@
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const User = require("../models/User");
-const { sendOtpEmail } = require("../utils/emailService"); // Function to send OTP email
+const { sendOtpEmail } = require("../utils/emailService");
+const { generateOtp } = require("../utils/otpService");
+const { generateToken } = require("../utils/tokenService");
 
 // Registration Logic
 const registerUser = async (req, res) => {
@@ -42,7 +44,7 @@ const registerUser = async (req, res) => {
     }
 
     // Hash password
-    const salt = await bcrypt.genSalt(10);
+    const salt = await bcrypt.genSalt(12);
     const hashedPassword = await bcrypt.hash(password, salt);
 
     // Create user
@@ -57,8 +59,7 @@ const registerUser = async (req, res) => {
     await user.save();
 
     // Generate OTP
-    const otp = Math.floor(100000 + Math.random() * 900000); // Generate 6-digit OTP
-    const otpExpiration = Date.now() + 10 * 60 * 1000; // OTP valid for 10 minutes
+    const { otp, otpExpiration } = generateOtp();
     user.otp = otp;
     user.otpExpiration = otpExpiration;
     await user.save();
@@ -98,8 +99,7 @@ const loginUser = async (req, res) => {
     // Check if user is verified
     if (user.isVerified === false) {
       // Generate OTP
-      const otp = Math.floor(100000 + Math.random() * 900000); // Generate new OTP
-      const otpExpiration = Date.now() + 10 * 60 * 1000; // OTP valid for 10 minutes
+      const { otp, otpExpiration } = generateOtp();
       user.otp = otp;
       user.otpExpiration = otpExpiration;
       await user.save();
@@ -113,16 +113,7 @@ const loginUser = async (req, res) => {
     }
 
     // Generate JWT Token
-    const payload = {
-      id: user._id,
-      chalkName: user.chalkName,
-      isAdmin: user.isAdmin,
-      email: user.email,
-    };
-
-    const token = jwt.sign(payload, process.env.JWT_SECRET, {
-      expiresIn: process.env.JWT_EXPIRY || "1h",
-    });
+    const token = generateToken(user);
 
     return res.json({
       message: "Login successful.",
@@ -159,16 +150,7 @@ const verifyOtp = async (req, res) => {
       await user.save();
 
       // Generate JWT Token
-      const payload = {
-        id: user._id,
-        chalkName: user.chalkName,
-        isAdmin: user.isAdmin,
-        email: user.email,
-      };
-
-      const token = jwt.sign(payload, process.env.JWT_SECRET, {
-        expiresIn: process.env.JWT_EXPIRY || "1h",
-      });
+      const token = generateToken(user);
 
       return res.json({
         message: "OTP verified successfully, you are now verified.",

@@ -26,7 +26,7 @@
   }
   .loginPage {
     width: 38vw;
-    height: 41vw;
+    height: 38vw;
     background: conic-gradient(
       from 221.94deg at 50% 50%,
       #14ff00 -98.91deg,
@@ -39,6 +39,7 @@
     display: flex;
     flex-direction: column;
     padding-left: 6vw;
+    padding-top: 5vw;
   }
   .loginToAccount {
     font-family: "Chakra Petch", sans-serif;
@@ -77,15 +78,29 @@
     box-shadow: 0px 0.4vw 0.4vw rgba(0, 0, 0, 0.25);
     margin-bottom: 1vw;
     outline: none;
+    cursor: none;
+  }
+  #emailLogin:hover,
+  #passwordLogin:hover {
+    transform: scale(1.05);
+  }
+
+  #passwordLogin:hover ~ .showPassword {
+    margin-left: -2vw;
+    font-size: 1.75vw;
   }
   #passwordLogin {
     width: 29vw;
     padding-right: 3vw;
   }
   .showPassword {
-    cursor: pointer;
     font-size: 1.5vw;
     margin-left: -2.5vw;
+    position: relative;
+  }
+  .showPassword:hover {
+    margin-left: -2.75vw;
+    font-size: 1.75vw;
   }
   .remember {
     display: flex;
@@ -106,6 +121,10 @@
     outline: none;
     height: 1.3vw;
     width: 1.3vw;
+    cursor: none;
+  }
+  .remember:hover {
+    transform: scale(1.1);
   }
   .loginBtn {
     background: #1877f2;
@@ -120,12 +139,12 @@
     color: #ffffff;
     text-shadow: 0px 0.4vw 0.4vw rgba(0, 0, 0, 0.25);
     text-align: center;
-    cursor: pointer;
     margin-bottom: 2vw;
     margin-left: 13vw;
   }
   .loginBtn:hover {
     background-color: #0048a7;
+    transform: scale(1.1);
   }
   .loginBtn:active {
     background-color: #1877f2;
@@ -149,37 +168,6 @@
     margin-bottom: 1.5vw;
     margin-left: 3vw;
   }
-  #google {
-    width: 2.5vw;
-  }
-  .google {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    color: #ffffff;
-    text-shadow: 0.1vw 0.2vw 0.3vw rgba(133, 133, 133, 0.25);
-    font-family: "Chakra Petch", sans-serif;
-    font-weight: 500;
-    font-size: 1.5vw;
-    width: 17.5vw;
-    padding-right: 0.7vw;
-    background: #000000;
-    box-shadow: 0.4vw 0.4vw 0.4vw rgba(0, 0, 0, 0.25);
-    border-radius: 0.5vw;
-    cursor: pointer;
-    margin-top: 0.5vw;
-    margin-bottom: 1.25vw;
-    margin-left: 6.5vw;
-  }
-  .google:hover {
-    background-color: #272727;
-  }
-  .google:active {
-    background-color: #000000;
-    box-shadow: 0.4vw 0.4vw 0.4vw rgba(0, 0, 0, 0.7);
-    transform: translateY(1vh);
-  }
   .dont {
     font-family: "Marvel", sans-serif;
     font-weight: 700;
@@ -191,11 +179,10 @@
     font-weight: 700;
     font-size: 1.5vw;
     color: #1877f2;
-    cursor: pointer;
     margin-left: 0.2vw;
   }
   .signUp:hover {
-    color: #0048a7;
+    color: #a70000;
   }
   .signUp:active {
     text-shadow: 0.1vw 0.2vw 0.7vw rgba(0, 0, 0, 0.7);
@@ -355,36 +342,6 @@
     font-size: 4vw;
     margin-bottom: 2vh;
     margin-left: 12vw;
-  }
-  #google {
-    width: 6.5vw;
-  }
-  .google {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    color: #ffffff;
-    text-shadow: 0.1vw 0.2vw 0.3vw rgba(133, 133, 133, 0.25);
-    font-family: "Chakra Petch", sans-serif;
-    font-weight: 500;
-    font-size: 3vw;
-    width: 35vw;
-    padding-right: 0.7vw;
-    background: #1e1e1e;
-    box-shadow: 0.4vw 0.4vw 0.4vw rgba(0, 0, 0, 0.25);
-    border-radius: 0.5vw;
-    cursor: pointer;
-    margin-bottom: 1.75vh;
-    margin-left: 17.5vw;
-  }
-  .google:hover {
-    background-color: #272727;
-  }
-  .google:active {
-    background-color: #000000;
-    box-shadow: 0.4vw 0.4vw 0.4vw rgba(0, 0, 0, 0.7);
-    transform: translateY(0.5vw);
   }
   .dont {
     font-family: "Marvel", sans-serif;

@@ -7,8 +7,6 @@ import Gif from "../Resources/Chalk_Shapian.gif";
 import { useAuth } from "../AuthContext";
 import { REACT_APP_SERVER } from "../Services/Constant";
 
-const google = require("../Resources/google.png");
-
 const Login = () => {
   const navigate = useNavigate();
   const { login } = useAuth();
@@ -22,8 +20,7 @@ const Login = () => {
 
   const loginFunc = async (event) => {
     event.preventDefault();
-    const email = values.email;
-    const password = values.password;
+    const { email, password } = values;
 
     // Validate input
     if (!email || !password) {
@@ -53,35 +50,54 @@ const Login = () => {
         body: JSON.stringify({ email, password }),
       });
 
-      const data = await response.json();
+      let data;
+      const contentType = response.headers.get("content-type");
+
+      if (contentType && contentType.includes("application/json")) {
+        data = await response.json(); // Parse as JSON if content-type is JSON
+      } else {
+        data = { message: await response.text() }; // Otherwise, handle as text
+      }
 
       if (!response.ok) {
-        // Display error message from the server
-        toast.error(data.message, {
+        toast.error(data.message || "Login failed. Please try again.", {
           position: "top-left",
           autoClose: 1000,
         });
-        if (data.message !== "Invalid credentials.") {
+
+        if (
+          data.message ===
+          "User is not verified. Please check your email for OTP."
+        ) {
           localStorage.setItem("email", email);
           navigate("/otpVerification");
         }
       } else {
-        if (data.isVerified) {
-          login(
-            data.chalkName,
-            data.email,
-            data.token,
-            data.isAdmin,
-            data.isVerified
-          );
-          navigate("/discover");
-        }
+        toast.success("Login successful!", {
+          position: "top-left",
+          autoClose: 1000,
+        });
+
+        login(
+          data.chalkName,
+          data.email,
+          data.token,
+          data.isAdmin,
+          data.isVerified
+        );
+
+        navigate("/discover");
       }
     } catch (error) {
-      toast.error("An error occurred. Please try again later.", {
-        position: "top-left",
-        autoClose: 1000,
-      });
+      console.error("Login Error:", error);
+      toast.error(
+        error.message ||
+          "An unexpected error occurred. Please try again later.",
+        {
+          position: "top-left",
+          autoClose: 2000,
+        }
+      );
     }
   };
 
@@ -112,7 +128,7 @@ const Login = () => {
               <input
                 id="passwordLogin"
                 placeholder="Password"
-                type={showPassword ? "text" : "password"} // Bind the type to showPassword state
+                type={showPassword ? "text" : "password"}
                 onChange={(event) =>
                   setValues((prev) => ({
                     ...prev,
@@ -140,10 +156,6 @@ const Login = () => {
               <div className="hLine" />
               OR
               <div className="hLine" />
-            </div>
-            <div className="google">
-              <img src={google} alt="" id="google" />
-              Sign-in with Google
             </div>
             <div className="noAccount">
               <div className="dont">Don’t have an account?</div>

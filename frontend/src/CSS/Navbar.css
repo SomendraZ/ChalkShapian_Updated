@@ -52,8 +52,11 @@
     box-shadow: 0.15vw 0.2vw 0.2vw #14ff00;
     border-radius: 1.1vw;
     padding: 0.2vw 1.3vw;
-    cursor: pointer;
     text-decoration: none;
+    cursor: none;
+  }
+  .contToggle:hover {
+    transform: scale(1.05);
   }
   .contNotToggle {
     color: #ffffff;
@@ -65,8 +68,11 @@
     height: 2vw;
     border-radius: 1.1vw;
     padding: 0.2vw 1.3vw;
-    cursor: pointer;
     text-decoration: none;
+    cursor: none;
+  }
+  .contNotToggle:hover {
+    transform: scale(1.05);
   }
   #profile {
     display: flex;
@@ -76,7 +82,9 @@
     font-size: 1.7vw;
     font-weight: 500;
     color: #ffffff;
-    cursor: pointer;
+  }
+  #profile:hover {
+    transform: scale(1.05);
   }
   .profileDrop {
     height: 15vw;
@@ -112,14 +120,13 @@
     color: rgb(255, 0, 0);
     font-size: 1.5vw;
     margin-left: 21vw;
-    cursor: pointer;
   }
   .closeProfile:hover {
     text-shadow: 0.05vw 0.05vw 0.1vw rgb(255, 255, 255);
+    transform: scale(1.1);
   }
   .yourPosts {
     color: #15ff0085;
-    cursor: pointer;
   }
   .yourPosts:hover {
     color: #15ff00;
@@ -127,7 +134,6 @@
   }
   .postYourChalkLink {
     color: #fff70085;
-    cursor: pointer;
   }
   .postYourChalkLink:hover {
     color: #fff500;
@@ -135,7 +141,6 @@
   }
   .logout {
     color: rgba(255, 0, 0, 0.5);
-    cursor: pointer;
   }
   .logout:hover {
     color: red;
