@@ -29,7 +29,7 @@ const app = express();
 const server = http.createServer(app); // Create HTTP server
 const io = new Server(server, {
   cors: {
-    origin: CLIENT_URL, // Replace with your React app URL
+    origin: CLIENT_URL,
     methods: ["GET", "POST"],
   },
 });
@@ -37,7 +37,12 @@ const io = new Server(server, {
 // Apply the socket verification middleware
 io.use(verifySocketToken);
 
-app.use(cors());
+app.use(
+  cors({
+    origin: process.env.CLIENT_URL,
+    credentials: true,
+  })
+);
 app.use(express.json());
 
 // User routes
